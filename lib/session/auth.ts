@@ -1,9 +1,9 @@
 import CredentialsProvider from "next-auth/providers/credentials"
 import NextAuth, { NextAuthOptions, Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
-import { AuthRequest } from "../types/auth";
-import { PasswordUtils } from "../../utils/PasswordUtils";
-import authService from "../../service/auth.service";
+import {AuthRequest} from "@/lib/types/auth";
+import {PasswordUtils} from "@/utils/PasswordUtils";
+import authService from "@/service/auth.service";
 
 
 
@@ -44,16 +44,16 @@ export const authOption: NextAuthOptions = ({
                 password: {}
             },
             async authorize(credentials, req) {
-                console.log('credentials', credentials)
+                // console.log('credentials', credentials)
                 const authRequest: AuthRequest = {
                     usr_nm: credentials?.username!,
                     usr_pwd: PasswordUtils.encrypt(credentials?.password!)
                 }
-                console.log('authRequest', authRequest)
+                // console.log('authRequest', authRequest)
                 const response = await authService.login(authRequest)
                     .catch((err:any) => err);
-                console.log('response', response?.data)
-                console.log(response?.data);
+                // console.log('response', response?.data)
+                // console.log(response?.data);
 
                 if (response.status === 200) {
                     return response.data;
