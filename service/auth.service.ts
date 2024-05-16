@@ -1,4 +1,4 @@
-import { AuthRequest } from "@/lib/types/auth";
+import { AuthRequest } from "@/app/lib/types/auth";
 import { http } from "@/utils/https";
 
 

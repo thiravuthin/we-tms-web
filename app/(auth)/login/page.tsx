@@ -1,8 +1,8 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import React from 'react'
-import { authOption } from '@/lib/session/auth';
-import LoginForm from '@/components/layout/LoginForm';
+import { authOption } from '@/app/lib/session/auth';
+import LoginForm from '@/app/components/layout/LoginForm';
 
 
 
@@ -15,7 +15,7 @@ const Login = async() => {
     const session = await getServerSession(authOption);
 
     if (session) {
-        redirect("/login")
+        redirect("/projects")
     }
     return <LoginForm/>;
     }
