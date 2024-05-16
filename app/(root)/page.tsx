@@ -1,13 +1,16 @@
-import LogoutButton from '@/components/shared/LogoutButton';
+"use client"
 import React from 'react'
+import CreateProject from "@/components/ui/project/CreateProject";
+import SettingContainer from "@/components/ui/settings/SettingContainer";
 
 const Page = () => {
-  
-  return (
-    <div>
-     <LogoutButton/>
-    </div>
-  )
+
+    return (
+        <div>
+            <CreateProject/>
+            <SettingContainer/>
+        </div>
+    )
 }
 
 export default Page
