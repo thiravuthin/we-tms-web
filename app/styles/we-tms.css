@@ -24,7 +24,7 @@
   --ks-wt-app-sidebar-gap-end: 0px;
   --ks-wt-app-sidebar-gap-top: 0px;
   --ks-wt-app-sidebar-gap-bottom: 0px;
-  --ks-wt-app-sidebar-dark-bg-color: #f5f5f5;
+  --ks-wt-app-sidebar-dark-bg-color: #F3F4FB;
   /* end--app-sidebar */
 
   /* begin--app-sidebar-logo */
@@ -51,7 +51,7 @@
   /* begin--text */
   --ks-wt-text-white: #ffffff;
   --ks-wt-text-dark: #1b1b1b;
-  --ks-wt-text-gray: #7a7a7a;
+  --ks-wt-text-gray: #E2E3F1;
   --ks-wt-link-color: #3e97ff;
   --ks-wt-link-color-rgb: 62, 151, 255;
   /* end--text */
@@ -72,6 +72,15 @@ body {
 }
 #ks_wt_app_default {
   background: var(--ks-wt-app-bg-color) !important;
+}
+#ks_wt_app_default_t {
+  background-color: var(--ks-wt-app-sidebar-dark-bg-color) !important;
+  height: var(--ks-wt-app-header-height) !important;
+  position: relative !important;
+  flex-shrink: 0 !important;
+  padding-right: var(--ks-wt-sz-10-rem) !important;
+  padding-left: var(--ks-wt-sz-20-rem) !important;
+  z-index: 106 !important;
 }
 #ks_wt_app_header {
   transition: none !important;
@@ -177,7 +186,7 @@ body.ks-wt-collapse-sidebar #ks_wt_app_header {
   transition: margin-left 0.3s ease, margin-right 0.3s ease !important;
 }
 #ks_wt_app_wrapper {
-  margin-top: var(--ks-wt-app-header-height) !important;
+  /*margin-top: var(--ks-wt-app-header-height) !important;*/
 }
 #ks_wt_app_wrapper {
   margin-left: calc(
@@ -315,7 +324,7 @@ body.ks-wt-collapse-sidebar .ks-wt-app-sidebar-menu-item {
 }
 .ks-wt-app-sidebar-menu-item.ks-wt-active,
 .ks-wt-app-sidebar-menu-item:hover {
-  background: var(--ks-wt-gray-300) !important;
+  background: var(--ks-wt-grayy-300) !important;
 }
 .ks-wt-app-sidebar-menu-item > label {
   font-weight: var(--ks-wt-fw-md) !important;

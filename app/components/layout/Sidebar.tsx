@@ -102,18 +102,22 @@ function Sidebar() {
     return (
         <>
             <div id="ks_wt_app_sidebar" className="ks_d_flex ks_flex_col">
-                <div id="ks_wt_app_sidebar_logo" className="ks_d_flex ks_alg_itm_ctr">
-                    <div className="ks_mr_5">
+                <div id="ks_wt_app_default_t" className="ks_d_flex ks_alg_itm_ctr ks_pt_25 ks_pl_20">
+                    <div className="ks_d_flex">
                         <SidebarToggle/>
+                        <div>
+                            <Link href={"/projects"} className="ks_pl_8">
+                                <LogoWetms/>
+                                {/*<label>WeTMS</label>*/}
+                            </Link>
+                        </div>
+
                     </div>
 
-                    <Link href={"/projects"}>
-                        {/*<LogoWetms/>*/}
-                        <label>WeTMS</label>
-                    </Link>
+
                 </div>
 
-                <div className="ks-wt-app-sidebar-menu-scroll">
+                <div className="ks-wt-app-sidebar-menu-scroll ">
                     <div className="ks_d_flex ks_flex_col">
                         <div className="ks-wt-app-sidebar-menu-lbl">
                             <div className="ks-wt-app-sidebar-menu-item-contaier ks_d_flex ks_flex_col">
@@ -166,7 +170,7 @@ function Sidebar() {
                                                     fill="#475569"
                                                 />
                                             </svg>
-                                            <label className="cursor-pointer">More</label>
+                                            <label className="cursor-pointer text-black">More</label>
                                         </div>
                                         <svg
                                             className="ks_wth_16 ks_hgt_16 ks_mr_5"
@@ -267,6 +271,7 @@ function Sidebar() {
 
 
                 </div>
+
                 <div className="ks_mtauto">
                     <div className="ks_hide_x_scroll ks_p25 ks_ml_12">
                         <path

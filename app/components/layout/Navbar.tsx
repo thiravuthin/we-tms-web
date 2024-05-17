@@ -6,18 +6,13 @@ import DropdownProfile from "@/app/components/layout/DropdownProfile";
 const Navbar = () => {
     return (
         <>
-                <div id="ks_wt_app_header" className="ks_d_flex justify-content-end">
-                    
-                    <div
-                        id="ks_wt_app_header_action_icon"
-                        className="d-flex align-items-center"
-                    >
+                <div id="ks_wt_app_default" className="ks_d_flex justify-content-end ks_pd_20 ks_pr_30 ks_brd_btm">
                         <div
                             id="ks_wt_app_header_username_container"
                             className="d-flex"
                         >
 
-                            <div>
+                            <div className="ks_pr_10">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -29,7 +24,7 @@ const Navbar = () => {
                                 </svg>
                             </div>
                             <div>
-                                <svg width="24" height="24" viewBox="0 0 40 40" fill="none"
+                                <svg width="30" height="30" viewBox="0 0 40 40" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="20" cy="20" r="20" fill="#F1F5F9"/>
                                     <path
@@ -39,7 +34,6 @@ const Navbar = () => {
                             </div>
 
                         </div>
-                    </div>
                 </div>
 
 
