@@ -1,4 +1,7 @@
-
 export interface ProfileAccount {
-    name: string;
+    usr_nm: string;
+    full_nm: string
+    role: string
+    sts: string
+    usr_prof_img: string
 }
