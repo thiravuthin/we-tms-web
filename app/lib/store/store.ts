@@ -1,12 +1,23 @@
-import { create } from "zustand"
-// import {SettingNavEnum} from "@/utils/enums";
-// export const useSettingStore = create<{
-//     isActive: string,
-//     setIsActive: (isActive: string) => void
-// }>(set => ({
-//     isActive: SettingNavEnum.MyAccount,
-//     setIsActive: (isActive: string) => set((state): any => ({...state, isActive})),
-// }));
+import {create} from "zustand"
+import {SettingNavEnum} from "@/utils/enums";
+export const useSettingStore = create<{
+    isActive: string,
+    setIsActive: (isActive: string) => void
+
+}>(set => ({
+
+    isActive: SettingNavEnum.MyAccount,
+    setIsActive: (isActive: string) => set((state): any => ({...state, isActive})),
+
+    isActive: SettingNavEnum.Language,
+    setIsActive: (isActive: string) => set((state): any => ({...state, isActive})),
+
+    isActive: SettingNavEnum.User,
+    setIsActive: (isActive: string) => set((state): any => ({...state, isActive})),
+
+
+}));
+
 export const useForgotUserIDStore = create<{
     titel: any,
     openHeader: boolean,

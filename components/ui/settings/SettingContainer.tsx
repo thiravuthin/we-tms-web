@@ -1,11 +1,16 @@
 'use client'
 import React, {useState} from "react";
-import cn from "clsx";
 import {Modal} from "react-bootstrap";
-import CustomTooltip from "@/components/shared/CustomTooltip";
+import {ProfileAccount} from "@/app/lib/types/profile";
+import {SettingNavIcon} from "@/app/components/icons/SettingNavIcon";
 import {SettingNavEnum} from "@/utils/enums";
-import {SettingNavIcon} from "@/components/icons/SettingNavIcon";
-import {useSettingStore} from "@/lib/store";
+import CustomTooltip from "@/app/components/shared/CustomTooltip";
+import ProfileIcon from "@/app/components/icons/ProfileIcon";
+import {useSettingStore} from "@/app/lib/store";
+import AccountContainer from "@/components/ui/settings/my_account/AccountContainer";
+import cn from "clsx";
+import UserContainer from "@/components/ui/settings/users/UserContainer";
+import LanguagesContainer from "@/components/ui/settings/languages/LanguagesContainer";
 
 const SettingNav = [
     {
@@ -17,13 +22,33 @@ const SettingNav = [
                 name: SettingNavEnum.MyAccount,
                 icon: SettingNavIcon.MyAccountNavIcon
             },
-
-
+        ]
+    },
+    {
+        id: 2,
+        name: 'MANAGEMENT',
+        navs: [
+            {
+                id: 1,
+                name: SettingNavEnum.User,
+                icon: SettingNavIcon.UsersIcon
+            },
+            {
+                id: 2,
+                name: SettingNavEnum.Language,
+                icon: SettingNavIcon.LanguagesIcon
+            },
         ]
     },
 ]
 
-const SettingContainer = ({show, handleClose}: { show?: boolean, handleClose?: () => void }) => {
+const SettingContainer = ({accountData, show, handleClose}: {
+    accountData?: ProfileAccount,
+    show: boolean,
+    handleClose: () => void
+}) => {
+
+    let activeNav = useSettingStore();
 
     const [toggleSettingSidebar, setToggleSettingSidebar] = useState(false);
     const handleToggleSettingSidebar = () => {
@@ -35,29 +60,29 @@ const SettingContainer = ({show, handleClose}: { show?: boolean, handleClose?: (
     };
 
 
+
     return (
-        <Modal
-            className={'bg-black'}
-            // dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-xl-dialog "
-               >
-            <div
-                className={cn("modal-content ks-wt-modal-content ks-wt-modal-content-wrapper", {"ks-wt-toggled": toggleSettingSidebar})}>
+        <Modal dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-xl-dialog" show={show}>
+            {/* TODO: Don't delete this comment << Handle toggleSettingSidebar >> */}
+            <div className={cn("modal-content ks-wt-modal-content ks-wt-modal-content-wrapper", {"ks-wt-toggled": toggleSettingSidebar})}>
+            {/*<div className={'modal-content ks-wt-modal-content ks-wt-modal-content-wrapper'}>*/}
+
                 <div className="ks-wt-modal-sidebar-wrapper">
                     <div className="ks-wt-modal-sidebar-container">
+
+                        {/* Header Sidebar */}
                         <div className="ks-wt-modal-sidebar-toggle-block">
-                            <label>Settings</label>
-                            <CustomTooltip placement={"top"}
-                                           title={"toggle menu"}>
-                                <svg width={16}
-                                     height={16}
-                                     onClick={handleToggleSettingSidebar}
-                                     className="ks_wth_16 ks_hgt_16"
-                                     viewBox="0 0 16 16">
-                                    <path
-                                        d="M2.60449 14.4092C1.20166 14.4092 0.452637 13.6729 0.452637 12.2827V4.57031C0.452637 3.18018 1.20166 2.4375 2.60449 2.4375H13.3892C14.792 2.4375 15.541 3.18018 15.541 4.57031V12.2827C15.541 13.6729 14.792 14.4092 13.3892 14.4092H2.60449ZM2.7251 13H5.65771V3.85303H2.7251C2.1665 3.85303 1.86816 4.13232 1.86816 4.71631V12.1304C1.86816 12.7144 2.1665 13 2.7251 13ZM13.2686 3.85303H6.97803V13H13.2686C13.8208 13 14.1255 12.7144 14.1255 12.1304V4.71631C14.1255 4.13232 13.8208 3.85303 13.2686 3.85303ZM4.39453 6.15723H3.1377C2.89014 6.15723 2.68066 5.94775 2.68066 5.71289C2.68066 5.47803 2.89014 5.2749 3.1377 5.2749H4.39453C4.64844 5.2749 4.85156 5.47803 4.85156 5.71289C4.85156 5.94775 4.64844 6.15723 4.39453 6.15723ZM4.39453 7.89648H3.1377C2.89014 7.89648 2.68066 7.69336 2.68066 7.45215C2.68066 7.21729 2.89014 7.01416 3.1377 7.01416H4.39453C4.64844 7.01416 4.85156 7.21729 4.85156 7.45215C4.85156 7.69336 4.64844 7.89648 4.39453 7.89648ZM4.39453 9.63574H3.1377C2.89014 9.63574 2.68066 9.43896 2.68066 9.19775C2.68066 8.96289 2.89014 8.75977 3.1377 8.75977H4.39453C4.64844 8.75977 4.85156 8.96289 4.85156 9.19775C4.85156 9.43896 4.64844 9.63574 4.39453 9.63574Z"></path>
-                                </svg>
-                            </CustomTooltip>
+                            {/* Profile Avatar*/}
+                            <ProfileIcon />
+
+                            {/* Username and UserId*/}
+                            <div className={'d-flex flex-column'}>
+                                <div><label className={'font-monospace'}>Username</label></div>
+                                <div><label className={'font-monospace'}>UserId name</label></div>
+                            </div>
                         </div>
+
+                        {/* Content of sidebar */}
                         {SettingNav.map((item) => (
                             <div className="ks-wt-modal-sidebar-menu-container"
                                  key={item.id}>
@@ -66,9 +91,12 @@ const SettingContainer = ({show, handleClose}: { show?: boolean, handleClose?: (
                                     <div className='ks_d_flex ks_flex_col ks_pd_10 ks_gap_1rem'>
                                         {item.navs.map((nav) => (
                                             <div
-                                                // className={cn("ks-wt-modal-sidebar-menu-item",
-                                                //     {"ks-wt-active": activeNav.isActive === nav.name})}
-                                                // key={nav.id} onClick={() => activeNav.setIsActive(nav.name)}
+                                                className={
+                                                cn("ks-wt-modal-sidebar-menu-item",
+                                                    {"ks-wt-active": activeNav.isActive === nav.name})
+                                            }
+                                                key={nav.id}
+                                                onClick={() => activeNav.setIsActive(nav.name)}
                                             >
                                                 {nav.icon()}
                                                 <label>{nav.name}</label>
@@ -80,6 +108,8 @@ const SettingContainer = ({show, handleClose}: { show?: boolean, handleClose?: (
                         ))}
                     </div>
                 </div>
+
+                {/* Handle button close*/}
                 <div className="ks-wt-modal-wrapper-header-container">
                     <div className="ks-wt-modal-header-container ks_w100 ks_d_inl_flex ks_jt_cont_end ks_alg_itm_ctr">
                         <CustomTooltip placement={"top"}
@@ -94,10 +124,11 @@ const SettingContainer = ({show, handleClose}: { show?: boolean, handleClose?: (
                     </div>
                 </div>
 
-                {/*{*/}
-                {/*    activeNav.isActive === SettingNavEnum.MyAccount &&*/}
-                {/*    <AccountContainer />*/}
-                {/*}*/}
+                {/* Body of sidebar render */}
+                {activeNav.isActive === SettingNavEnum.MyAccount && <AccountContainer />}
+                {activeNav.isActive === SettingNavEnum.User && <UserContainer />}
+                {activeNav.isActive === SettingNavEnum.Language && <LanguagesContainer />}
+
             </div>
         </Modal>
     )
