@@ -7,10 +7,10 @@ import {SettingNavEnum} from "@/utils/enums";
 import CustomTooltip from "@/app/components/shared/CustomTooltip";
 import ProfileIcon from "@/app/components/icons/ProfileIcon";
 import {useSettingStore} from "@/app/lib/store";
-import AccountContainer from "@/components/ui/settings/my_account/AccountContainer";
+import AccountContainer from "@/app/components/ui/settings/my_account/AccountContainer";
 import cn from "clsx";
-import UserContainer from "@/components/ui/settings/users/UserContainer";
-import LanguagesContainer from "@/components/ui/settings/languages/LanguagesContainer";
+import UserContainer from "@/app/components/ui/settings/users/UserContainer";
+import LanguagesContainer from "@/app/components/ui/settings/languages/LanguagesContainer";
 
 const SettingNav = [
     {

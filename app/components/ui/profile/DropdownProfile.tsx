@@ -1,14 +1,19 @@
-"use client";
-import Image from 'next/image'
-import React, { useState } from 'react'
-import avatar from '@/public/avatar.svg'
-import { signOut } from 'next-auth/react'
-import SettingSvg from "@/app/components/icons/SettingSvg";
-import ExitSvg from "@/app/components/icons/ExitSvg";
-import SettingContainer from "@/components/ui/settings/SettingContainer";
-import {ProfileAccount} from "@/app/lib/types/profile";
+'use client'
+import React, {useEffect, useState} from 'react';
+import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/dropdown";
+import {signOut} from "next-auth/react";
+import SettingContainer from "@/app/components/ui/settings/SettingContainer";
+import LogoutIcon from "@/app/components/icons/LogoutIcon";
+import SettingIcon from "@/app/components/icons/SettingIcon";
+import ProfileIcon from "@/app/components/icons/ProfileIcon";
+import useFetchProfile from "@/app/lib/hooks/useFetch_profile_account";
 
-const DropdownProfile = ({ accountData}: { accountData: ProfileAccount}) => {
+
+function DropdownProfile({show}: { show?: boolean }) {
+
+    // const {profileQuery, isError, isLoading} = useFetchProfile();
+
+    // console.log("profileQuery: ===============", profileQuery)
 
     const [showSetting, setShowSetting] = useState(false)
 
@@ -17,46 +22,51 @@ const DropdownProfile = ({ accountData}: { accountData: ProfileAccount}) => {
             signOut();
         }
     }
-
     return (
         <>
-            <div className="ks_dropdown_menu dropdown-menu dropdown-menu-end ks_wth_280 ks_mt_5 " >
-                <div className="ks-wt-dropdown-dialog ks_pd_0 ks_d_flex ks_flex_col">
-                    <div className="ks-wt-user-profile-layout-container ks_d_flex ks_alg_itm_ctr ks_flex_col">
-                        <div className="ks-wt-user-profile-container ks_pos_rlt ks_d_flex ks_jt_cont_ctr ks_alg_itm_ctr">
-                            <Image
-                               style={{borderRadius: '50%'}}
-                                src={ avatar}
-                                width={85}
-                                height={85}
-                                alt=""
-                            />
+            <Dropdown className={''}>
+                <DropdownTrigger>
+                    <button type={"button"} className={'unstyled-button'}>
+                        <ProfileIcon/>
+                    </button>
+                </DropdownTrigger>
+                <DropdownMenu className="ks_wth_280 bg-white rounded "
+                              aria-label="Static Actions"
+                >
+                    {/* My Account*/}
+                    <DropdownItem className={'dropdown-item border rounded'}>
+                        <label className={'text- m-2'}> My account</label>
+                    </DropdownItem>
 
-                        </div>
-                        <label className="ks-wt-user-profile-username-label">
-                            {accountData?.name}
-                        </label>
-                        <label className="ks-wt-user-profile-email-label">
-                            {/*{accountData?.email}*/}
-                        </label>
-                    </div>
-                    <div className="ks-wt-line ks_w100" />
-                    <div className="ks-wt-dropdown-md-dialog-item" onClick={() => setShowSetting(!showSetting)}>
-                        <SettingSvg/>
-                        <label>Settings</label>
-                    </div>
-                    <div className="ks-wt-line ks_w100" />
-                    <div className="ks-wt-dropdown-md-dialog-item" onClick={handleLogout}>
-                        <ExitSvg/>
-                        <label>Log out</label>
-                    </div>
-                </div>
-            </div>
-            {showSetting && <SettingContainer accountData={accountData!}
-                                              show={showSetting}
-                                              handleClose={() => setShowSetting(false)} />}
+                    {/* Setting Icon */}
+                    <DropdownItem
+                        key="setting"
+                        onClick={() => setShowSetting(!showSetting)}
+                        className={'dropdown-item border rounded'}
+                    >
+                            <SettingIcon/>
+                            <label className="ks_lbl ks_fw_md m-2">Setting</label>
+                    </DropdownItem>
+
+                    {/* Logout Icon */}
+                    <DropdownItem
+                        key="logout"
+                        onClick={handleLogout}
+                        className={'dropdown-item border rounded'}
+                    >
+                            <LogoutIcon/>
+                            <label className="ks_lbl ks_fw_md m-2">Log Out</label>
+                    </DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+
+            {
+                showSetting && <SettingContainer
+                                show={showSetting}
+                                handleClose={() => setShowSetting(false)}/>
+            }
         </>
-    )
+    );
 }
 
-export default DropdownProfile
+export default DropdownProfile;
