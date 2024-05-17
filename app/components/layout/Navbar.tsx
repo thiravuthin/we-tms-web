@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import ProfileIcon from "@/app/components/icons/ProfileIcon";
 import NotificationIcon from "@/app/components/icons/NotificationIcon";
-import SettingContainer from "@/components/ui/settings/SettingContainer";
+import SettingContainer from "@/app/components/ui/settings/SettingContainer";
 import DropdownProfile from "@/app/components/layout/DropdownProfile";
 
 const Navbar = () => {

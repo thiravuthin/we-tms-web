@@ -5,7 +5,7 @@ import avatar from '@/public/avatar.svg'
 import { signOut } from 'next-auth/react'
 import SettingSvg from "@/app/components/icons/SettingSvg";
 import ExitSvg from "@/app/components/icons/ExitSvg";
-import SettingContainer from "@/components/ui/settings/SettingContainer";
+import SettingContainer from "@/app/components/ui/settings/SettingContainer";
 import {ProfileAccount} from "@/app/lib/types/profile";
 
 const DropdownProfile = ({ accountData}: { accountData: ProfileAccount}) => {

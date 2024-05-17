@@ -1,4 +1,17 @@
+.unstyled-button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex; /* This ensures the icon is displayed as a flex item */
+  align-items: center; /* This vertically centers the icon */
+  justify-content: center; /* This horizontally centers the icon */
+}
 
+.unstyled-button:focus {
+  outline: none; /* Remove focus outline if necessary */
+}
 .ks-wt-form-input-container.ks-wt-editable {
   width: 68px !important;
 }
