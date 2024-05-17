@@ -23,8 +23,10 @@ const Navbar = () => {
                         id="ks_wt_app_header_username_container"
                         className="d-flex"
                     >
+                        <div className="ks_mr_12">
+                            <NotificationIcon/>
+                        </div>
                         {/* Notification*/}
-                        <NotificationIcon/>
 
                         {/* Profile*/}
                         <DropdownProfile/>

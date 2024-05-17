@@ -2339,6 +2339,9 @@ input[type="radio"]:checked {
 .ks_fw_md {
   font-weight: var(--ks-wt-fw-md) !important;
 }
+.ks_fw_mdd {
+  font-weight: 500 !important;
+}
 .ks_fw_semi_bd {
   font-weight: var(--ks-wt-fw-semi-bd) !important;
 }
@@ -2975,5 +2978,13 @@ input[type="radio"]:checked {
   /* end--line */
   .ks_mtauto {
     margin-top: auto !important;
+  }
+  .ks_lbl {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+  }
+  .ks_lbl_bigger {
+    font-size: 1.2rem !important; /* Increase font size */
+    line-height: 1.8 !important;  /* Increase line height */
   }
 }
