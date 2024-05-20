@@ -190,7 +190,7 @@ function Sidebar() {
                                                                     className="ks-wt-app-sidebar-item ks_d_flex ks_alg_itm_ctr"
                                                                 >
                                                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                         xmlns="http://www.w3.org/2000/svg" className="ks_ml_5">
                                                                         <path
                                                                             d="M8.00016 1.33203L10.0602 5.50536L14.6668 6.1787L11.3335 9.42537L12.1202 14.012L8.00016 11.8454L3.88016 14.012L4.66683 9.42537L1.3335 6.1787L5.94016 5.50536L8.00016 1.33203Z"
                                                                             stroke="#0F172A" stroke-width="1.5"
@@ -214,7 +214,7 @@ function Sidebar() {
                                                                     className="ks-wt-app-sidebar-item ks_d_flex ks_alg_itm_ctr"
                                                                 >
                                                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                         xmlns="http://www.w3.org/2000/svg" className="ks_ml_5">
                                                                         <g clip-path="url(#clip0_1784_9501)">
                                                                             <path
                                                                                 d="M6.58675 6.58594C6.39025 6.76904 6.23265 6.98984 6.12334 7.23517C6.01402 7.4805 5.95524 7.74534 5.95051 8.01388C5.94577 8.28242 5.99517 8.54916 6.09576 8.7982C6.19635 9.04723 6.34607 9.27346 6.53598 9.46337C6.7259 9.65329 6.95212 9.80301 7.20116 9.9036C7.45019 10.0042 7.71694 10.0536 7.98548 10.0488C8.25402 10.0441 8.51885 9.98533 8.76419 9.87602C9.00952 9.76671 9.23032 9.6091 9.41342 9.4126"
@@ -242,7 +242,7 @@ function Sidebar() {
                                                                             </clipPath>
                                                                         </defs>
                                                                     </svg>
-                                                                    <label className="cursor-pointer ks_lbl_bigger ks_fw_md">Hidden</label>
+                                                                    <label className="cursor-pointer ks_lbl_bigger ks_fw_md ks_ml">Hidden</label>
                                                                 </div>
                                                             </div>
                                                         </Link>

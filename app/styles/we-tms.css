@@ -2896,9 +2896,6 @@ input.ks-wt-text-hide {
 /* end--dropdown-menu */
 
 /* begin--modal */
-.ks-wt-modal-extra-xs-dialog {
-  max-width: var(--ks-wt-sz-310px) !important;
-}
 .ks-wt-modal-xs-dialog {
   max-width: var(--ks-wt-sz-370px) !important;
 }
@@ -2907,6 +2904,9 @@ input.ks-wt-text-hide {
 }
 .ks-wt-modal-sm-450-dialog {
   max-width: var(--ks-wt-sz-450px) !important;
+}
+.ks-wt-modal-sm-m-500-dialog {
+  max-width: var(--ks-wt-sz-500px) !important;
 }
 .ks-wt-modal-md-dialog {
   max-width: var(--ks-wt-sz-800px) !important;

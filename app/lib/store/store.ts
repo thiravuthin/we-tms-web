@@ -48,3 +48,26 @@ export const useLoginStore = create<{
     username: '',
     setUsername: (username: any) => set((state): any => ({ ...state, username })),
 }));
+
+
+export const useProjectStore = create<{
+    id: string | undefined,
+    setId: (id: string) => void,
+
+    updateData: any,
+    isOpen: boolean,
+    isUpdate: boolean,
+    setIsOpen: (isOpen: boolean) => void
+    setUpdate: (isUpdate: boolean) => void
+    setUpdateData: (updateData: any) => void
+}>(set => ({
+    id: undefined,
+    setId: (id: string) => set((state): any => ({...state, id})),
+
+    updateData: {},
+    isOpen: false,
+    isUpdate: false,
+    setIsOpen: (isOpen: boolean) => set((state): any => ({...state, isOpen})),
+    setUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
+    setUpdateData: (updateData: any) => set((state): any => ({...state, updateData})),
+}));

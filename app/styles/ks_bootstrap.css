@@ -42,6 +42,7 @@
   --ks-wt-danger: #dc3545;
   --ks-wt-light: #f8f9fa;
   --ks-wt-dark: #212529;
+  --ks-wt-silver: #94A3B8;
   --ks-wt-primary-rgb: 13, 110, 253;
   --ks-wt-secondary-rgb: 108, 117, 125;
   --ks-wt-success-rgb: 25, 135, 84;
@@ -2987,4 +2988,16 @@ input[type="radio"]:checked {
     font-size: 1.2rem !important; /* Increase font size */
     line-height: 1.8 !important;  /* Increase line height */
   }
+  .ks_btn_pm_m {
+    opacity: var(--ks-wt-opacity-100) !important;
+    background: #FFFFFF !important; /* Set background color */
+    border: 2px solid #E5E7EB !important; /* Set border color and width */
+    border-radius: 6px !important;
+    width: 320px !important; /* Set fixed width */
+    height: 80px !important; /* Set fixed height */
+  }
+  .ks-size-big {
+    font-size: 16px;
+  }
+
 }
