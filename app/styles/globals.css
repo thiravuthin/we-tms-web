@@ -243,7 +243,9 @@ tr:hover .editable {
 a{
   color: var(--ks-wt-dark) !important;
 }
-
+.ks-silver{
+  color: var(--ks-wt-silver) !important;
+}
 .disabled-button {
   background-color: #f4f5f0 !important;
   color: #bebebe !important;

@@ -11,7 +11,7 @@ import {myAccountSchema} from "@/app/validators/profile.schema";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Image from "next/image";
-import PasswordComponent from "@/app/components/ui/profile/PasswordComponent";
+import PasswordComponent from "@/app/components/layout/PasswordComponent";
 
 const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
 
