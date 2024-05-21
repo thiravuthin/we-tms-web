@@ -20,7 +20,7 @@ const ProjectSearch = () => {
             params.set('page_number', "0");
             params.set('search_value', String(searchValue));
 
-            if (isNullOrWhiteSpace(searchValue)) {
+            if (searchValue === null || searchValue === "") {
                 params.delete('search_value')
             }
 
