@@ -2994,7 +2994,7 @@ input[type="radio"]:checked {
     border: 2px solid #E5E7EB !important; /* Set border color and width */
     border-radius: 6px !important;
     width: 320px !important; /* Set fixed width */
-    height: 80px !important; /* Set fixed height */
+    height: auto !important; /* Set fixed height */
   }
   .ks-size-big {
     font-size: 16px;

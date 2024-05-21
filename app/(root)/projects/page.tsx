@@ -7,6 +7,7 @@ import {useProjectStore} from "@/app/lib/store";
 import NoDataSave from "@/app/components/layout/NoDataSave";
 import Projects from "@/app/components/ui/project/Projects";
 import ProjectRectangleView from "@/app/components/ui/project/ProjectRectangleView";
+import ProjectSearch from "@/app/components/ui/project/ProjectSearch";
 
 // export const metadata = {
 //     title: 'WeTMS | Projects',
@@ -54,20 +55,26 @@ const ProjectPage = () => {
 
             <div
                 className="ks_w100 ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm">
-
-                <div className="ks_d_flex ks_pd_30">
-                        <LayoutGrid />
+                <div className="ks_d_flex ks_pd_30 ks_jt_cont_betw">
+                    <div className="ks_d_flex">
+                        <LayoutGrid/>
                         <div className="ks_pr_20 ks_pl_20">
                             <Line/>
                         </div>
 
-                        <List />
+                        <List/>
+                    </div>
+                    <div>
+                        <ProjectSearch/>
+                    </div>
                 </div>
+
 
                 <label className="ks_fs20 ks_fw_bd ks_cs_pointer ks_pl_30">
                     My Projects
                 </label>
             </div>
+
             {/*<NoDataSave />*/}
             <ProjectRectangleView />
 
