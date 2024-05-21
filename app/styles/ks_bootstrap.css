@@ -111,6 +111,7 @@
   --ks-wt-link-color-rgb: 13, 110, 253;
   --ks-wt-link-decoration: underline;
   --ks-wt-link-hover-color: #0a58ca;
+  --ks-wt-link-hover-color-pro: #0059E3;
   --ks-wt-link-hover-color-rgb: 10, 88, 202;
   --ks-wt-code-color: #d63384;
   --ks-wt-highlight-bg: #ffffff3cd;
@@ -235,6 +236,7 @@
   --ks-wt-sz-320px: 320px;
   --ks-wt-sz-325px: 325px;
   --ks-wt-sz-330px: 330px;
+  --ks-wt-sz-335px: 335px;
   --ks-wt-sz-340px: 340px;
   --ks-wt-sz-350px: 350px;
   --ks-wt-sz-370px: 370px;
@@ -2139,6 +2141,9 @@ input[type="radio"]:checked {
 /* end--padding as "REM" */
 
 /* begin--padding-top */
+.ks_pt_5 {
+  padding-top: var(--ks-wt-sz-5px) !important;
+}
 .ks_pt_10 {
   padding-top: var(--ks-wt-sz-10px) !important;
 }
@@ -2996,8 +3001,22 @@ input[type="radio"]:checked {
     width: 320px !important; /* Set fixed width */
     height: auto !important; /* Set fixed height */
   }
+  .ks_btn_pm_m:hover {
+    background: #F3F4FB !important; /* Change background color on hover */
+    border: 1px solid #3e97ff !important;
+  }
   .ks-size-big {
     font-size: 16px;
+  }
+  .ks-size-medium {
+    font-size: 14px;
+  }
+  .ks-size-small {
+    font-size: 12px; /* or 10px, depending on your preference */
+  }
+  .ks-text-silver {
+    color: #64748B;
+    font-family: 'Inter', sans-serif;/* Set text color */
   }
 
 }

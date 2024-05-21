@@ -4,8 +4,11 @@ import MoreVertical from "@/app/components/icons/MoreVertical";
 import Star from "@/app/components/icons/Star";
 import SavedStar from "@/app/components/icons/SavedStar";
 import useFetchProject from "@/app/lib/hooks/use-fetch-project";
+import {useProjectItemStore} from "@/app/lib/store";
+import ProjectItem from "@/app/components/ui/project/ProjectItem";
 
 const ProjectRectangleView = () => {
+    const { isOpenItem, setIsOpenItem } = useProjectItemStore();
 
     const [params, dispatch] = useReducer(
         (state: any, action: any) => {
@@ -29,7 +32,9 @@ const ProjectRectangleView = () => {
                 <div className="row gap-3">
                     {
                         data?.map((item, index) => (
-                            <div key={index} className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20">
+                            <div key={index} className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20 ks_hvr_pro"
+                                onClick={() => setIsOpenItem(true)}
+                            >
                                 <div className="ks_d_flex">
                                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -62,9 +67,12 @@ const ProjectRectangleView = () => {
                             </div>
                         ))
                     }
-
                 </div>
             </div>
+
+            {
+                isOpenItem && <ProjectItem handleClose={() => setIsOpenItem(false)} />
+            }
         </>
     );
 };

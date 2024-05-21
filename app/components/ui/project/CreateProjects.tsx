@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal} from "react-bootstrap";
-import {useProjectStore} from "@/app/lib/store";
+import {useCreateProjectStore} from "@/app/lib/store";
 import {type} from "node:os";
 
 type Props = {
@@ -11,14 +11,14 @@ type Props = {
     // onSuccess: () => void,
 };
 
-function Projects({ handleClose }: Props) {
-    const { isUpdate, updateData, isOpen, setIsOpen } = useProjectStore();
+function CreateProjects({ handleClose }: Props) {
+    const { isUpdate, updateData, isOpen, setIsOpen } = useCreateProjectStore();
     return (
         <>
             <Modal show={isOpen} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
                 <div className="ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm ks_pd_20 ks_pt_10 ks_pb_10">
                     <div>
-                        <label className="fw-bold">Creat Project</label>
+                        <label className="fw-bold">Create Project</label>
                     </div>
                     <div className="ks_d_flex">
                         <button
@@ -53,4 +53,4 @@ function Projects({ handleClose }: Props) {
     );
 }
 
-export default Projects;
+export default CreateProjects;
