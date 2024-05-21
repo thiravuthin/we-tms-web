@@ -7,10 +7,13 @@ import ActiveLink from "@/app/components/shared/ActiveLink";
 import SidebarToggle from "@/app/components/layout/SidebarToggle";
 import Link from "next/link";
 import cn from "clsx";
+import {signOut} from "next-auth/react";
 
 function Sidebar() {
     const pathname = usePathname();
     const urlParam = new URLSearchParams();
+    const [showMore, setShowMore] = useState(false)
+
 
     const NAVIGATION_CONFIG = {
         items: [
@@ -129,19 +132,15 @@ function Sidebar() {
                                                     href={item.path + '?' + urlParam.toString()}
                                                     activeClassName={'ks-wt-active'}
                                                     icon={item.icon}>
-                                            <label className="cursor-pointer">{item?.name}</label>
+                                            <label className="cursor-pointer ks_lbl_bigger ks_fw_md">{item?.name}</label>
                                         </ActiveLink>
                                     ))
                                 }
 
                                 <>
-                                    <div
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#flush_collapse_1"
-                                        aria-controls="flush_collapse_1"
-                                        className="ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr"
-                                    >
+                                    <div className="ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr">
                                         <div
+                                            onClick={() => setShowMore(!showMore)}
                                             className="ks-wt-app-sidebar-item ks_d_flex ks_alg_itm_ctr"
                                         >
                                             <svg
@@ -170,98 +169,92 @@ function Sidebar() {
                                                     fill="#475569"
                                                 />
                                             </svg>
-                                            <label className="cursor-pointer text-black">More</label>
-                                        </div>
-                                        <svg
-                                            className="ks_wth_16 ks_hgt_16 ks_mr_5"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="16"
-                                            height="16"
-                                            viewBox="0 0 16 16"
-                                            fill="none"
-                                        >
-                                            <g opacity="0.5">
-                                                <path
-                                                    d="M7.89355 11.9956C8.00781 11.9956 8.11572 11.9744 8.21729 11.9321C8.31885 11.8856 8.41195 11.8158 8.49658 11.7227L13.0415 7.08252C13.1896 6.93441 13.2637 6.75667 13.2637 6.54932C13.2637 6.40544 13.2277 6.27637 13.1558 6.16211C13.0881 6.04362 12.9971 5.95052 12.8828 5.88281C12.7686 5.8151 12.6395 5.78125 12.4956 5.78125C12.2882 5.78125 12.1042 5.85954 11.9434 6.01611L7.61426 10.4595H8.1792L3.84375 6.01611C3.68717 5.85954 3.50309 5.78125 3.2915 5.78125C3.14762 5.78125 3.01855 5.8151 2.9043 5.88281C2.79004 5.95052 2.69906 6.04362 2.63135 6.16211C2.56364 6.27637 2.52979 6.40544 2.52979 6.54932C2.52979 6.65511 2.54883 6.75244 2.58691 6.84131C2.625 6.92594 2.68001 7.00635 2.75195 7.08252L7.29053 11.729C7.47249 11.9067 7.6735 11.9956 7.89355 11.9956Z"
-                                                    fill="black"
-                                                />
-                                            </g>
-                                        </svg>
-
-                                    </div>
-                                    <div
-                                        id="flush_collapse_1"
-                                        className="accordion-collapse collapse show"
-                                        aria-labelledby="flush_collapse_1"
-                                    >
-                                        <div className="ks_d_flex ks_flex_col ks_gap_3rem">
-                                            <Link href={NavbarPathEnum.STARRED + '?' + urlParam.toString()}>
-                                                <div
-                                                    className={cn("ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_st ks_alg_itm_ctr", {
-                                                        'ks-wt-active': pathname === NavbarPathEnum.STARRED
-                                                    })}
-                                                >
-                                                    <div
-                                                        className="ks-wt-app-sidebar-item ks_d_flex ks_alg_itm_ctr"
-                                                    >
-                                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M8.00016 1.33203L10.0602 5.50536L14.6668 6.1787L11.3335 9.42537L12.1202 14.012L8.00016 11.8454L3.88016 14.012L4.66683 9.42537L1.3335 6.1787L5.94016 5.50536L8.00016 1.33203Z"
-                                                                stroke="#0F172A" stroke-width="1.5"
-                                                                stroke-linecap="round"
-                                                                stroke-linejoin="round"/>
-                                                        </svg>
-                                                        <label className="cursor-pointer">Starred</label>
-                                                    </div>
-                                                </div>
-                                            </Link>
-
-                                            <Link href={NavbarPathEnum.HIDDEN + '?' + urlParam.toString()}>
-                                                <div
-                                                    className={cn("ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_st ks_alg_itm_ctr", {
-                                                        'ks-wt-active': pathname === NavbarPathEnum.HIDDEN
-                                                    })}
-                                                >
-                                                    <div
-                                                        className="ks-wt-app-sidebar-item ks_d_flex ks_alg_itm_ctr"
-                                                    >
-                                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <g clip-path="url(#clip0_1784_9501)">
-                                                                <path
-                                                                    d="M6.58675 6.58594C6.39025 6.76904 6.23265 6.98984 6.12334 7.23517C6.01402 7.4805 5.95524 7.74534 5.95051 8.01388C5.94577 8.28242 5.99517 8.54916 6.09576 8.7982C6.19635 9.04723 6.34607 9.27346 6.53598 9.46337C6.7259 9.65329 6.95212 9.80301 7.20116 9.9036C7.45019 10.0042 7.71694 10.0536 7.98548 10.0488C8.25402 10.0441 8.51885 9.98533 8.76419 9.87602C9.00952 9.76671 9.23032 9.6091 9.41342 9.4126"
-                                                                    stroke="#475569" stroke-width="1.5"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"/>
-                                                                <path
-                                                                    d="M7.15332 3.38536C7.43419 3.35037 7.71694 3.33256 7.99999 3.33203C12.6667 3.33203 14.6667 7.9987 14.6667 7.9987C14.3686 8.63678 13.9948 9.23665 13.5533 9.78536"
-                                                                    stroke="#475569" stroke-width="1.5"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"/>
-                                                                <path
-                                                                    d="M4.40683 4.40625C3.081 5.30933 2.02008 6.54976 1.3335 7.99958C1.3335 7.99958 3.3335 12.6662 8.00016 12.6662C9.27744 12.6697 10.5274 12.2963 11.5935 11.5929"
-                                                                    stroke="#475569" stroke-width="1.5"
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"/>
-                                                                <path d="M1.3335 1.33203L14.6668 14.6654"
-                                                                      stroke="#475569"
-                                                                      stroke-width="1.5" stroke-linecap="round"
-                                                                      stroke-linejoin="round"/>
-                                                            </g>
-                                                            <defs>
-                                                                <clipPath id="clip0_1784_9501">
-                                                                    <rect width="16" height="16" fill="white"/>
-                                                                </clipPath>
-                                                            </defs>
-                                                        </svg>
-                                                        <label className="cursor-pointer">Hidden</label>
-                                                    </div>
-                                                </div>
-                                            </Link>
+                                            <label className="cursor-pointer text-black ks_lbl_bigger ks_fw_md">More</label>
                                         </div>
                                     </div>
                                 </>
+
+                                {
+                                    showMore && (
+                                        <>
+                                            <div className="ks_dropdown_menu">
+                                                <div className="ks_d_flex ks_flex_col ks_wth280">
+                                                    <div>
+                                                        <Link href={NavbarPathEnum.STARRED + '?' + urlParam.toString()}>
+                                                            <div
+                                                                className={cn("ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_st ks_alg_itm_ctr", {
+                                                                    'ks-wt-active': pathname === NavbarPathEnum.STARRED
+                                                                })}
+                                                            >
+                                                                <div
+                                                                    className="ks-wt-app-sidebar-item ks_d_flex ks_alg_itm_ctr"
+                                                                >
+                                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                                                         xmlns="http://www.w3.org/2000/svg" className="ks_ml_5">
+                                                                        <path
+                                                                            d="M8.00016 1.33203L10.0602 5.50536L14.6668 6.1787L11.3335 9.42537L12.1202 14.012L8.00016 11.8454L3.88016 14.012L4.66683 9.42537L1.3335 6.1787L5.94016 5.50536L8.00016 1.33203Z"
+                                                                            stroke="#0F172A" stroke-width="1.5"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"/>
+                                                                    </svg>
+                                                                    <label className="cursor-pointer ks_lbl_bigger ks_fw_md">Starred</label>
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+
+                                                    </div>
+                                                    <div>
+                                                        <Link href={NavbarPathEnum.HIDDEN + '?' + urlParam.toString()}>
+                                                            <div
+                                                                className={cn("ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_st ks_alg_itm_ctr", {
+                                                                    'ks-wt-active': pathname === NavbarPathEnum.HIDDEN
+                                                                })}
+                                                            >
+                                                                <div
+                                                                    className="ks-wt-app-sidebar-item ks_d_flex ks_alg_itm_ctr"
+                                                                >
+                                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                                                         xmlns="http://www.w3.org/2000/svg" className="ks_ml_5">
+                                                                        <g clip-path="url(#clip0_1784_9501)">
+                                                                            <path
+                                                                                d="M6.58675 6.58594C6.39025 6.76904 6.23265 6.98984 6.12334 7.23517C6.01402 7.4805 5.95524 7.74534 5.95051 8.01388C5.94577 8.28242 5.99517 8.54916 6.09576 8.7982C6.19635 9.04723 6.34607 9.27346 6.53598 9.46337C6.7259 9.65329 6.95212 9.80301 7.20116 9.9036C7.45019 10.0042 7.71694 10.0536 7.98548 10.0488C8.25402 10.0441 8.51885 9.98533 8.76419 9.87602C9.00952 9.76671 9.23032 9.6091 9.41342 9.4126"
+                                                                                stroke="#475569" stroke-width="1.5"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"/>
+                                                                            <path
+                                                                                d="M7.15332 3.38536C7.43419 3.35037 7.71694 3.33256 7.99999 3.33203C12.6667 3.33203 14.6667 7.9987 14.6667 7.9987C14.3686 8.63678 13.9948 9.23665 13.5533 9.78536"
+                                                                                stroke="#475569" stroke-width="1.5"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"/>
+                                                                            <path
+                                                                                d="M4.40683 4.40625C3.081 5.30933 2.02008 6.54976 1.3335 7.99958C1.3335 7.99958 3.3335 12.6662 8.00016 12.6662C9.27744 12.6697 10.5274 12.2963 11.5935 11.5929"
+                                                                                stroke="#475569" stroke-width="1.5"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"/>
+                                                                            <path d="M1.3335 1.33203L14.6668 14.6654"
+                                                                                  stroke="#475569"
+                                                                                  stroke-width="1.5" stroke-linecap="round"
+                                                                                  stroke-linejoin="round"/>
+                                                                        </g>
+                                                                        <defs>
+                                                                            <clipPath id="clip0_1784_9501">
+                                                                                <rect width="16" height="16" fill="white"/>
+                                                                            </clipPath>
+                                                                        </defs>
+                                                                    </svg>
+                                                                    <label className="cursor-pointer ks_lbl_bigger ks_fw_md ks_ml">Hidden</label>
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+                                        </>
+                                    )
+                                }
 
                             </div>
                         </div>
