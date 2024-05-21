@@ -9,7 +9,7 @@ const useFetchProfile = () => {
         queries: [
             {
                 queryKey: ["profile"],
-                queryFn: () => profileService.getUserProfile()
+                queryFn: ()=> profileService.getUserProfile()
             },
         ]
     })

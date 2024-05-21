@@ -7,13 +7,12 @@ import LogoutIcon from "@/app/components/icons/LogoutIcon";
 import SettingIcon from "@/app/components/icons/SettingIcon";
 import ProfileIcon from "@/app/components/icons/ProfileIcon";
 import useFetchProfile from "@/app/lib/hooks/useFetch_profile_account";
+import {ProfileAccount} from "@/app/lib/types/profile";
 
 
-function DropdownProfile({show}: { show?: boolean }) {
+function DropdownProfile({show,}: { show?: boolean }) {
 
-    // const {profileQuery, isError, isLoading} = useFetchProfile();
-
-    // console.log("profileQuery: ===============", profileQuery)
+    const {profileQuery, isError, isLoading} = useFetchProfile();
 
     const [showSetting, setShowSetting] = useState(false)
 
@@ -44,8 +43,8 @@ function DropdownProfile({show}: { show?: boolean }) {
                         onClick={() => setShowSetting(!showSetting)}
                         className={'dropdown-item border rounded'}
                     >
-                            <SettingIcon/>
-                            <label className="ks_lbl ks_fw_md m-2">Setting</label>
+                        <SettingIcon/>
+                        <label className="ks_lbl ks_fw_md m-2">Setting</label>
                     </DropdownItem>
 
                     {/* Logout Icon */}
@@ -54,16 +53,17 @@ function DropdownProfile({show}: { show?: boolean }) {
                         onClick={handleLogout}
                         className={'dropdown-item border rounded'}
                     >
-                            <LogoutIcon/>
-                            <label className="ks_lbl ks_fw_md m-2">Log Out</label>
+                        <LogoutIcon/>
+                        <label className="ks_lbl ks_fw_md m-2">Log Out</label>
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
 
             {
                 showSetting && <SettingContainer
-                                show={showSetting}
-                                handleClose={() => setShowSetting(false)}/>
+                    accountData={profileQuery.data}
+                    show={showSetting}
+                    handleClose={() => setShowSetting(false)}/>
             }
         </>
     );
