@@ -1,7 +1,6 @@
 "use client"
 import React, {useState} from 'react';
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {isNullOrWhiteSpace} from "typescript-string-operations";
 import CustomTooltip from "@/app/components/shared/CustomTooltip";
 
 const ProjectSearch = () => {

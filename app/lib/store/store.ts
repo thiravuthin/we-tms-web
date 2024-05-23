@@ -9,11 +9,11 @@ export const useSettingStore = create<{
     isActive: SettingNavEnum.MyAccount,
     setIsActive: (isActive: string) => set((state): any => ({...state, isActive})),
 
-    isActive: SettingNavEnum.Language,
-    setIsActive: (isActive: string) => set((state): any => ({...state, isActive})),
-
-    isActive: SettingNavEnum.User,
-    setIsActive: (isActive: string) => set((state): any => ({...state, isActive})),
+    // isActive: SettingNavEnum.Language,
+    // setIsActive: (isActive: string) => set((state): any => ({...state, isActive})),
+    //
+    // isActive: SettingNavEnum.User,
+    // setIsActive: (isActive: string) => set((state): any => ({...state, isActive})),
 
 
 }));

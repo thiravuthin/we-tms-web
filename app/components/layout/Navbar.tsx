@@ -1,9 +1,7 @@
 "use client";
 
 import React, {useState} from 'react';
-import ProfileIcon from "@/app/components/icons/ProfileIcon";
 import NotificationIcon from "@/app/components/icons/NotificationIcon";
-import SettingContainerModal from "@/app/components/ui/settings/SettingContainerModal";
 import DropdownProfile from "@/app/components/layout/DropdownProfile";
 
 const Navbar = () => {

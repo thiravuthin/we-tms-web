@@ -7,7 +7,7 @@ import SettingIcon from "@/app/components/icons/SettingIcon";
 import ProfileIcon from "@/app/components/icons/ProfileIcon";
 import useFetchProfile from "@/app/lib/hooks/useFetch_profile_account";
 import {ProfileAccount} from "@/app/lib/types/profile";
-import {SettingContainerModal} from "@/app/components/ui/settings/SettingContainerModal";
+import SettingContainerModal from "@/app/components/ui/settings/SettingContainerModal";
 
 
 function DropdownProfile({show,}: { show?: boolean }) {
