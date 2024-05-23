@@ -98,8 +98,8 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                     <div className="ks-wt-modal-toolbar-action-container">
                         {!isEditAccount && (
                             <button
-                                className="ks_btn ks_btn_icon_pm"
-                                type='button'
+                                type="button"
+                                className="btn btn-primary"
                                 onClick={() => setIsEditAccount(true)}
                             >
                                 <label>Edit</label>
