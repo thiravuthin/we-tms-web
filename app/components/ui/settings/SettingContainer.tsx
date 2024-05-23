@@ -1,22 +1,19 @@
 'use client'
 import React, {useRef, useState} from "react";
 import {Modal} from "react-bootstrap";
-import {ProfileAccount} from "@/app/lib/types/profile";
 import {SettingNavIcon} from "@/app/components/icons/SettingNavIcon";
 import {SettingNavEnum} from "@/utils/enums";
 import CustomTooltip from "@/app/components/shared/CustomTooltip";
-import ProfileIcon from "@/app/components/icons/ProfileIcon";
 import {useSettingStore} from "@/app/lib/store";
 import cn from "clsx";
 import UserContainer from "@/app/components/ui/settings/users/UserContainer";
 import LanguagesContainer from "@/app/components/ui/settings/languages/LanguagesContainer";
 import AccountContainer from "@/app/components/ui/settings/my_account/AccountContainer";
-import IconZoomOut from "@/app/components/icons/IconZoomOut";
 
 const SettingNav = [
     {
         id: 1,
-        name: 'Account Settings',
+        name: 'BASIC',
         navs: [
             {
                 id: 1,
@@ -116,13 +113,18 @@ const SettingContainer = ({accountData, show, handleClose}: {
                     <div className="ks-wt-modal-sidebar-container">
                         {/* Header Sidebar */}
                         <div className="ks-wt-modal-sidebar-toggle-block">
-                            {/* Profile Avatar*/}
-                            <ProfileIcon />
-
-                            {/* Username and UserId*/}
-                            <div className={'d-flex flex-column'}>
-                                <div><label className={'font-monospace'}>Username</label></div>
-                                <div><label className={'font-monospace'}>UserId name</label></div>
+                            <div className="ks_d_flex">
+                                <img
+                                    src={accountData?.usr_prof_img}
+                                    alt="Profile Preview"
+                                    height={36}
+                                    width={36}
+                                    style={{borderRadius: '50%'}}
+                                />
+                                    <div className="ks_flex_row ks-pl-15">
+                                        <div><label className={'font-monospace fw-bold ks-size-medium'}>{accountData?.usr_nm}</label></div>
+                                        <div><label className={'font-monospace ks-silver'}>{accountData?.usr_id}</label></div>
+                                    </div>
                             </div>
                         </div>
 
