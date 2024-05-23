@@ -10,31 +10,15 @@ import toast from "react-hot-toast";
 import {myAccountSchema} from "@/app/validators/profile.schema";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import Image from "next/image";
 import PasswordComponent from "@/app/components/layout/PasswordComponent";
 
 const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
-
-    console.log("accountData::: ", accountData)
 
     const queryClient = useQueryClient();
     const [previewImage, setPreviewImage] = useState<string | null>(accountData?.usr_prof_img);
     const [fileImage, setFileImage] = useState<File | null>(null);
     const [isEditAccount, setIsEditAccount] = useState(false);
     const hiddenFileInput = useRef<HTMLInputElement>(null);
-
-    const handleClickUploadImage = () => {
-        hiddenFileInput?.current?.click();
-    };
-    const handleUploadImageChange = (e: any) => {
-        const file = e.target.files[0];
-        setFileImage(file);
-        setPreviewImage(URL.createObjectURL(e.target.files!![0]));
-    };
-    const handleDeleteImage = () => {
-        setPreviewImage(null);
-        setFileImage(null);
-    };
 
     type requestType = Yup.InferType<typeof myAccountSchema>;
     const {
@@ -92,46 +76,59 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
         updateProfileMutation.mutate(requestBody);
     };
 
+    const handleClickUploadImage = () => {
+        hiddenFileInput?.current?.click();
+    };
+    const handleUploadImageChange = (e: any) => {
+        const file = e.target.files[0];
+        setFileImage(file);
+        setPreviewImage(URL.createObjectURL(e.target.files!![0]));
+    };
+    const handleDeleteImage = () => {
+        setPreviewImage(null);
+        setFileImage(null);
+    };
+
     return (
         <div className="ks-wt-modal-wrapper ks_d_flex ks_flex_col ks_flex_row_fluid">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="p-4 ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr">
                     <h5>Profile</h5>
 
+                    {/* CHECK WITH BUTTON EDIT */}
                     <div className="ks-wt-modal-toolbar-action-container">
-                        {!isEditAccount && (
-                            <button
-                                type="button"
-                                className="btn btn-primary"
-                                onClick={() => setIsEditAccount(true)}
-                            >
-                                <label>Edit</label>
-                            </button>
-                        )}
-                        {isEditAccount && (
-                            <>
+                        {!isEditAccount ?
+                            (
                                 <button
-                                    className="ks_btn ks_btn_icon_pm"
-                                    type='button'
-                                    onClick={() => setIsEditAccount(false)}
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={() => setIsEditAccount(true)}
                                 >
-                                    <label>Cancel</label>
+                                    <label>Edit</label>
                                 </button>
-                                <button
-                                    className="ks_btn ks_btn_icon_pm"
-                                    type='submit'
-                                >
-                                    {updateProfileMutation.isPending ? "Updating..." : 'Update'}
-                                </button>
-                            </>
-                        )}
+                            ) : (
+                                <>
+                                    <button
+                                        className="btn btn-primary"
+                                        type='button'
+                                        onClick={() => setIsEditAccount(false)}
+                                    >
+                                        <label>Cancel</label>
+                                    </button>
+
+                                    <button
+                                        className="btn btn-primary"
+                                        type='submit'
+                                    >
+                                        {updateProfileMutation.isPending ? "Updating..." : 'Update'}
+                                    </button>
+                                </>
+                            )}
                     </div>
                 </div>
 
                 {/* Avatar */}
-                <div className="p-4">
-                    <label>Avatar</label>
-                </div>
+                <label className={`${!isEditAccount ? "text-secondary mx-lg-4" : "text-dark mx-lg-4"}`}> Avatar </label>
 
                 {/* Image */}
                 <div className="d-flex">
@@ -157,13 +154,16 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                             />
                                         ) : (
                                             <>
-                                                {isEditAccount ? (<div>
-                                                                 <ProfileEditIcon/>
-                                                                 <EditIcon/>
-                                                                 </div>
-                                                                ) :
+                                                {
+                                                    isEditAccount ? (
+                                                            <div>
                                                                 <ProfileEditIcon/>
+                                                                <EditIcon/>
+                                                            </div>
+                                                        ) :
+                                                        <ProfileEditIcon/>
                                                 }
+
                                                 {isEditAccount &&
                                                     <input
                                                         type="file"
@@ -173,15 +173,14 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                                         onChange={handleUploadImageChange}
                                                     />
                                                 }
-
                                             </>
                                         )}
                                     </div>
                                 )
                             }
 
-                            {isEditAccount && previewImage
-                                ? (<img
+                            {isEditAccount && previewImage ? (
+                                    <img
                                         src={previewImage}
                                         alt="Profile Preview"
                                         height={100}
@@ -190,7 +189,9 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                         onChange={handleUploadImageChange}
                                     />
                                 )
-                                : (<>
+                                :
+                                (
+                                    <>
                                         {isEditAccount &&
                                             <div>
                                                 <ProfileEditIcon/>
@@ -207,24 +208,27 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                     </>
                                 )
                             }
+
                             {isEditAccount && previewImage && (
-                                <button className="btn-delete-image m-lg-4"
-                                        type="button"
-                                        onClick={handleDeleteImage}>
+                                <button
+                                    className="btn-delete-image m-lg-4"
+                                    type="button"
+                                    onClick={handleDeleteImage}>
                                     Delete
                                 </button>
                             )}
                         </div>
                     </div>
-
                 </div>
 
                 {/* Basic Information */}
-                <div className="p-4">Basic Information</div>
+                <div className={`${!isEditAccount ? "text-secondary pt-4 p-lg-4" : "text-dark pt-4 p-lg-4"}`}> Basic
+                    Information
+                </div>
 
                 {/* Full Name */}
                 <div className="d-flex flex-column p-4">
-                    <span>Full Name</span>
+                    <span className={`${!isEditAccount ? "text-secondary mb-2" : "text-dark mb-2"}`}>Full Name</span>
                     {!isEditAccount && (
                         <input
                             className="p-2 form-control d-inline-flex focus-ring focus-ring-light  text-decoration-none border rounded-2"
@@ -235,6 +239,7 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                             readOnly
                         />
                     )}
+
                     {isEditAccount && (
                         <>
                             <input
@@ -250,48 +255,46 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                 </div>
 
                 {/* Username and Role */}
-                <div className={'d-flex flex-row justify-content-evenly'}>
-                    <span>Username</span>
-                    <span>Role</span>
+                <div className={'d-flex flex-row justify-content-evenly w-100 mb-2'}>
+                    <span
+                        className={`${!isEditAccount
+                            ? "text-secondary mx-lg-4  w-50"
+                            : "text-dark mx-lg-4  w-50"}`}>
+                        Username
+                    </span>
+                    <span
+                        className={`${!isEditAccount
+                            ? "text-secondary mx-lg-4 w-50"
+                            : "text-dark mx-lg-4  w-50"
+                        }`}>
+                        Role
+                    </span>
                 </div>
 
-                <div className={'d-flex flex-row justify-content-sm-evenly p-4'}>
+                <div className={'d-flex flex-row justify-content-sm-evenly w-100'}>
                     <input
-                        className="p-2 form-control d-inline-flex focus-ring focus-ring-light  text-decoration-none border rounded-2"
+                        className={`${!isEditAccount
+                            ? " text-secondary  mx-lg-4 w-50 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"
+                            : " text-dark mx-lg-4  w-50 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"
+                        }`}
                         placeholder="johunsmith"
                         value={accountData.usr_nm}
                         readOnly
                     />
                     <input
-                        className="p-2 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"
+                        className={`${!isEditAccount
+                            ? " text-secondary mx-lg-4 w-50 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"
+                            : " text-dark mx-lg-4 w-50 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"
+                        }`}
                         placeholder="System Admin"
                         value={accountData.role}
                         readOnly
                     />
-
                 </div>
             </form>
 
             {/* Credentials Information */}
-
             <PasswordComponent/>
-            {/*<div className="d-flex justify-content-evenly ks_alg_itm_ctr p-4">*/}
-            {/*    /!* New pass *!/*/}
-            {/*    <div >*/}
-            {/*        <input*/}
-            {/*            className="p-2 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"*/}
-            {/*            type="password"*/}
-            {/*        />*/}
-            {/*    </div>*/}
-
-            {/*    /!* Confirm pass*!/*/}
-            {/*    <div>*/}
-            {/*        <input*/}
-            {/*            className="p-2 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"*/}
-            {/*            type="password"*/}
-            {/*        />*/}
-            {/*    </div>*/}
-            {/*</div>*/}
 
             <hr className="text-secondary m-4"/>
 

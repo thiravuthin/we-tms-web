@@ -1,9 +1,9 @@
 import React from 'react';
 
-const IconScreenZoomOut = ({handleOpen}: {handleOpen: ()=> void}) => {
+const IconScreenZoomOut = ({handleZoomOut}: {handleZoomOut: ()=> void}) => {
     return (
         <svg
-            onClick={handleOpen}
+            onClick={handleZoomOut}
             width="5"
             height="5"
             viewBox="0 0 18 18"
