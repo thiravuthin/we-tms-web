@@ -2,12 +2,12 @@
 import React, {useEffect, useState} from 'react';
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/dropdown";
 import {signOut} from "next-auth/react";
-import SettingContainer from "@/app/components/ui/settings/SettingContainer";
 import LogoutIcon from "@/app/components/icons/LogoutIcon";
 import SettingIcon from "@/app/components/icons/SettingIcon";
 import ProfileIcon from "@/app/components/icons/ProfileIcon";
 import useFetchProfile from "@/app/lib/hooks/useFetch_profile_account";
 import {ProfileAccount} from "@/app/lib/types/profile";
+import {SettingContainerModal} from "@/app/components/ui/settings/SettingContainerModal";
 
 
 function DropdownProfile({show,}: { show?: boolean }) {
@@ -60,7 +60,7 @@ function DropdownProfile({show,}: { show?: boolean }) {
             </Dropdown>
 
             {
-                showSetting && <SettingContainer
+                showSetting && <SettingContainerModal
                     accountData={profileQuery.data}
                     show={showSetting}
                     handleClose={() => setShowSetting(false)}/>

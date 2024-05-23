@@ -10,12 +10,9 @@ import toast from "react-hot-toast";
 import {myAccountSchema} from "@/app/validators/profile.schema";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import Image from "next/image";
 import PasswordComponent from "@/app/components/layout/PasswordComponent";
 
 const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
-
-    console.log("accountData::: ", accountData)
 
     const queryClient = useQueryClient();
     const [previewImage, setPreviewImage] = useState<string | null>(accountData?.usr_prof_img);
@@ -254,12 +251,11 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                     <span>Username</span>
                     <span>Role</span>
                 </div>
-
                 <div className={'d-flex flex-row justify-content-sm-evenly p-4'}>
                     <input
                         className="p-2 form-control d-inline-flex focus-ring focus-ring-light  text-decoration-none border rounded-2"
                         placeholder="johunsmith"
-                        value={accountData.usr_nm}
+                        value={accountData.full_nm}
                         readOnly
                     />
                     <input
@@ -273,25 +269,7 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
             </form>
 
             {/* Credentials Information */}
-
             <PasswordComponent/>
-            {/*<div className="d-flex justify-content-evenly ks_alg_itm_ctr p-4">*/}
-            {/*    /!* New pass *!/*/}
-            {/*    <div >*/}
-            {/*        <input*/}
-            {/*            className="p-2 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"*/}
-            {/*            type="password"*/}
-            {/*        />*/}
-            {/*    </div>*/}
-
-            {/*    /!* Confirm pass*!/*/}
-            {/*    <div>*/}
-            {/*        <input*/}
-            {/*            className="p-2 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"*/}
-            {/*            type="password"*/}
-            {/*        />*/}
-            {/*    </div>*/}
-            {/*</div>*/}
 
             <hr className="text-secondary m-4"/>
 

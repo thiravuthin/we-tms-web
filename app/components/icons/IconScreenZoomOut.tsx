@@ -1,12 +1,14 @@
 import React from 'react';
 
-const IconZoomOut = () => {
+const IconScreenZoomOut = ({handleOpen}: {handleOpen: ()=> void}) => {
     return (
-        <svg width="10"
-             height="10"
-             viewBox="0 0 18 18"
-             fill="none"
-             xmlns="http://www.w3.org/2000/svg">
+        <svg
+            onClick={handleOpen}
+            width="5"
+            height="5"
+            viewBox="0 0 18 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
                   clip-rule="evenodd"
                   d="M10.5 2.25C10.5 1.83579 10.8358 1.5 11.25 1.5H15.75C16.1642 1.5 16.5 1.83579 16.5 2.25V6.75C16.5 7.16421 16.1642 7.5 15.75 7.5C15.3358 7.5 15 7.16421 15 6.75V3H11.25C10.8358 3 10.5 2.66421 10.5 2.25Z"
@@ -25,8 +27,7 @@ const IconZoomOut = () => {
                   fill="#94A3B8"/>
         </svg>
 
-
     );
 };
 
-export default IconZoomOut;
+export default IconScreenZoomOut;
