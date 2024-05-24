@@ -12,3 +12,10 @@ export enum SettingNavEnum {
     User = 'Users',
     Language = 'Languages',
 }
+
+export enum popUpConfirmType {
+    DELETE = 'DELETE',
+    LOGOUT = 'LOGOUT',
+    PAYER_APPROVAL_REQUEST = 'PAYER_APPROVAL_REQUEST'
+
+}
