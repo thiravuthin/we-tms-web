@@ -1,55 +1,120 @@
 'use client'
-import React from 'react';
+import React, {useState} from 'react';
+import DataTable from "@/app/components/shared/DataTable";
+import Pagination from "rc-pagination";
+import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {defaultColumns} from "@/app/components/ui/settings/languages/columns_language";
+import AddLanguageForm from "@/app/components/ui/settings/languages/AddLanguageForm ";
 
 
+const dataMock = [
+    {
+        "name": "WeTax",
+        "abbreviatons": "Korean",
+        "register_date": "07072024"
+    },
+    {
+        "name": "WeTax",
+        "abbreviatons": "Korean",
+        "register_date": "07072024"
+    },
+    {
+        "name": "WeTax",
+        "abbreviatons": "Korean",
+        "register_date": "07072024"
+    }, {
+        "name": "WeTax",
+        "abbreviatons": "Korean",
+        "register_date": "07072024"
+    }, {
+        "name": "WeTax",
+        "abbreviatons": "Korean",
+        "register_date": "07072024"
+    }, {
+        "name": "WeTax",
+        "abbreviatons": "Korean",
+        "register_date": "07072024"
+    }, {
+        "name": "WeTax",
+        "abbreviatons": "Korean",
+        "register_date": "07072024"
+    }, {
+        "name": "WeTax",
+        "abbreviatons": "Korean",
+        "register_date": "07072024"
+    }, {
+        "name": "WeTax",
+        "abbreviatons": "Korean",
+        "register_date": "07072024"
+    }, {
+        "name": "WeTax",
+        "abbreviatons": "Korean",
+        "register_date": "07072024"
+    }
+]
 
 interface Language {
     name: string;
     abbreviation: string;
     date: string;
 }
+
 interface LanguageListProps {
-    languages: Language[];
-    onAddLanguageClick: () => void;
+    onSaveLanguage: (newLanguage: Omit<Language, 'date'>) => void;
 }
 
-const LanguageList: React.FC<LanguageListProps> = ({ languages, onAddLanguageClick }) => (
+const LanguageList: React.FC<LanguageListProps> = ({onSaveLanguage}) => {
 
-    <div className="language-list p-4">
-        <div className={'d-flex flex-row align-items-center justify-content-between mb-3'}>
-            <h5>Languages</h5>
-            <button onClick={onAddLanguageClick}
-                    className={'btn btn-primary'}>
-                + Add Language
-            </button>
-        </div>
+    const [isAddingLanguage, setIsAddingLanguage] = useState(false);
 
-        {/* Table */}
-        <table>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Abbreviation</th>
-                <th>Register Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            {languages.length > 0 ? (
-                languages.map((language, index) => (
-                    <tr key={index}>
-                        <td>{language.name}</td>
-                        <td>{language.abbreviation}</td>
-                        <td>{language.date}</td>
-                    </tr>
-                ))
-            ) : (
-                <tr>
-                    <td colSpan={3}>No data to show</td>
-                </tr>
+    const handleAddLanguageClick = () => {
+        setIsAddingLanguage(true);
+    };
+
+    const handleCancel = () => {
+        setIsAddingLanguage(false);
+    };
+
+    const handleSaveLanguage = (newLanguage: Omit<Language, 'date'>) => {
+        onSaveLanguage(newLanguage);
+        setIsAddingLanguage(false);
+    };
+
+    const table = useReactTable({
+        data: dataMock,
+        columns: defaultColumns,
+        getCoreRowModel: getCoreRowModel(),
+    })
+
+    return (
+        <>
+            {!isAddingLanguage
+            ? (
+                <div
+                    className=" d-flex flex-column p-4 f"
+                    style={{height: '100vh'}}
+                >
+                    {/* Head */}
+                    <div className="d-flex flex-row align-items-center justify-content-between mb-3">
+                        <h5>Languages</h5>
+                        <button onClick={handleAddLanguageClick} className="btn btn-primary">+ Add Language</button>
+                    </div>
+
+                    {/* Table*/}
+                    <div className="d-flex flex-column">
+                        <div className="ks_table_wrapper">
+                            <DataTable table={table}/>
+                        </div>
+                        <Pagination/>
+                    </div>
+                </div>
+            )
+            :
+            (
+                <AddLanguageForm onAddLanguage={handleSaveLanguage} onCancel={handleCancel}/>
             )}
-            </tbody>
-        </table>
-    </div>
-);
+        </>
+    );
+}
 
 export default LanguageList;

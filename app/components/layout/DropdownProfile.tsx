@@ -69,8 +69,7 @@ function DropdownProfile({show,}: { show?: boolean }) {
                 </DropdownMenu>
             </Dropdown>
 
-            {
-                showSetting && <SettingContainerModal
+            {showSetting && <SettingContainerModal
                     accountData={profileQuery.data}
                     show={showSetting}
                     handleClose={() => setShowSetting(false)}/>

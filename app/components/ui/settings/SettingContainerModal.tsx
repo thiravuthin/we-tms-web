@@ -22,7 +22,7 @@ const SettingNav = [
                 name: SettingNavEnum.MyAccount,
                 icon: SettingNavIcon.MyAccountNavIcon
             },
-        ]
+        ],
     },
     {
         id: 2,
