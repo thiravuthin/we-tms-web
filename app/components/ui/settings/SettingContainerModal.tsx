@@ -1,21 +1,21 @@
 'use client'
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {Modal} from "react-bootstrap";
-import {ProfileAccount} from "@/app/lib/types/profile";
 import {SettingNavIcon} from "@/app/components/icons/SettingNavIcon";
 import {SettingNavEnum} from "@/utils/enums";
 import CustomTooltip from "@/app/components/shared/CustomTooltip";
-import ProfileIcon from "@/app/components/icons/ProfileIcon";
 import {useSettingStore} from "@/app/lib/store";
-import AccountContainer from "@/app/components/ui/settings/my_account/AccountContainer";
 import cn from "clsx";
 import UserContainer from "@/app/components/ui/settings/users/UserContainer";
 import LanguagesContainer from "@/app/components/ui/settings/languages/LanguagesContainer";
+import AccountContainer from "@/app/components/ui/settings/my_account/AccountContainer";
+import IconScreenZoomIn from "@/app/components/icons/IconScreenZoomIn";
+import IconScreenZoomOut from "@/app/components/icons/IconScreenZoomOut";
 
 const SettingNav = [
     {
         id: 1,
-        name: 'Account Settings',
+        name: 'BASIC',
         navs: [
             {
                 id: 1,
@@ -43,42 +43,49 @@ const SettingNav = [
 ]
 
 const SettingContainer = ({accountData, show, handleClose}: {
-    accountData?: ProfileAccount,
-    show: boolean,
     handleClose: () => void
+    accountData: any,
+    show: boolean,
 }) => {
 
     let activeNav = useSettingStore();
 
-    const [toggleSettingSidebar, setToggleSettingSidebar] = useState(false);
-    const handleToggleSettingSidebar = () => {
-        if (!toggleSettingSidebar) {
-            setToggleSettingSidebar(true);
-        } else {
-            setToggleSettingSidebar(false);
-        }
+    const [isFullscreen, setIsFullscreen] = useState<any>(false);
+    const toggleFullscreen = () => {
+        setIsFullscreen(!isFullscreen);
     };
 
-
-
     return (
-        <Modal dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-xl-dialog" show={show}>
-            {/* TODO: Don't delete this comment << Handle toggleSettingSidebar >> */}
-            <div className={cn("modal-content ks-wt-modal-content ks-wt-modal-content-wrapper", {"ks-wt-toggled": toggleSettingSidebar})}>
-            {/*<div className={'modal-content ks-wt-modal-content ks-wt-modal-content-wrapper'}>*/}
-
+        <Modal
+            dialogClassName={`${isFullscreen ? 'fullscreen' : 'modal-dialog modal-dialog-centered ks-wt-modal-xl-dialog'}`}
+            show={show}
+            fullscreen={isFullscreen}
+        >
+            <div className={cn("modal-content ks-wt-modal-content ks-wt-modal-content-wrapper",)}>
                 <div className="ks-wt-modal-sidebar-wrapper">
                     <div className="ks-wt-modal-sidebar-container">
-
                         {/* Header Sidebar */}
                         <div className="ks-wt-modal-sidebar-toggle-block">
-                            {/* Profile Avatar*/}
-                            <ProfileIcon />
-
-                            {/* Username and UserId*/}
-                            <div className={'d-flex flex-column'}>
-                                <div><label className={'font-monospace'}>Username</label></div>
-                                <div><label className={'font-monospace'}>UserId name</label></div>
+                            <div className="ks_d_flex">
+                                <img
+                                    src={accountData?.usr_prof_img}
+                                    alt="Profile"
+                                    height={50}
+                                    width={50}
+                                    style={{borderRadius: '50%'}}
+                                />
+                                <div className="ks_flex_row ks-pl-15">
+                                    <div>
+                                        <label className={'font-monospace fw-bold ks-size-medium'}>
+                                            {accountData?.usr_nm}
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label className={'font-monospace ks-silver'}>
+                                            {accountData?.usr_id}
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -92,9 +99,9 @@ const SettingContainer = ({accountData, show, handleClose}: {
                                         {item.navs.map((nav) => (
                                             <div
                                                 className={
-                                                cn("ks-wt-modal-sidebar-menu-item",
-                                                    {"ks-wt-active": activeNav.isActive === nav.name})
-                                            }
+                                                    cn("ks-wt-modal-sidebar-menu-item",
+                                                        {"ks-wt-active": activeNav.isActive === nav.name})
+                                                }
                                                 key={nav.id}
                                                 onClick={() => activeNav.setIsActive(nav.name)}
                                             >
@@ -110,8 +117,24 @@ const SettingContainer = ({accountData, show, handleClose}: {
                 </div>
 
                 {/* Handle button close*/}
-                <div className="ks-wt-modal-wrapper-header-container">
+                <div className="d-flex flex-row mb-2 align-items-center ks-wt-modal-wrapper-header-container">
                     <div className="ks-wt-modal-header-container ks_w100 ks_d_inl_flex ks_jt_cont_end ks_alg_itm_ctr">
+                        {
+                            !isFullscreen ? (
+                                    <CustomTooltip placement={'top'}
+                                                   title={'closeFullScreen'}>
+                                        <IconScreenZoomOut handleZoomOut={toggleFullscreen}/>
+                                    </CustomTooltip>
+
+                                )
+                                :
+                                (
+                                    <CustomTooltip placement={'top'}
+                                                   title={'fullScreen'}>
+                                        <IconScreenZoomIn handleZoomIn={toggleFullscreen}/>
+                                    </CustomTooltip>
+                                )
+                        }
                         <CustomTooltip placement={"top"}
                                        title={"close"}>
                             <svg data-bs-dismiss="modal"
@@ -125,9 +148,9 @@ const SettingContainer = ({accountData, show, handleClose}: {
                 </div>
 
                 {/* Body of sidebar render */}
-                {activeNav.isActive === SettingNavEnum.MyAccount && <AccountContainer />}
-                {activeNav.isActive === SettingNavEnum.User && <UserContainer />}
-                {activeNav.isActive === SettingNavEnum.Language && <LanguagesContainer />}
+                {activeNav.isActive === SettingNavEnum.MyAccount && <AccountContainer accountData={accountData}/>}
+                {activeNav.isActive === SettingNavEnum.User && <UserContainer/>}
+                {activeNav.isActive === SettingNavEnum.Language && <LanguagesContainer/>}
 
             </div>
         </Modal>

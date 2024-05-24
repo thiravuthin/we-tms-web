@@ -22,7 +22,8 @@ const ProjectPage = () => {
                 <label className="ks_fs22 ks_fw_bd ks_cs_pointer">
                     Projects
                 </label>
-                <button className="ks_btn ks_btn_pm"
+                <button
+                    className="btn btn-primary"
                         aria-expanded="false"
                         onClick={() => {
                             setIsOpen(true)
