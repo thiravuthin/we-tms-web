@@ -1,8 +1,8 @@
-import {Pagination} from "@/app/lib/types/common";
+import {Paginations} from "@/app/lib/types/common";
 
 export interface ProjectManagements {
     data: ProjectInfo[];
-    pagination: Pagination
+    pagination: Paginations
 }
 
 export interface ProjectParams{
