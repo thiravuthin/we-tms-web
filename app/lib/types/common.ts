@@ -1,4 +1,4 @@
-export interface Pagination {
+export interface Paginations {
     last:                   boolean;
     first:                  boolean;
     size:                   number;

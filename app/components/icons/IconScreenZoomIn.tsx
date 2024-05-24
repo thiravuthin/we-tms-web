@@ -1,9 +1,9 @@
 import React from 'react';
 
-const IconScreenZoomIn = ({ handleClose }:{ handleClose: ()=> void }) => {
+const IconScreenZoomIn = ({ handleZoomIn }:{ handleZoomIn: ()=> void }) => {
     return (
         <svg
-            onClick={handleClose}
+            onClick={handleZoomIn}
             width="5"
             height="5"
             viewBox="0 0 18 18"
