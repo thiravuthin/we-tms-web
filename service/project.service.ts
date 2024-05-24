@@ -1,5 +1,5 @@
 import { http } from "@/utils/https";
-import {ProjectManagements} from "@/app/lib/types/project";
+import {ProjectManagements, ProjectRequest} from "@/app/lib/types/project";
 
 const ServiceId = {
     PROJECT: '/api/bo/v1/projects',
@@ -18,7 +18,23 @@ async function getProjects(params?: any): Promise<ProjectManagements> {
 
     return result?.data.data;
 }
+const createProject = async (params: ProjectRequest) => {
+    const result = await http.post(ServiceId.PROJECT, {
+        name: params.name
+    });
+    return result.data;
+}
+async function updateProject(id: number, requestBody: any) {
+    return http.patch(ServiceId.PROJECT + `/${id}`,requestBody).catch(error => error);
+}
+async function deleteProject(id: number) {
+    return http.delete(ServiceId.PROJECT + `/${id}`).catch(error => error);
+}
+
 
 export const projectService = {
     getProjects,
+    createProject,
+    updateProject,
+    deleteProject
 }

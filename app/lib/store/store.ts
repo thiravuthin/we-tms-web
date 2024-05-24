@@ -1,5 +1,6 @@
 import {create} from "zustand"
 import {SettingNavEnum} from "@/utils/enums";
+import {ProjectInfo} from "@/app/lib/types/project";
 export const useSettingStore = create<{
     isActive: string,
     setIsActive: (isActive: string) => void
@@ -75,20 +76,22 @@ export const useCreateProjectStore = create<{
 export const useProjectItemStore = create<{
     id: string | undefined,
     setId: (id: string) => void,
-
+    data: ProjectInfo
     updateDataItem: any,
     isOpenItem: boolean,
     isUpdateItem: boolean,
+    setData: (data: ProjectInfo) => void
     setIsOpenItem: (isOpen: boolean) => void
     setUpdateItem: (isUpdate: boolean) => void
     setUpdateDataItem: (updateData: any) => void
 }>(set => ({
     id: undefined,
     setId: (id: string) => set((state): any => ({...state, id})),
-
+    data: {} as ProjectInfo,
     updateDataItem: {},
     isOpenItem: false,
     isUpdateItem: false,
+    setData: (data: ProjectInfo| null) => set((state): any => ({...state, data})),
     setIsOpenItem: (isOpenItem: boolean) => set((state): any => ({...state, isOpenItem})),
     setUpdateItem: (isUpdateItem: boolean) => set((state): any => ({...state, isUpdateItem})),
     setUpdateDataItem: (updateDataItem: any) => set((state): any => ({...state, updateDataItem})),
