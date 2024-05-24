@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import Calender from "@/app/components/icons/Calender";
 import Star from "@/app/components/icons/Star";
 import SavedStar from "@/app/components/icons/SavedStar";
@@ -15,12 +15,15 @@ import {projectService} from "@/service/project.service";
 import toast from "react-hot-toast";
 import {useQueryClient} from "@tanstack/react-query";
 import ProjectForm from "@/app/components/ui/project/ProjectForm";
+import {useInView} from "react-intersection-observer";
+import useFetchProjects from "@/app/lib/hooks/use-fetch-project";
 
 const ProjectRectangleView = () => {
     const {isOpenItem, setIsOpenItem, setUpdateDataItem, setData} = useProjectItemStore();
     const {isOpen, setIsOpen} = useUpdateProjectStore();
     const [id, setId] = useState(0);
 
+    const { ref, inView, entry } = useInView();
     const [params, dispatch] = useReducer(
         (state: any, action: any) => {
             return {...state, ...action};
@@ -32,7 +35,23 @@ const ProjectRectangleView = () => {
             search_value: '',
         }
     );
-    const {data, pagination} = useFetchProject(params);
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isError,
+        error
+    } = useFetchProjects(params);
+    // const {data, pagination} = useFetchProject(params);
+
+    useEffect(() => {
+        if (inView && hasNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, hasNextPage]);
+
+    const projects = data?.pages.flatMap(page => page.data) ?? [];
     const [isStar, setIsStar] = useState(true);
     const queryClient = useQueryClient();
 
@@ -68,8 +87,9 @@ const ProjectRectangleView = () => {
                     // console.log(item.project_id)
                 }}>
                     {
-                        data?.map((item, index) => (
+                        projects?.map((item, index) => (
                             <div key={index} className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20 ks_hvr_pro"
+                                 ref={ref}
                                  onClick={() => {
                                      setData(item);
                                      setUpdateDataItem(item)

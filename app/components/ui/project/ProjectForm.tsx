@@ -11,11 +11,10 @@ type Props = {
     isOpen: boolean;
     handelSubmit: (data: ProjectRequest) => void
     // onSubmit: (data: ProjectRequest) => void
-    isSubmit: boolean;
     handleClose: () => void
 }
 
-const ProjectForm: React.FC<Props> = ({isSuccess,isSubmit, isOpen, handelSubmit, handleClose}) => {
+const ProjectForm: React.FC<Props> = ({isSuccess, isOpen, handelSubmit, handleClose}) => {
 
     const { isOpenItem, setIsOpenItem, updateDataItem} = useProjectItemStore();
     const {isUpdate, setUpdate} = useUpdateProjectStore();

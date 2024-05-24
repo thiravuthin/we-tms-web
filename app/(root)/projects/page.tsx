@@ -1,13 +1,10 @@
 "use client"
 import React from 'react';
-import LayoutGrid from "@/app/components/icons/LayoutGrid";
-import List from "@/app/components/icons/List";
-import Line from "@/app/components/icons/Line";
 import {useCreateProjectStore} from "@/app/lib/store";
-import NoDataSave from "@/app/components/layout/NoDataSave";
 import CreateProjects from "@/app/components/ui/project/CreateProjects";
 import ProjectRectangleView from "@/app/components/ui/project/ProjectRectangleView";
-import ProjectSearch from "@/app/components/ui/project/ProjectSearch";
+import PlusSvg from "@/app/components/icons/PlusSvg";
+import ProjectHead from "@/app/components/ui/project/ProjectHead";
 
 // export const metadata = {
 //     title: 'WeTMS | Projects',
@@ -28,48 +25,13 @@ const ProjectPage = () => {
                         onClick={() => {
                             setIsOpen(true)
                         }}>
-                    <svg
-                        width={16}
-                        height={16}
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M8 3.33594V12.6693"
-                            stroke="white"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                        <path
-                            d="M3.3335 8H12.6668"
-                            stroke="white"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </svg>
+                        <PlusSvg />
                     Add Project
                 </button>
             </div>
 
-            <div
-                className="ks_w100 ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm">
-                <div className="ks_d_flex ks_pd_30 ks_jt_cont_betw">
-                    <div className="ks_d_flex">
-                        <LayoutGrid/>
-                        <div className="ks_pr_20 ks_pl_20">
-                            <Line/>
-                        </div>
-
-                        <List/>
-                    </div>
-                    <div>
-                        <ProjectSearch/>
-                    </div>
-                </div>
-
+            <div className="ks_w100 ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm">
+                <ProjectHead />
 
                 <label className="ks_fs20 ks_fw_bd ks_cs_pointer ks_pl_30">
                     My Projects
