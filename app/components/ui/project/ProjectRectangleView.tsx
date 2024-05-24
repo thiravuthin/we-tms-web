@@ -140,7 +140,7 @@ const ProjectRectangleView = () => {
                                                 className={'dropdown-item border rounded'}>
                                                 <label className={'text- m-2'}>Edit</label>
                                                 {
-                                                    isOpen && <ProjectForm isSuccess={true} isOpen={isOpen} handelSubmit={() => data} handleClose={() => {
+                                                    isOpen && <ProjectForm  isSuccess={true} isOpen={isOpen} onSubmit={() => data} handleClose={() => {
                                                         setIsOpen(false)
                                                     }}/>
                                                 }
@@ -180,7 +180,7 @@ const ProjectRectangleView = () => {
             {/*}*/}
 
             {
-                isOpen && <ProjectForm isSuccess={true} isOpen={isOpen} handelSubmit={() => data} handleClose={() => {
+                isOpen && <ProjectForm isSuccess={true} isOpen={isOpen} onSubmit={() => data} handleClose={() => {
                     setIsOpen(false)
                 }}/>
             }

@@ -82,7 +82,7 @@ function CreateProjects({handleClose}: Props) {
     return (
         <>
             {
-                <ProjectForm isSuccess={mutation.isSuccess} isOpen={isOpen} handelSubmit={onSubmit} handleClose={handleClose} />
+                <ProjectForm  isSuccess={mutation.isSuccess} isOpen={isOpen} onSubmit={onSubmit} handleClose={handleClose} />
             }
         </>
     );
