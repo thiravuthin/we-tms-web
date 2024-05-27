@@ -99,7 +99,7 @@ const PasswordComponent = () => {
                                     <input
                                         type={showCurrentPassword ? "text" : "password"}
                                         className="ks_form_input ks_form_input_clear"
-                                        placeholder="Enter Current Password"
+                                        placeholder="●●●●●●●●●●●"
                                         maxLength={50}
                                         {...register("current_password")}
                                         // disabled={!isEditAccount}
@@ -133,8 +133,8 @@ const PasswordComponent = () => {
                                 <div className="ks-wt-form-input-container">
                                     <input
                                         type={showNewPassword ? "text" : "password"}
-                                        className="ks_form_input ks_form_input_clear"
-                                        placeholder="Enter New Password"
+                                        className="ks_form_input ks_form_input_clear fw-bold "
+                                        placeholder="●●●●●●●●●●●"
                                         maxLength={50}
                                         {...register("new_password")}
                                         onChange={(e) => {
@@ -175,8 +175,8 @@ const PasswordComponent = () => {
                                 <div className="ks-wt-form-input-container">
                                     <input
                                         // type={showConfirmPassword ? "text" : "password"}
-                                        className="ks_form_input ks_form_input_clear"
-                                        placeholder="Enter Confirm Password"
+                                        className="ks_form_input ks_form_input_clear fw-bold custom-placeholder"
+                                        placeholder="●●●●●●●●●●●"
                                         maxLength={50}
                                         {...register("confirm_password")}
                                         onChange={(e) => {

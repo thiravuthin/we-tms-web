@@ -1,6 +1,14 @@
 'use client'
-import React, {useState} from 'react';
-import IconErrorInput from "@/app/components/icons/IconErrorInput";
+import React from 'react';
+import {useForm} from "react-hook-form";
+import IconNextStep from "@/app/components/icons/IconNextStep";
+import {languagesService} from "@/service/language.service";
+import {useMutation} from "@tanstack/react-query";
+import {LanguageRequest} from "@/app/lib/types/LanguageRequest";
+import toast from "react-hot-toast";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {createLanguageSchema} from "@/app/validators/language.schema";
+
 
 interface AddLanguageFormProps {
     onAddLanguage: (newLanguage: { name: string; abbreviation: string }) => void;
@@ -9,34 +17,74 @@ interface AddLanguageFormProps {
 
 const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCancel}) => {
 
-    const [name, setName] = useState('');
-    const [abbreviation, setAbbreviation] = useState('');
-    const [errors, setErrors] = useState({ name: false, abbreviation: false });
+    console.log("onAddLanguage:: ", onAddLanguage.name)
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (name && abbreviation) {
-            onAddLanguage({name, abbreviation});
-            setName('');
-            setAbbreviation('');
+    const {
+        reset,
+        handleSubmit,
+        register,
+        formState: {
+            errors,
+            isValid,
+            isValidating
+        },
+    } = useForm({
+        resolver: yupResolver(createLanguageSchema),
+        values: {
+            name: '',
+            lang_cd: ''
         }
+    });
+
+    /* Call Service */
+    const mutation = useMutation({
+        mutationFn: (data: LanguageRequest) => {
+            return languagesService.createLanguages(data)
+        },
+        onMutate: () => {
+            toast.loading("Loading...");
+        },
+        onError: (error) => {
+            toast.error(error?.message || 'An error occurred');
+        },
+        onSuccess: () => {
+            toast.success('Language created successfully!');
+            reset(); // Reset the form after successful submission
+        },
+        onSettled: () => {
+            toast.dismiss();
+        }
+    })
+
+    const submit = (data: any) => {
+
+        const reqBody: LanguageRequest = {
+            name: data?.name,
+            lang_cd: data?.lang_cd
+        }
+
+        mutation.mutate(
+            reqBody,
+            {
+                onSuccess: () => {
+                    toast.success('success create')
+                },
+                onError: (error: any) => {
+                    toast.error(error?.message || 'An error occurred');
+                }
+            }
+        )
     };
 
     return (
-        <form onSubmit={handleSubmit}
-              className="add-language-form p-4">
-
+        <form onSubmit={handleSubmit(submit)}
+              className="add-language-form p-4"
+        >
             <div className={'d-flex flex-row justify-content-between  align-content-center align-items-center'}>
                 {/**/}
                 <div className={'d-flex'}>
                     <h5 className={'text-secondary'}>Users</h5>
-                    <div>
-                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                  d="M6.21967 3.96967C6.51256 3.67678 6.98744 3.67678 7.28033 3.96967L11.7803 8.46967C12.0732 8.76256 12.0732 9.23744 11.7803 9.53033L7.28033 14.0303C6.98744 14.3232 6.51256 14.3232 6.21967 14.0303C5.92678 13.7374 5.92678 13.2626 6.21967 12.9697L10.1893 9L6.21967 5.03033C5.92678 4.73744 5.92678 4.26256 6.21967 3.96967Z"
-                                  fill="#94A3B8"/>
-                        </svg>
-                    </div>
+                    <IconNextStep/>
                     <h5>Create Language</h5>
                 </div>
 
@@ -50,7 +98,8 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCance
                     </button>
                     <button
                         className={'btn btn-primary'}
-                        type="submit">
+                        type="submit"
+                    >
                         Save
                     </button>
                 </div>
@@ -58,31 +107,39 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCance
 
             {/**/}
             <div className={'d-flex flex-row justify-content-evenly w-100'}>
-                <label className={'w-50 m-lg-2'}>Name</label>
-                <label className={'w-50 m-lg-2'}>Abbreviation</label>
+                <label className={'w-50 '}>Name</label>
+                <label className={'w-50 '}>Abbreviation</label>
             </div>
 
             {/**/}
             <div className={'d-flex flex-row justify-content-evenly w-100'}>
-
+                <div className={'w-50 me-2'}>
                     <input
                         type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
                         placeholder="Country name"
-                        className="form-control w-50 m-2"
+                        className="form-control "
                         aria-label="Country name"
+                        {
+                            ...register('name', {
+                            required: 'Name must not be empty'
+                        })}
                     />
-                  {/*<IconErrorInput/>*/}
+                    {errors.name && <span className={'text-danger mt-2'}>{errors.name.message}</span>}
+                </div>
 
-
-                <input
-                    className={'w-50 m-2'}
-                    type="text"
-                    value={abbreviation}
-                    onChange={(e) => setAbbreviation(e.target.value)}
-                    placeholder="EN | KM | ..."
-                />
+                {/*<IconErrorInput/>*/}
+                <div className={'w-50 me-2'}>
+                    <input
+                        aria-label={"EN | KM | ..."}
+                        className={'form-control'}
+                        type="text"
+                        placeholder="EN | KM | ..."
+                        {
+                            ...register('lang_cd')
+                        }
+                    />
+                    {errors.lang_cd && <span className={'text-danger mt-2'}>{errors.lang_cd.message}</span>}
+                </div>
             </div>
         </form>
     );

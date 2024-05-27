@@ -45,7 +45,6 @@ const DataTable = <TData, TValue>({
                                                 className: cn('', {
                                                     'ks-wt-tbl-hd-container prevent-select': header.column.getCanSort(),
                                                 }),
-                                                // onClick: header.column.getToggleSortingHandler()
                                                 onClick: (e) => {
                                                     if (header.column.getCanSort()) {
                                                         header.column.toggleSorting(

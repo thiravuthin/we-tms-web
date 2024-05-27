@@ -12,10 +12,10 @@ export const myAccountSchema = Yup.object().shape({
 export const changePasswordSchema = Yup.object().shape({
     current_password: Yup.string().required('Current password is required'),
     new_password: Yup.string()
+        .required('Password is required')
         .min(8, 'At least minumum 8 characters')
         .matches(/[A-Z]/, 'At least one uppercase character')
-        .matches(/[`!@#$%^&*()_+-=\[\]{};':"\\|,.<>?~]/, 'Password must contain at least one special character')
-        .required('Password is required'),
+        .matches(/[`!@#$%^&*()_+-=\[\]{};':"\\|,.<>?~]/, 'Password must contain at least one special character'),
     confirm_password: Yup.string()
         .oneOf([Yup.ref('new_password'), ''], 'Passwords must match')
         .required('Confirm password is required')

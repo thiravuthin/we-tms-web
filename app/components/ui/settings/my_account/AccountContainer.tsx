@@ -62,7 +62,9 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
         if (fileImage != null) {
             try {
                 const fileResponse = await profileService.uploadImage(fileImage);
+                console.log("fileResponse:: ",fileResponse)
                 profileImage = fileResponse?.data?.data?.image_url;
+                console.log("profileImage:: ", profileImage)
             } catch (error) {
                 toast.error("Fail to upload profile image");
                 return;
@@ -95,7 +97,7 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                 <div className="p-4 ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr">
                     <h5>Profile</h5>
 
-                    {/* CHECK WITH BUTTON EDIT */}
+                    {/* TODO: HECK WITH BUTTON EDIT */}
                     <div className="ks-wt-modal-toolbar-action-container">
                         {!isEditAccount ?
                             (
