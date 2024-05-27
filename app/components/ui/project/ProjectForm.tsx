@@ -1,7 +1,7 @@
 import React from 'react';
 import {ProjectRequest} from "@/app/lib/types/project";
 import {Modal} from "react-bootstrap";
-import {useProjectItemStore, useUpdateProjectStore} from "@/app/lib/store";
+import {useProjectStore} from "@/app/lib/store";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createProjectSchema} from "@/app/validators/proejct.schema";
@@ -17,13 +17,13 @@ type Props = {
 
 const ProjectForm: React.FC<Props> = ({isSuccess, isOpen, onSubmit, handleClose}) => {
 
-    const {isOpenItem, setIsOpenItem, updateDataItem} = useProjectItemStore();
-    const {isUpdate, setUpdate} = useUpdateProjectStore();
+    const { setIsOpen,isUpdate, setUpdate, updateData} = useProjectStore();
+    // const {isUpdate, setUpdate} = useUpdateProjectStore();
     const [checked, setChecked] = React.useState(false);
     const methods = useForm<any>({
         resolver: yupResolver(createProjectSchema),
         values: {
-            name: isUpdate ? updateDataItem.project_name : ''
+            name: isUpdate ? updateData.project_name : ''
         }
     });
 

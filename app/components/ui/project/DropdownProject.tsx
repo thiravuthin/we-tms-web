@@ -3,15 +3,15 @@ import React from 'react';
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/dropdown";
 import LogoutIcon from "@/app/components/icons/LogoutIcon";
 import SettingIcon from "@/app/components/icons/SettingIcon";
-import {useProjectItemStore, useUpdateProjectStore} from "@/app/lib/store";
+import {useProjectStore} from "@/app/lib/store";
 import UpdateProjects from "@/app/components/ui/project/UpdateProjects";
 import {projectService} from "@/service/project.service";
 import toast from "react-hot-toast";
 
 
 function DropdownProject({show, id}: { show?: boolean, id: number}) {
-    const { isOpenItem, setIsOpenItem, setData, data} = useProjectItemStore();
-    const { isOpen, setIsOpen } = useUpdateProjectStore();
+    const { isOpen, setIsOpen, setData, data} = useProjectStore();
+    // const { isOpen, setIsOpen } = useUpdateProjectStore();
     console.log(id, "hhhh")
     const handleRemoveProject = async () => {
         try {

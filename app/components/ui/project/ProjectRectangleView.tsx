@@ -1,13 +1,9 @@
 import React, {useReducer, useState} from 'react';
 import Calender from "@/app/components/icons/Calender";
-import Star from "@/app/components/icons/Star";
-import SavedStar from "@/app/components/icons/SavedStar";
 import useFetchProject from "@/app/lib/hooks/use-fetch-project";
-import {useProjectItemStore, useUpdateProjectStore} from "@/app/lib/store";
+import {useProjectStore} from "@/app/lib/store";
 import ProjectItem from "@/app/components/ui/project/ProjectItem";
 import {DateUtilsCopy} from "@/utils/DateUtilsCopy";
-import DropdownProject from "@/app/components/ui/project/DropdownProject";
-import UpdateProjects from "@/app/components/ui/project/UpdateProjects";
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/dropdown";
 import SettingIcon from "@/app/components/icons/SettingIcon";
 import LogoutIcon from "@/app/components/icons/LogoutIcon";
@@ -17,8 +13,8 @@ import {useQueryClient} from "@tanstack/react-query";
 import ProjectForm from "@/app/components/ui/project/ProjectForm";
 
 const ProjectRectangleView = () => {
-    const {isOpenItem, setIsOpenItem, setUpdateDataItem, setData} = useProjectItemStore();
-    const {isOpen, setIsOpen} = useUpdateProjectStore();
+    const {isOpen, setIsOpen, setUpdateData, setData} = useProjectStore();
+    // const {isOpen, setIsOpen} = useUpdateProjectStore();
     const [id, setId] = useState(0);
 
     const [params, dispatch] = useReducer(
@@ -38,7 +34,7 @@ const ProjectRectangleView = () => {
 
     const handleRemoveProject = async () => {
         const askMessage = window.confirm('Are you sure you want to delete this project?'), isConfirm = askMessage;
-        if (isConfirm){
+        if (isConfirm) {
             try {
                 const response = await projectService.deleteProject(id);
 
@@ -72,10 +68,10 @@ const ProjectRectangleView = () => {
                             <div key={index} className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20 ks_hvr_pro"
                                  onClick={() => {
                                      setData(item);
-                                     setUpdateDataItem(item)
+                                     setUpdateData(item)
                                  }}>
                                 <div className="ks_d_flex" onClick={() => {
-                                    setIsOpenItem(true)
+                                    setIsOpen(true)
                                     setId(item.project_id)
                                 }
 
@@ -137,12 +133,14 @@ const ProjectRectangleView = () => {
                                         >
                                             {/* My Account*/}
                                             <DropdownItem key="edit"
-                                                className={'dropdown-item border rounded'}>
+                                                          className={'dropdown-item border rounded'}>
                                                 <label className={'text- m-2'}>Edit</label>
                                                 {
-                                                    isOpen && <ProjectForm  isSuccess={true} isOpen={isOpen} onSubmit={() => data} handleClose={() => {
-                                                        setIsOpen(false)
-                                                    }}/>
+                                                    isOpen &&
+                                                    <ProjectForm isSuccess={true} isOpen={isOpen} onSubmit={() => data}
+                                                                 handleClose={() => {
+                                                                     setIsOpen(false)
+                                                                 }}/>
                                                 }
                                             </DropdownItem>
 
@@ -156,7 +154,8 @@ const ProjectRectangleView = () => {
                                             </DropdownItem>
 
 
-                                            <DropdownItem  onClick={handleRemoveProject} className={'dropdown-item border rounded'}>
+                                            <DropdownItem onClick={handleRemoveProject}
+                                                          className={'dropdown-item border rounded'}>
                                                 <LogoutIcon/>
                                                 <label className="ks_lbl ks_fw_md m-2">Remove</label>
                                             </DropdownItem>
@@ -171,7 +170,7 @@ const ProjectRectangleView = () => {
             </div>
 
             {
-                isOpenItem && <ProjectItem handleClose={() => setIsOpenItem(false)}/>
+                isOpen && <ProjectItem handleClose={() => setIsOpen(false)}/>
             }
 
             {/*{*/}

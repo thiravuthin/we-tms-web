@@ -1,5 +1,5 @@
 import React from 'react';
-import {useProjectItemStore, useUpdateProjectStore} from "@/app/lib/store";
+import {useProjectStore} from "@/app/lib/store";
 import {Modal} from "react-bootstrap";
 import {DateUtilsCopy} from "@/utils/DateUtilsCopy";
 
@@ -8,12 +8,12 @@ type Props = {
     // onSuccess: () => void,
 };
 const ProjectItem = ({handleClose}: Props) => {
-    const {isOpen, setUpdate, setIsOpen} = useUpdateProjectStore();
-    const {isOpenItem, setIsOpenItem, setData, data, updateDataItem} = useProjectItemStore();
+    // const {isOpen, setUpdate, setIsOpen} = useUpdateProjectStore();
+    const {isOpen, setIsOpen, setData,setUpdateData,setUpdate, updateData} = useProjectStore();
 
     return (
         <>
-            <Modal show={isOpenItem} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
+            <Modal show={isOpen} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
                 <div className="ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_pd_20 ks_brd_btm ks_pt_10 ks_pb_10">
                     <label className="text-black fw-bold ks-size-medium">Project</label>
                     <div className="ks_d_flex">
@@ -21,7 +21,7 @@ const ProjectItem = ({handleClose}: Props) => {
                             type={"button"}
                             onClick={() => {
                                 handleClose()
-                                // setIsOpen(true);
+                                setIsOpen(true);
                             }}
                             className="ks_btn ks_btn_tiary ks_mr_8 ks_pd_10">
                             Cancel
@@ -31,7 +31,7 @@ const ProjectItem = ({handleClose}: Props) => {
                             className="ks_btn ks_btn_pm ks_pd_10 ks_pr_20 ks_pl_20"
                             onClick={() => {
                                 setIsOpen(true);
-                                setIsOpenItem(false);
+                                // setIsOpen(false);
                                 setUpdate(true);
                             }}
                         >
@@ -61,11 +61,11 @@ const ProjectItem = ({handleClose}: Props) => {
                             </svg>
                             <div className="ks_flex_row ks_ml_12 ks_jt_cont_betw">
                                 <div>
-                                    <label className="fw-bold ks-size-medium">{data.regi_by.full_name}</label>
+                                    <label className="fw-bold ks-size-medium">User Name</label>
                                 </div>
                                 <div>
                                     <label
-                                        className="ks-size-small">@{data.regi_by.username} . {data.regi_by.role}</label>
+                                        className="ks-size-small">@ . Admin </label>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@ const ProjectItem = ({handleClose}: Props) => {
                                     <label className="ks-size-small ks-silver">Name</label>
                                 </div>
                                 <div>
-                                    <label className="fw-bold ks-size-medium">{data.project_name}</label>
+                                    <label className="fw-bold ks-size-medium">WeTMS</label>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +136,7 @@ const ProjectItem = ({handleClose}: Props) => {
                                 </div>
                                 <div>
                                     <label
-                                        className="fw-bold ks-size-medium">{DateUtilsCopy.dateDDMMYYYY(data.regi_dtm)}</label>
+                                        className="fw-bold ks-size-medium">Today</label>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +164,7 @@ const ProjectItem = ({handleClose}: Props) => {
                                 </div>
                                 <div>
                                     <label
-                                        className="fw-bold ks-size-medium">{DateUtilsCopy.dateDDMMYYYY(data.chng_dtm)}</label>
+                                        className="fw-bold ks-size-medium">Today</label>
                                 </div>
                             </div>
                         </div>
