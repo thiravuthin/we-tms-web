@@ -9,15 +9,12 @@ import toast from "react-hot-toast";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createLanguageSchema} from "@/app/validators/language.schema";
 
-
 interface AddLanguageFormProps {
-    onAddLanguage: (newLanguage: { name: string; abbreviation: string }) => void;
+    onAddLanguage: (newLanguage: { name: string; abbreviations: string }) => void;
     onCancel: () => void;
 }
 
 const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCancel}) => {
-
-    console.log("onAddLanguage:: ", onAddLanguage.name)
 
     const {
         reset,
@@ -30,7 +27,7 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCance
         },
     } = useForm({
         resolver: yupResolver(createLanguageSchema),
-        values: {
+        defaultValues: {
             name: '',
             lang_cd: ''
         }
@@ -47,33 +44,25 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCance
         onError: (error) => {
             toast.error(error?.message || 'An error occurred');
         },
-        onSuccess: () => {
+        onSuccess: (data) => {
             toast.success('Language created successfully!');
             reset(); // Reset the form after successful submission
+            onAddLanguage({ name: data.name, abbreviations: data.lang_cd }); // updated property name
         },
         onSettled: () => {
             toast.dismiss();
         }
+
     })
 
     const submit = (data: any) => {
-
         const reqBody: LanguageRequest = {
             name: data?.name,
             lang_cd: data?.lang_cd
         }
+        console.log('reqBody:: ', reqBody)
 
-        mutation.mutate(
-            reqBody,
-            {
-                onSuccess: () => {
-                    toast.success('success create')
-                },
-                onError: (error: any) => {
-                    toast.error(error?.message || 'An error occurred');
-                }
-            }
-        )
+        mutation.mutate(reqBody);
     };
 
     return (
@@ -121,13 +110,12 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCance
                         aria-label="Country name"
                         {
                             ...register('name', {
-                            required: 'Name must not be empty'
-                        })}
+                                required: 'Name must not be empty'
+                            })}
                     />
                     {errors.name && <span className={'text-danger mt-2'}>{errors.name.message}</span>}
                 </div>
 
-                {/*<IconErrorInput/>*/}
                 <div className={'w-50 me-2'}>
                     <input
                         aria-label={"EN | KM | ..."}
