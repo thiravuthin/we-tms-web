@@ -13,9 +13,10 @@ import {useQueryClient} from "@tanstack/react-query";
 import ProjectForm from "@/app/components/ui/project/ProjectForm";
 
 const ProjectRectangleView = () => {
-    const {isOpen, setIsOpen, setUpdateData, setData} = useProjectStore();
-    // const {isOpen, setIsOpen} = useUpdateProjectStore();
+    const {isOpen, setIsOpen, setUpdateData, setData} = useProjectStore(state => state);
+    const projectStore = useProjectStore(state => state);
     const [id, setId] = useState(0);
+    // const [open , setOpen] = useState(false);
 
     const [params, dispatch] = useReducer(
         (state: any, action: any) => {
@@ -53,9 +54,6 @@ const ProjectRectangleView = () => {
         }
 
     };
-
-    console.log("Data: ", data)
-
     return (
         <>
             <div className="ks_pd_30">
@@ -67,12 +65,15 @@ const ProjectRectangleView = () => {
                         data?.map((item, index) => (
                             <div key={index} className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20 ks_hvr_pro"
                                  onClick={() => {
-                                     setData(item);
-                                     setUpdateData(item)
+                                     projectStore.setData(item);
+                                     // projectStore.setIsOpen((prev: any) => projectStore.setIsOpen(!prev));
+                                     // setUpdateData(item)
+                                     // projectStore.setIsOpen(true)
+                                     setIsOpen(true)
                                  }}>
                                 <div className="ks_d_flex" onClick={() => {
-                                    setIsOpen(true)
-                                    setId(item.project_id)
+
+                                    // setId(item.project_id)
                                 }
 
                                 }>
@@ -136,10 +137,10 @@ const ProjectRectangleView = () => {
                                                           className={'dropdown-item border rounded'}>
                                                 <label className={'text- m-2'}>Edit</label>
                                                 {
-                                                    isOpen &&
-                                                    <ProjectForm isSuccess={true} isOpen={isOpen} onSubmit={() => data}
+                                                    projectStore.isOpen &&
+                                                    <ProjectForm isSuccess={true} isOpen={projectStore.isOpen} onSubmit={() => data}
                                                                  handleClose={() => {
-                                                                     setIsOpen(false)
+                                                                     projectStore.setIsOpen(false)
                                                                  }}/>
                                                 }
                                             </DropdownItem>
@@ -173,16 +174,6 @@ const ProjectRectangleView = () => {
                 isOpen && <ProjectItem handleClose={() => setIsOpen(false)}/>
             }
 
-            {/*{*/}
-            {/*    // isOpen && <UpdateProjects handleClose={() => setIsOpen(false)}/>*/}
-            {/*  isOpen &&  <ProjectItem handleClose={()=>setIsOpenItem(false)}/>*/}
-            {/*}*/}
-
-            {
-                isOpen && <ProjectForm isSuccess={true} isOpen={isOpen} onSubmit={() => data} handleClose={() => {
-                    setIsOpen(false)
-                }}/>
-            }
         </>
     );
 };

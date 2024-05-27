@@ -1,10 +1,10 @@
 import React from 'react';
 import {ProjectRequest} from "@/app/lib/types/project";
 import {Modal} from "react-bootstrap";
-import {useProjectStore} from "@/app/lib/store";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createProjectSchema} from "@/app/validators/proejct.schema";
+import {useProjectStore} from "@/app/lib/store";
 
 type Props = {
     isSuccess: boolean;
@@ -15,15 +15,14 @@ type Props = {
     handleClose: () => void
 }
 
-const ProjectForm: React.FC<Props> = ({isSuccess, isOpen, onSubmit, handleClose}) => {
+const ProjectForm: React.FC<Props> = ({isSuccess, onSubmit, handleClose}) => {
 
-    const { setIsOpen,isUpdate, setUpdate, updateData} = useProjectStore();
-    // const {isUpdate, setUpdate} = useUpdateProjectStore();
-    const [checked, setChecked] = React.useState(false);
+    const { setIsOpen,isUpdate, setUpdate, updateData} = useProjectStore(state => state);
+    // const [checked, setChecked] = React.useState(false);
     const methods = useForm<any>({
         resolver: yupResolver(createProjectSchema),
         values: {
-            name: isUpdate ? updateData.project_name : ''
+            // name: isUpdate ? updateData.project_name : ''
         }
     });
 
@@ -33,21 +32,20 @@ const ProjectForm: React.FC<Props> = ({isSuccess, isOpen, onSubmit, handleClose}
         setValue,
         formState: {errors}
     } = methods;
-
     return (
-        <div>
-            <Modal show={isOpen} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
+        <React.Fragment>
+            <Modal show={true} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm ks_pd_20 ks_pt_10 ks_pb_10">
                         <div>
-                            <label className="fw-bold"> {!isUpdate ? " Create Project" : "Update Project"}</label>
+                            <label className="fw-bold"> {!isUpdate ? "Update Project" : "Create Project"}</label>
                         </div>
                         <div className="ks_d_flex">
                             <button
                                 type={"button"}
                                 onClick={() => {
                                     handleClose()
-                                    setUpdate(false)
+                                    // setUpdate(false)
                                 }}
                                 className="ks_btn ks_btn_tiary ks_mr_8">
                                 Cancel
@@ -55,7 +53,7 @@ const ProjectForm: React.FC<Props> = ({isSuccess, isOpen, onSubmit, handleClose}
 
                             <button type="submit"
                                     className="ks_btn ks_btn_pm" >
-                                {isUpdate ? 'Update' : 'Save'}
+                                {isUpdate ? 'Save' : 'Update'}
                             </button>
                         </div>
                     </div>
@@ -82,7 +80,7 @@ const ProjectForm: React.FC<Props> = ({isSuccess, isOpen, onSubmit, handleClose}
 
 
             </Modal>
-        </div>
+        </React.Fragment>
     );
 };
 

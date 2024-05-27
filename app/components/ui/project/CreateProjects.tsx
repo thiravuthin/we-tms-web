@@ -15,8 +15,9 @@ type Props = {
 
 function CreateProjects({handleClose}: Props) {
     const {isUpdate, updateData, isOpen, setIsOpen} = useProjectStore();
-    // const {isOpen , setIsOpen} = useCreateProjectStore();
+
     const [projectName, setProjectName] = useState('');
+
     const [reset, setReset] = useState(false);
     const projectStore = useProjectStore();
     const queryClient = useQueryClient();
@@ -43,14 +44,6 @@ function CreateProjects({handleClose}: Props) {
         }
     })
 
-    // const handelSubmit= (e:any)=>{
-    //     e.preventDefault()
-    //     console.log('Project Name:', projectName);
-    //     // Call mutation.mutate({ project_name: projectName }) to create or update the project
-    //     mutation.mutate({ name: projectName });
-    //     setProjectName(''); // Reset the form field
-    // }
-
     const onSubmit = (data: ProjectRequest)=>{
         const reqBody: ProjectRequest = {
             name: data.name
@@ -76,11 +69,13 @@ function CreateProjects({handleClose}: Props) {
         })
     }
 
-    // const {register} = useForm();
     return (
         <>
             {
-                <ProjectForm  isSuccess={mutation.isSuccess} isOpen={isOpen} onSubmit={onSubmit} handleClose={handleClose} />
+                <ProjectForm  isSuccess={mutation.isSuccess}
+                              isOpen={isOpen}
+                              onSubmit={onSubmit}
+                              handleClose={handleClose} />
             }
         </>
     );

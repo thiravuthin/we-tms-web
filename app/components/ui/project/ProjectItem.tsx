@@ -9,10 +9,10 @@ type Props = {
 };
 const ProjectItem = ({handleClose}: Props) => {
     // const {isOpen, setUpdate, setIsOpen} = useUpdateProjectStore();
-    const {isOpen, setIsOpen, setData,setUpdateData,setUpdate, updateData} = useProjectStore();
-
+    const {isOpen, isOpenItem,data, setIsOpen, setData,setUpdateData,setUpdate, updateData} = useProjectStore((state)=> state);
+    console.log('data',data)
     return (
-        <>
+        <React.Fragment>
             <Modal show={isOpen} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
                 <div className="ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_pd_20 ks_brd_btm ks_pt_10 ks_pb_10">
                     <label className="text-black fw-bold ks-size-medium">Project</label>
@@ -21,7 +21,7 @@ const ProjectItem = ({handleClose}: Props) => {
                             type={"button"}
                             onClick={() => {
                                 handleClose()
-                                setIsOpen(true);
+                                setIsOpen(false);
                             }}
                             className="ks_btn ks_btn_tiary ks_mr_8 ks_pd_10">
                             Cancel
@@ -61,11 +61,11 @@ const ProjectItem = ({handleClose}: Props) => {
                             </svg>
                             <div className="ks_flex_row ks_ml_12 ks_jt_cont_betw">
                                 <div>
-                                    <label className="fw-bold ks-size-medium">User Name</label>
+                                    <label className="fw-bold ks-size-medium">{data?.regi_by?.full_name}</label>
                                 </div>
                                 <div>
                                     <label
-                                        className="ks-size-small">@ . Admin </label>
+                                        className="ks-size-small">@{data?.regi_by?.username} . {data?.regi_by?.role} </label>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@ const ProjectItem = ({handleClose}: Props) => {
                                     <label className="ks-size-small ks-silver">Name</label>
                                 </div>
                                 <div>
-                                    <label className="fw-bold ks-size-medium">WeTMS</label>
+                                    <label className="fw-bold ks-size-medium">{data?.project_name}</label>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +136,7 @@ const ProjectItem = ({handleClose}: Props) => {
                                 </div>
                                 <div>
                                     <label
-                                        className="fw-bold ks-size-medium">Today</label>
+                                        className="fw-bold ks-size-medium">{data?.regi_dtm}</label>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +164,7 @@ const ProjectItem = ({handleClose}: Props) => {
                                 </div>
                                 <div>
                                     <label
-                                        className="fw-bold ks-size-medium">Today</label>
+                                        className="fw-bold ks-size-medium">{data?.chng_dtm}</label>
                                 </div>
                             </div>
                         </div>
@@ -173,10 +173,10 @@ const ProjectItem = ({handleClose}: Props) => {
 
 
                 {
-                    isOpen && <ProjectItem handleClose={() => setIsOpen(false)}/>
+                    isOpenItem && <ProjectItem handleClose={() => setIsOpen(false)}/>
                 }
             </Modal>
-        </>
+        </React.Fragment>
     );
 };
 

@@ -79,6 +79,7 @@ export const useProjectStore = create<{
     data: ProjectInfo,
     updateData: any,
     isOpen: boolean,
+    isOpenItem: boolean,
     isCreate: boolean,
     isUpdate: boolean,
     setIsCreate: (isCreate: boolean) => void
@@ -92,6 +93,7 @@ export const useProjectStore = create<{
     data: {} as ProjectInfo,
     updateData: {},
     isOpen: false,
+    isOpenItem: false,
     isCreate: false,
     isUpdate: false,
     setIsCreate:(isCreate: boolean) => set((state): any => ({...state, isCreate})),
