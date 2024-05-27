@@ -79,7 +79,7 @@ function DropdownProfile({show,}: { show?: boolean }) {
                     show={showConfirm}
                     title="Confirm"
                     message="Do you really want to log out from the system?"
-                    confirm={handleConfirm}
+                    confirms={handleConfirm}
                     cancel={handleCancel}
                     confirmType={popUpConfirmType.LOGOUT}
                     />
