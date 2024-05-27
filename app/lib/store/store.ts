@@ -76,11 +76,13 @@ export const useLoginStore = create<{
 export const useProjectStore = create<{
     id: string | undefined,
     setId: (id: string) => void,
-    data: ProjectInfo
+    data: ProjectInfo,
     updateData: any,
     isOpen: boolean,
+    isCreate: boolean,
     isUpdate: boolean,
-    setData: (data: ProjectInfo) => void
+    setIsCreate: (isCreate: boolean) => void
+    setData: (data: any) => void
     setIsOpen: (isOpen: boolean) => void
     setUpdate: (isUpdate: boolean) => void
     setUpdateData: (updateData: any) => void
@@ -90,9 +92,11 @@ export const useProjectStore = create<{
     data: {} as ProjectInfo,
     updateData: {},
     isOpen: false,
+    isCreate: false,
     isUpdate: false,
-    setData: (data: ProjectInfo| null) => set((state): any => ({...state, data})),
-    setIsOpen: (isOpen: boolean) => set((state): any => ({...state, isOpen})),
+    setIsCreate:(isCreate: boolean) => set((state): any => ({...state, isCreate})),
+    setData: (data: any) => set((state): any => ({...state, data})),
+    setIsOpen: (isOpen : boolean) => set((state): any => ({...state, isOpen})),
     setUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
     setUpdateData: (updateData: any) => set((state): any => ({...state, updateData })),
 }));
