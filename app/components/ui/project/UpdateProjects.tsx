@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Modal} from "react-bootstrap";
-import {useUpdateProjectStore} from "@/app/lib/store";
+import {useProjectStore} from "@/app/lib/store";
 
 type Props = {
     handleClose: () => void,
@@ -10,7 +10,7 @@ type Props = {
 };
 
 function UpdateProjects({ handleClose }: Props) {
-    const { isOpen, setIsOpen } = useUpdateProjectStore();
+    const { isOpen, setIsOpen } = useProjectStore();
     return (
         <>
             <Modal show={isOpen} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">

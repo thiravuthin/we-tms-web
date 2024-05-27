@@ -1,6 +1,8 @@
 'use client'
-import { signOut } from 'next-auth/react';
-import React from 'react'
+import {signOut} from 'next-auth/react';
+import React, {useState} from 'react'
+import PopupConfirm from "@/app/components/shared/PopupConfirm";
+import {popUpConfirmType} from "@/utils/enums";
 
 const LogoutButton = () => {
     const handleLogout = () => {

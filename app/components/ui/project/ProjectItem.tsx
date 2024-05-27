@@ -1,39 +1,46 @@
 import React from 'react';
-import {useProjectItemStore, useCreateProjectStore, useUpdateProjectStore} from "@/app/lib/store";
+import {useProjectStore} from "@/app/lib/store";
 import {Modal} from "react-bootstrap";
-import CreateProjects from "@/app/components/ui/project/CreateProjects";
-import UpdateProjects from "@/app/components/ui/project/UpdateProjects";
+import {DateUtilsCopy} from "@/utils/DateUtilsCopy";
 
 type Props = {
     handleClose: () => void,
     // onSuccess: () => void,
 };
-const ProjectItem = ({ handleClose }: Props) => {
-    const { isOpen, setIsOpen } = useUpdateProjectStore();
-    const { isOpenItem, setIsOpenItem} = useProjectItemStore();
-
+const ProjectItem = ({handleClose}: Props) => {
+    // const {isOpen, setUpdate, setIsOpen} = useUpdateProjectStore();
+    const {isOpen, isOpenItem,data, setIsOpen, setData,setUpdateData,setUpdate, updateData} = useProjectStore((state)=> state);
+    console.log('data',data)
     return (
-        <>
-            <Modal show={isOpenItem} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
+        <React.Fragment>
+            <Modal show={isOpen} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
                 <div className="ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_pd_20 ks_brd_btm ks_pt_10 ks_pb_10">
                     <label className="text-black fw-bold ks-size-medium">Project</label>
                     <div className="ks_d_flex">
                         <button
                             type={"button"}
-                            onClick={handleClose}
+                            onClick={() => {
+                                handleClose()
+                                setIsOpen(false);
+                            }}
                             className="ks_btn ks_btn_tiary ks_mr_8 ks_pd_10">
                             Cancel
                         </button>
                         <button
                             type={"button"}
                             className="ks_btn ks_btn_pm ks_pd_10 ks_pr_20 ks_pl_20"
-                            onClick={() => setIsOpen(true)}
+                            onClick={() => {
+                                setIsOpen(true);
+                                // setIsOpen(false);
+                                setUpdate(true);
+                            }}
                         >
-
-                            Edit</button>
+                            Edit
+                        </button>
                     </div>
 
                 </div>
+
                 <div className="ks_d_flex ks_pr_20">
 
                     <div className="ks_pd_20">
@@ -54,17 +61,19 @@ const ProjectItem = ({ handleClose }: Props) => {
                             </svg>
                             <div className="ks_flex_row ks_ml_12 ks_jt_cont_betw">
                                 <div>
-                                    <label className="fw-bold ks-size-medium">Mark Colbert</label>
+                                    <label className="fw-bold ks-size-medium">{data?.regi_by?.full_name}</label>
                                 </div>
                                 <div>
-                                    <label className="ks-size-small">@markcolbert . DEV</label>
+                                    <label
+                                        className="ks-size-small">@{data?.regi_by?.username} . {data?.regi_by?.role} </label>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div className="">
-                        <svg width="1" height="240" viewBox="0 0 1 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="1" height="240" viewBox="0 0 1 240" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
                             <line x1="0.5" y1="-2.18557e-08" x2="0.50001" y2="240" stroke="#E5E7EB"/>
                         </svg>
                     </div>
@@ -76,23 +85,26 @@ const ProjectItem = ({ handleClose }: Props) => {
                                 <circle cx="16" cy="16" r="16" fill="#E5E7EB"/>
                                 <path
                                     d="M18.0007 9.33203H14.0007C13.6325 9.33203 13.334 9.63051 13.334 9.9987V11.332C13.334 11.7002 13.6325 11.9987 14.0007 11.9987H18.0007C18.3688 11.9987 18.6673 11.7002 18.6673 11.332V9.9987C18.6673 9.63051 18.3688 9.33203 18.0007 9.33203Z"
-                                    stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    stroke="#0F172A" strokeWidth="1.5" strokeLinecap="round"
+                                    strokeLinejoin="round"/>
                                 <path
                                     d="M18.666 10.668H19.9993C20.353 10.668 20.6921 10.8084 20.9422 11.0585C21.1922 11.3085 21.3327 11.6477 21.3327 12.0013V21.3346C21.3327 21.6883 21.1922 22.0274 20.9422 22.2774C20.6921 22.5275 20.353 22.668 19.9993 22.668H11.9993C11.6457 22.668 11.3066 22.5275 11.0565 22.2774C10.8065 22.0274 10.666 21.6883 10.666 21.3346V12.0013C10.666 11.6477 10.8065 11.3085 11.0565 11.0585C11.3066 10.8084 11.6457 10.668 11.9993 10.668H13.3327"
-                                    stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M14 15.9987V15.332H18V15.9987" stroke="#0F172A" stroke-width="1.2"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M15.334 19.332H16.6673" stroke="#0F172A" stroke-width="1.5"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M16 15.332V19.332" stroke="#0F172A" stroke-width="1.2" stroke-linecap="round"
-                                      stroke-linejoin="round"/>
+                                    stroke="#0F172A" strokeWidth="1.5" strokeLinecap="round"
+                                    strokeLinejoin="round"/>
+                                <path d="M14 15.9987V15.332H18V15.9987" stroke="#0F172A" strokeWidth="1.2"
+                                      strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M15.334 19.332H16.6673" stroke="#0F172A" strokeWidth="1.5"
+                                      strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M16 15.332V19.332" stroke="#0F172A" strokeWidth="1.2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"/>
                             </svg>
                             <div className="ks_flex_row ks_ml_10 ks_jt_cont_betw">
                                 <div>
                                     <label className="ks-size-small ks-silver">Name</label>
                                 </div>
                                 <div>
-                                    <label className="fw-bold ks-size-medium">WeBill KH</label>
+                                    <label className="fw-bold ks-size-medium">{data?.project_name}</label>
                                 </div>
                             </div>
                         </div>
@@ -102,25 +114,29 @@ const ProjectItem = ({ handleClose }: Props) => {
                                 <circle cx="16" cy="16" r="16" fill="#E5E7EB"/>
                                 <path
                                     d="M22 13.0013V12.0013C22 11.6477 21.8595 11.3085 21.6095 11.0585C21.3594 10.8084 21.0203 10.668 20.6667 10.668H11.3333C10.9797 10.668 10.6406 10.8084 10.3905 11.0585C10.1405 11.3085 10 11.6477 10 12.0013V21.3346C10 21.6883 10.1405 22.0274 10.3905 22.2774C10.6406 22.5275 10.9797 22.668 11.3333 22.668H13.6667"
-                                    stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M18.666 9.33203V11.9987" stroke="#0F172A" stroke-width="1.5"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M13.334 9.33203V11.9987" stroke="#0F172A" stroke-width="1.5"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10 14.668H13.3333" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                                <path d="M19.666 19.6654L18.666 18.832V17.332" stroke="#0F172A" stroke-width="1.5"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                    stroke="#0F172A" strokeWidth="1.5" strokeLinecap="round"
+                                    strokeLinejoin="round"/>
+                                <path d="M18.666 9.33203V11.9987" stroke="#0F172A" strokeWidth="1.5"
+                                      strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M13.334 9.33203V11.9987" stroke="#0F172A" strokeWidth="1.5"
+                                      strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M10 14.668H13.3333" stroke="#0F172A" strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"/>
+                                <path d="M19.666 19.6654L18.666 18.832V17.332" stroke="#0F172A" strokeWidth="1.5"
+                                      strokeLinecap="round" strokeLinejoin="round"/>
                                 <path
                                     d="M22.666 18.668C22.666 19.7288 22.2446 20.7463 21.4944 21.4964C20.7443 22.2465 19.7269 22.668 18.666 22.668C17.6051 22.668 16.5877 22.2465 15.8376 21.4964C15.0874 20.7463 14.666 19.7288 14.666 18.668C14.666 17.6071 15.0874 16.5897 15.8376 15.8395C16.5877 15.0894 17.6051 14.668 18.666 14.668C19.7269 14.668 20.7443 15.0894 21.4944 15.8395C22.2446 16.5897 22.666 17.6071 22.666 18.668Z"
-                                    stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    stroke="#0F172A" strokeWidth="1.5" strokeLinecap="round"
+                                    strokeLinejoin="round"/>
                             </svg>
                             <div className="ks_flex_row ks_ml_10 ks_jt_cont_betw">
                                 <div>
                                     <label className="ks-size-small ks-silver">Register Date Time</label>
                                 </div>
                                 <div>
-                                    <label className="fw-bold ks-size-medium">2024 Apr 24 @ 10:39 AM</label>
+                                    <label
+                                        className="fw-bold ks-size-medium">{data?.regi_dtm}</label>
                                 </div>
                             </div>
                         </div>
@@ -130,32 +146,37 @@ const ProjectItem = ({ handleClose }: Props) => {
                                 <circle cx="16" cy="16" r="16" fill="#E5E7EB"/>
                                 <path
                                     d="M22 17.3346V12.0013C22 11.6477 21.8595 11.3085 21.6095 11.0585C21.3594 10.8084 21.0203 10.668 20.6667 10.668H11.3333C10.9797 10.668 10.6406 10.8084 10.3905 11.0585C10.1405 11.3085 10 11.6477 10 12.0013V21.3346C10 21.6883 10.1405 22.0274 10.3905 22.2774C10.6406 22.5275 10.9797 22.668 11.3333 22.668H16.6667"
-                                    stroke="#0F172A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M18.666 9.33203V11.9987" stroke="#0F172A" stroke-width="1.5"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M13.334 9.33203V11.9987" stroke="#0F172A" stroke-width="1.5"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10 14.668H22" stroke="#0F172A" stroke-width="1.5" stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                                <path d="M18.666 21.3333L19.9993 22.6667L22.666 20" stroke="#0F172A" stroke-width="1.5"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                    stroke="#0F172A" strokeWidth="1.5" strokeLinecap="round"
+                                    strokeLinejoin="round"/>
+                                <path d="M18.666 9.33203V11.9987" stroke="#0F172A" strokeWidth="1.5"
+                                      strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M13.334 9.33203V11.9987" stroke="#0F172A" strokeWidth="1.5"
+                                      strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M10 14.668H22" stroke="#0F172A" strokeWidth="1.5" strokeLinecap="round"
+                                      strokeLinejoin="round"/>
+                                <path d="M18.666 21.3333L19.9993 22.6667L22.666 20" stroke="#0F172A"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                             <div className="ks_flex_row ks_ml_10 ks_jt_cont_betw">
                                 <div>
                                     <label className="ks-size-small ks-silver">Change Date Time</label>
                                 </div>
                                 <div>
-                                    <label className="fw-bold ks-size-medium">2024 Apr 24 @ 10:39 AM</label>
+                                    <label
+                                        className="fw-bold ks-size-medium">{data?.chng_dtm}</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
                 {
-                    isOpen && <UpdateProjects handleClose={() => setIsOpen(false)}/>
+                    isOpenItem && <ProjectItem handleClose={() => setIsOpen(false)}/>
                 }
             </Modal>
-        </>
+        </React.Fragment>
     );
 };
 

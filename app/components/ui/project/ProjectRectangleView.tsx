@@ -1,41 +1,82 @@
 import React, {useReducer, useState} from 'react';
 import Calender from "@/app/components/icons/Calender";
-import MoreVertical from "@/app/components/icons/MoreVertical";
-import Star from "@/app/components/icons/Star";
-import SavedStar from "@/app/components/icons/SavedStar";
 import useFetchProject from "@/app/lib/hooks/use-fetch-project";
-import {useProjectItemStore} from "@/app/lib/store";
+import {useProjectStore} from "@/app/lib/store";
 import ProjectItem from "@/app/components/ui/project/ProjectItem";
+import {DateUtilsCopy} from "@/utils/DateUtilsCopy";
+import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/dropdown";
+import SettingIcon from "@/app/components/icons/SettingIcon";
+import LogoutIcon from "@/app/components/icons/LogoutIcon";
+import {projectService} from "@/service/project.service";
+import toast from "react-hot-toast";
+import {useQueryClient} from "@tanstack/react-query";
+import ProjectForm from "@/app/components/ui/project/ProjectForm";
 
 const ProjectRectangleView = () => {
-    const { isOpenItem, setIsOpenItem } = useProjectItemStore();
+    const {isOpen, setIsOpen, setUpdateData, setData} = useProjectStore(state => state);
+    const projectStore = useProjectStore(state => state);
+    const [id, setId] = useState(0);
+    // const [open , setOpen] = useState(false);
 
     const [params, dispatch] = useReducer(
         (state: any, action: any) => {
-            return { ...state, ...action };
+            return {...state, ...action};
         },
         {
             page_number: 0,
             page_size: 10,
-            sort_columns:'',
+            sort_columns: '',
             search_value: '',
         }
     );
     const {data, pagination} = useFetchProject(params);
     const [isStar, setIsStar] = useState(true);
+    const queryClient = useQueryClient();
 
-    console.log("data", data)
+    const handleRemoveProject = async () => {
+        const askMessage = window.confirm('Are you sure you want to delete this project?'), isConfirm = askMessage;
+        if (isConfirm) {
+            try {
+                const response = await projectService.deleteProject(id);
 
+                if (response.status === 200) {
+                    toast.success('Project deleted successfully')
+
+                    // Call queryClient.invalidateQueries( {queryKey: [`projects`]}); to invalidate the projects query
+                    queryClient.invalidateQueries({queryKey: [`projects`]})
+
+                } else {
+                    toast.error('Error deleting project:', response);
+                }
+            } catch (error) {
+                console.error('Error deleting project:', error);
+            }
+        }
+
+    };
     return (
         <>
             <div className="ks_pd_30">
-                <div className="row gap-3">
+                <div className="row gap-3" onClick={() => {
+                    console.log("TEsing")
+                    // console.log(item.project_id)
+                }}>
                     {
                         data?.map((item, index) => (
                             <div key={index} className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20 ks_hvr_pro"
-                                onClick={() => setIsOpenItem(true)}
-                            >
-                                <div className="ks_d_flex">
+                                 onClick={() => {
+                                     projectStore.setData(item);
+                                     // projectStore.setIsOpen((prev: any) => projectStore.setIsOpen(!prev));
+                                     // setUpdateData(item)
+                                     // projectStore.setIsOpen(true)
+                                     setIsOpen(true)
+                                 }}>
+                                <div className="ks_d_flex" onClick={() => {
+
+                                    // setId(item.project_id)
+                                }
+
+                                }>
                                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="20" cy="20" r="20" fill="#F1F5F9"/>
@@ -44,24 +85,83 @@ const ProjectRectangleView = () => {
                                             fill="black"/>
                                     </svg>
                                     <div className="ks_ml_15 ks_d_flex ks_flex_col ks_jt_cont_betw">
-                                        <label className="fw-bold ks-size-big">{item.name}</label>
+                                        <label className="fw-bold ks-size-big">{item.project_name}</label>
                                         <div className="ks_d_flex">
                                             <Calender/>
-                                            <label className="ks-silver ks_ml_5 ">25 April 2024 @ 11:39 AM</label>
+                                            <label
+                                                className="ks-silver ks_ml_5 ">{DateUtilsCopy.dateDDMMYYYY(item.regi_dtm)}</label>
                                         </div>
 
                                     </div>
                                 </div>
 
                                 <div className="ks_d_flex ks_flex_col ks_jt_cont_betw">
-                                    <MoreVertical/>
-                                    <div onClick={() => setIsStar(!isStar)}>
-                                        {
-                                            isStar ? <Star/> : <SavedStar/>
-                                        }
-                                    </div>
+                                    {/*<MoreVertical/>*/}
+                                    {/*<DropdownProject show={isOpenItem} id={0}/>*/}
+                                    {/*<div onClick={() => setIsStar(!isStar)}>*/}
+                                    {/*    {*/}
+                                    {/*        isStar ? <Star/> : <SavedStar/>*/}
+                                    {/*    }*/}
+                                    {/*</div>*/}
+
+                                    <Dropdown className={''}>
+                                        <DropdownTrigger>
+                                            <button type={"button"} className={'unstyled-button'}
+                                                    onClick={() => setId(item.project_id)}>
+                                                <svg
+                                                    className="ks_wth20 ks_hgt20"
+                                                    width="20"
+                                                    height="20"
+                                                    viewBox="0 0 20 20"
+                                                >
+                                                    <path
+                                                        d="M10 3C10.8284 3 11.5 3.67157 11.5 4.5C11.5 5.32843 10.8284 6 10 6C9.17157 6 8.5 5.32843 8.5 4.5C8.5 3.67157 9.17157 3 10 3Z"
+                                                        fill="#333333"
+                                                    />
+                                                    <path
+                                                        d="M10 8.5C10.8284 8.5 11.5 9.17157 11.5 10C11.5 10.8284 10.8284 11.5 10 11.5C9.17157 11.5 8.5 10.8284 8.5 10C8.5 9.17157 9.17157 8.5 10 8.5Z"
+                                                        fill="#333333"
+                                                    />
+                                                    <path
+                                                        d="M11.5 15.5C11.5 14.6716 10.8284 14 10 14C9.17157 14 8.5 14.6716 8.5 15.5C8.5 16.3284 9.17157 17 10 17C10.8284 17 11.5 16.3284 11.5 15.5Z"
+                                                        fill="#333333"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </DropdownTrigger>
+                                        <DropdownMenu className="ks_wth_280 bg-white rounded "
+                                                      aria-label="Static Actions"
+                                        >
+                                            {/* My Account*/}
+                                            <DropdownItem key="edit"
+                                                          className={'dropdown-item border rounded'}>
+                                                <label className={'text- m-2'}>Edit</label>
+                                                {
+                                                    projectStore.isOpen &&
+                                                    <ProjectForm isSuccess={true} isOpen={projectStore.isOpen} onSubmit={() => data}
+                                                                 handleClose={() => {
+                                                                     projectStore.setIsOpen(false)
+                                                                 }}/>
+                                                }
+                                            </DropdownItem>
+
+                                            {/* Setting Icon */}
+                                            <DropdownItem
+                                                key="hide"
+                                                className={'dropdown-item border rounded'}
+                                            >
+                                                <SettingIcon/>
+                                                <label className="ks_lbl ks_fw_md m-2">Hide</label>
+                                            </DropdownItem>
 
 
+                                            <DropdownItem onClick={handleRemoveProject}
+                                                          className={'dropdown-item border rounded'}>
+                                                <LogoutIcon/>
+                                                <label className="ks_lbl ks_fw_md m-2">Remove</label>
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
                                 </div>
 
                             </div>
@@ -71,8 +171,9 @@ const ProjectRectangleView = () => {
             </div>
 
             {
-                isOpenItem && <ProjectItem handleClose={() => setIsOpenItem(false)} />
+                isOpen && <ProjectItem handleClose={() => setIsOpen(false)}/>
             }
+
         </>
     );
 };

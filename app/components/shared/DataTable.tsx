@@ -31,39 +31,38 @@ const DataTable = <TData, TValue>({
                     {headerGroup.headers.map((header, index) => (
                         // headerGroup.headers.length - 1 === index ?
                         //     (
-                                <th
-                                    className={cn("ks_table_header")}
-                                    key={header.id}
-                                    colSpan={header.colSpan}
-                                    style={{ textAlign: (header.column.columnDef.meta as any)?.align,}}
-                                >
-                                    {
-                                        header.isPlaceholder
-                                            ? null
-                                            : <div {...{
+                        <th
+                            className={cn("ks_table_header")}
+                            key={header.id}
+                            colSpan={header.colSpan}
+                            style={{textAlign: (header.column.columnDef.meta as any)?.align,}}
+                        >
+                            {
+                                header.isPlaceholder
+                                    ? null
+                                    : <div {...{
 
-                                                className: cn('', {
-                                                    'ks-wt-tbl-hd-container prevent-select': header.column.getCanSort(),
-                                                }),
-                                                // onClick: header.column.getToggleSortingHandler()
-                                                onClick: (e) => {
-                                                    if (header.column.getCanSort()) {
-                                                        header.column.toggleSorting(
-                                                            header.column.getIsSorted() === "asc",
-                                                            e.shiftKey
-                                                        )
-                                                    }
-                                                }
-                                            }}>
-                                                {
-                                                    flexRender(
-                                                        header.column.columnDef.header,
-                                                        header.getContext()
-                                                    )
-                                                }
-                                            </div>
-                                    }
-                                </th>
+                                        className: cn('', {
+                                            'ks-wt-tbl-hd-container prevent-select': header.column.getCanSort(),
+                                        }),
+                                        onClick: (e) => {
+                                            if (header.column.getCanSort()) {
+                                                header.column.toggleSorting(
+                                                    header.column.getIsSorted() === "asc",
+                                                    e.shiftKey
+                                                )
+                                            }
+                                        }
+                                    }}>
+                                        {
+                                            flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )
+                                        }
+                                    </div>
+                            }
+                        </th>
                     ))}</tr>
             ))}
             </thead>
