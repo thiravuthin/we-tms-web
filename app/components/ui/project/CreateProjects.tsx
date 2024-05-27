@@ -1,13 +1,11 @@
 "use client"
 
 import React, {useState} from 'react';
-import {Modal} from "react-bootstrap";
-import {useCreateProjectStore, useProjectItemStore} from "@/app/lib/store";
+import {useProjectStore} from "@/app/lib/store";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {projectService} from "@/service/project.service";
 import {ProjectRequest} from "@/app/lib/types/project";
 import toast from "react-hot-toast";
-import {useForm} from "react-hook-form";
 import ProjectForm from "@/app/components/ui/project/ProjectForm";
 
 type Props = {
@@ -16,11 +14,12 @@ type Props = {
 };
 
 function CreateProjects({handleClose}: Props) {
-    const {isUpdate, updateData, isOpen, setIsOpen} = useCreateProjectStore();
-    // const {isOpen , setIsOpen} = useCreateProjectStore();
+    const {isUpdate, updateData, isOpen, setIsOpen} = useProjectStore();
+
     const [projectName, setProjectName] = useState('');
+
     const [reset, setReset] = useState(false);
-    const projectStore = useProjectItemStore();
+    const projectStore = useProjectStore();
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
@@ -45,14 +44,6 @@ function CreateProjects({handleClose}: Props) {
         }
     })
 
-    // const handelSubmit= (e:any)=>{
-    //     e.preventDefault()
-    //     console.log('Project Name:', projectName);
-    //     // Call mutation.mutate({ project_name: projectName }) to create or update the project
-    //     mutation.mutate({ name: projectName });
-    //     setProjectName(''); // Reset the form field
-    // }
-
     const onSubmit = (data: ProjectRequest)=>{
         const reqBody: ProjectRequest = {
             name: data.name
@@ -62,11 +53,11 @@ function CreateProjects({handleClose}: Props) {
                 toast.success('Success');
                 queryClient.invalidateQueries({queryKey:["projects"]})
 
-                if(projectStore.isOpenItem){
-                    projectStore.setIsOpenItem(false)
+                if(projectStore.isOpen){
+                    projectStore.setIsOpen(false)
                     setReset(true)
                 }else {
-                    projectStore.setIsOpenItem(false)
+                    projectStore.setIsOpen(false)
                 }
                 !isUpdate ? toast.success("Project has been saved") : toast.success("Project has been updated")
             },
@@ -78,11 +69,13 @@ function CreateProjects({handleClose}: Props) {
         })
     }
 
-    // const {register} = useForm();
     return (
         <>
             {
-                <ProjectForm isSuccess={mutation.isSuccess} isOpen={isOpen} handelSubmit={onSubmit} handleClose={handleClose} />
+                <ProjectForm  isSuccess={mutation.isSuccess}
+                              isOpen={isOpen}
+                              onSubmit={onSubmit}
+                              handleClose={handleClose} />
             }
         </>
     );

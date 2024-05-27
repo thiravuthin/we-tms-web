@@ -18,17 +18,11 @@ function DropdownProfile({show,}: { show?: boolean }) {
     const [showSetting, setShowSetting] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
 
-    const handleLogout = () => {
-        if (confirm("Do you really want to Logout?")) {
-            signOut();
-        }
-    }
-
     const handleCancel = () => {
         setShowConfirm(false);
     }
 
-    const handleConfirm = () =>{
+    const handleConfirm = () => {
         setShowConfirm(true);
     }
     return (
@@ -69,13 +63,15 @@ function DropdownProfile({show,}: { show?: boolean }) {
                 </DropdownMenu>
             </Dropdown>
 
+            {/* Setting Container */}
             {showSetting && <SettingContainerModal
                     accountData={profileQuery.data}
                     show={showSetting}
                     handleClose={() => setShowSetting(false)}/>
             }
-            {showConfirm &&
-                <PopupConfirm
+
+            {/* Logout Popup */}
+            {showConfirm && <PopupConfirm
                     show={showConfirm}
                     title="Confirm"
                     message="Do you really want to log out from the system?"

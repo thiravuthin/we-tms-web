@@ -1,13 +1,9 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import Calender from "@/app/components/icons/Calender";
-import Star from "@/app/components/icons/Star";
-import SavedStar from "@/app/components/icons/SavedStar";
 import useFetchProject from "@/app/lib/hooks/use-fetch-project";
-import {useProjectItemStore, useUpdateProjectStore} from "@/app/lib/store";
+import {useProjectStore} from "@/app/lib/store";
 import ProjectItem from "@/app/components/ui/project/ProjectItem";
 import {DateUtilsCopy} from "@/utils/DateUtilsCopy";
-import DropdownProject from "@/app/components/ui/project/DropdownProject";
-import UpdateProjects from "@/app/components/ui/project/UpdateProjects";
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/dropdown";
 import SettingIcon from "@/app/components/icons/SettingIcon";
 import LogoutIcon from "@/app/components/icons/LogoutIcon";
@@ -15,15 +11,13 @@ import {projectService} from "@/service/project.service";
 import toast from "react-hot-toast";
 import {useQueryClient} from "@tanstack/react-query";
 import ProjectForm from "@/app/components/ui/project/ProjectForm";
-import {useInView} from "react-intersection-observer";
-import useFetchProjects from "@/app/lib/hooks/use-fetch-project";
 
 const ProjectRectangleView = () => {
-    const {isOpenItem, setIsOpenItem, setUpdateDataItem, setData} = useProjectItemStore();
-    const {isOpen, setIsOpen} = useUpdateProjectStore();
+    const {isOpen, setIsOpen, setUpdateData, setData} = useProjectStore(state => state);
+    const projectStore = useProjectStore(state => state);
     const [id, setId] = useState(0);
+    // const [open , setOpen] = useState(false);
 
-    const { ref, inView, entry } = useInView();
     const [params, dispatch] = useReducer(
         (state: any, action: any) => {
             return {...state, ...action};
@@ -35,29 +29,13 @@ const ProjectRectangleView = () => {
             search_value: '',
         }
     );
-    const {
-        data,
-        fetchNextPage,
-        hasNextPage,
-        isFetchingNextPage,
-        isError,
-        error
-    } = useFetchProjects(params);
-    // const {data, pagination} = useFetchProject(params);
-
-    useEffect(() => {
-        if (inView && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [inView, hasNextPage]);
-
-    const projects = data?.pages.flatMap(page => page.data) ?? [];
+    const {data, pagination} = useFetchProject(params);
     const [isStar, setIsStar] = useState(true);
     const queryClient = useQueryClient();
 
     const handleRemoveProject = async () => {
         const askMessage = window.confirm('Are you sure you want to delete this project?'), isConfirm = askMessage;
-        if (isConfirm){
+        if (isConfirm) {
             try {
                 const response = await projectService.deleteProject(id);
 
@@ -76,9 +54,6 @@ const ProjectRectangleView = () => {
         }
 
     };
-
-    console.log("Data: ", data)
-
     return (
         <>
             <div className="ks_pd_30">
@@ -87,16 +62,18 @@ const ProjectRectangleView = () => {
                     // console.log(item.project_id)
                 }}>
                     {
-                        projects?.map((item, index) => (
+                        data?.map((item, index) => (
                             <div key={index} className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20 ks_hvr_pro"
-                                 ref={ref}
                                  onClick={() => {
-                                     setData(item);
-                                     setUpdateDataItem(item)
+                                     projectStore.setData(item);
+                                     // projectStore.setIsOpen((prev: any) => projectStore.setIsOpen(!prev));
+                                     // setUpdateData(item)
+                                     // projectStore.setIsOpen(true)
+                                     setIsOpen(true)
                                  }}>
                                 <div className="ks_d_flex" onClick={() => {
-                                    setIsOpenItem(true)
-                                    setId(item.project_id)
+
+                                    // setId(item.project_id)
                                 }
 
                                 }>
@@ -157,12 +134,14 @@ const ProjectRectangleView = () => {
                                         >
                                             {/* My Account*/}
                                             <DropdownItem key="edit"
-                                                className={'dropdown-item border rounded'}>
+                                                          className={'dropdown-item border rounded'}>
                                                 <label className={'text- m-2'}>Edit</label>
                                                 {
-                                                    isOpen && <ProjectForm isSuccess={true} isOpen={isOpen} handelSubmit={() => data} handleClose={() => {
-                                                        setIsOpen(false)
-                                                    }}/>
+                                                    projectStore.isOpen &&
+                                                    <ProjectForm isSuccess={true} isOpen={projectStore.isOpen} onSubmit={() => data}
+                                                                 handleClose={() => {
+                                                                     projectStore.setIsOpen(false)
+                                                                 }}/>
                                                 }
                                             </DropdownItem>
 
@@ -176,7 +155,8 @@ const ProjectRectangleView = () => {
                                             </DropdownItem>
 
 
-                                            <DropdownItem  onClick={handleRemoveProject} className={'dropdown-item border rounded'}>
+                                            <DropdownItem onClick={handleRemoveProject}
+                                                          className={'dropdown-item border rounded'}>
                                                 <LogoutIcon/>
                                                 <label className="ks_lbl ks_fw_md m-2">Remove</label>
                                             </DropdownItem>
@@ -191,19 +171,9 @@ const ProjectRectangleView = () => {
             </div>
 
             {
-                isOpenItem && <ProjectItem handleClose={() => setIsOpenItem(false)}/>
+                isOpen && <ProjectItem handleClose={() => setIsOpen(false)}/>
             }
 
-            {/*{*/}
-            {/*    // isOpen && <UpdateProjects handleClose={() => setIsOpen(false)}/>*/}
-            {/*  isOpen &&  <ProjectItem handleClose={()=>setIsOpenItem(false)}/>*/}
-            {/*}*/}
-
-            {
-                isOpen && <ProjectForm isSuccess={true} isOpen={isOpen} handelSubmit={() => data} handleClose={() => {
-                    setIsOpen(false)
-                }}/>
-            }
         </>
     );
 };
