@@ -17,7 +17,7 @@ const PasswordComponent = () => {
     const [showCurrentPassword, setShowCurrentPassword] = useState(false)
     const [showNewPassword, setShowNewPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
+    const [isEditAccount, setIsEditAccount] = useState(false)
     type requestType = Yup.InferType<typeof changePasswordSchema>
     const {
         setFocus, watch, trigger, getValues, setValue, setError, getFieldState, control, register, handleSubmit,
@@ -40,7 +40,6 @@ const PasswordComponent = () => {
         onSuccess: () => {
             toast.success('Change password successfully');
             queryClient.invalidateQueries({queryKey: ['profile']})
-            // setIsEditAccount(!isEditAccount)
         },
         onError: (error: any) => {
             toast.error(error?.message || 'Change password failed');
@@ -52,11 +51,13 @@ const PasswordComponent = () => {
             curr_usr_pwd: PasswordUtils.encrypt(data.current_password),
             new_usr_pwd: PasswordUtils.encrypt(data.new_password),
         }
-        console.log("requestBody:: ", requestBody)
 
         changePasswordMutation.mutate(requestBody);
     }
 
+    const handleEditClick = () => {
+        setIsEditAccount(true)
+    }
 
     return (
         <div className={'p-4'}>
@@ -65,13 +66,34 @@ const PasswordComponent = () => {
                 <div><h5>Credentials Information</h5></div>
 
                 <div className="ks-wt-modal-toolbar-action-container">
-                    <form className=""
+                    <form className="ks-wt-modal-toolbar-action-container"
                           onSubmit={handleSubmit(onSubmit)}>
-                        <button
-                            className="btn btn-primary"
-                            type='submit'>
-                            Edit
-                        </button>
+                        {!isEditAccount?
+                            (
+                                <button onClick={handleEditClick}
+                                        className="btn btn-primary"
+                                        type='submit'>
+                                    Edit
+                                </button>
+
+                            ):
+                            (
+                                <>
+                                    <button
+                                        className="btn btn-primary"
+                                        type='button'
+                                        onClick={() => setIsEditAccount(false)}>
+                                        <label>Cancel</label>
+                                    </button>
+                                    <button
+                                        className="btn btn-primary"
+                                        type='submit'>
+                                        {changePasswordMutation.isPending ? "Updating..." : 'Update'}
+                                    </button>
+                                </>
+                            )
+                        }
+
                     </form>
                 </div>
             </div>
@@ -102,7 +124,7 @@ const PasswordComponent = () => {
                                         placeholder="●●●●●●●●●●●"
                                         maxLength={50}
                                         {...register("current_password")}
-                                        // disabled={!isEditAccount}
+                                        disabled={!isEditAccount}
                                     />
                                     <div className="ks-wt-form-input-svg-container">
                                         {
@@ -141,7 +163,7 @@ const PasswordComponent = () => {
                                             register('new_password').onChange(e)
                                             trigger('new_password')
                                         }}
-                                        // disabled={!isEditAccount}
+                                        disabled={!isEditAccount}
                                     />
                                     <div className="ks-wt-form-input-svg-container">
                                         {
@@ -183,7 +205,7 @@ const PasswordComponent = () => {
                                             register('confirm_password').onChange(e)
                                             trigger('confirm_password')
                                         }}
-                                        // disabled={!isEditAccount}
+                                        disabled={!isEditAccount}
                                     />
                                     <div className="ks-wt-form-input-svg-container">
                                         {

@@ -62,9 +62,7 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
         if (fileImage != null) {
             try {
                 const fileResponse = await profileService.uploadImage(fileImage);
-                console.log("fileResponse:: ",fileResponse)
                 profileImage = fileResponse?.data?.data?.image_url;
-                console.log("profileImage:: ", profileImage)
             } catch (error) {
                 toast.error("Fail to upload profile image");
                 return;
@@ -86,9 +84,11 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
         setFileImage(file);
         setPreviewImage(URL.createObjectURL(e.target.files!![0]));
     };
-    const handleDeleteImage = () => {
+    const handleDeleteImage = (event: React.MouseEvent) => {
+        event.stopPropagation()
         setPreviewImage(null);
         setFileImage(null);
+
     };
 
     return (
@@ -152,7 +152,7 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                                 height={100}
                                                 width={100}
                                                 style={{borderRadius: '0.4rem'}}
-                                                onChange={handleUploadImageChange}
+                                                onClick={handleClickUploadImage}
                                             />
                                         ) : (
                                             <>
@@ -182,14 +182,23 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                             }
 
                             {isEditAccount && previewImage ? (
-                                    <img
-                                        src={previewImage}
-                                        alt="Profile Preview"
-                                        height={100}
-                                        width={100}
-                                        style={{borderRadius: '0.4rem'}}
-                                        onChange={handleUploadImageChange}
-                                    />
+                                    <>
+                                        <img
+                                            src={previewImage}
+                                            alt="Profile Preview"
+                                            height={100}
+                                            width={100}
+                                            style={{borderRadius: '0.4rem'}}
+                                            onChange={handleUploadImageChange}
+                                        />
+                                        <input
+                                            type="file"
+                                            ref={hiddenFileInput}
+                                            accept=".png, .jpg, .jpeg"
+                                            hidden
+                                            onChange={handleUploadImageChange}
+                                        />
+                                    </>
                                 )
                                 :
                                 (
@@ -200,13 +209,6 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                                 <EditIcon/>
                                             </div>
                                         }
-                                        <input
-                                            type="file"
-                                            ref={hiddenFileInput}
-                                            accept=".png, .jpg, .jpeg"
-                                            hidden
-                                            onChange={handleUploadImageChange}
-                                        />
                                     </>
                                 )
                             }
