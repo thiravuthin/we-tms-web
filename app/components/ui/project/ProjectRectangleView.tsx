@@ -91,7 +91,6 @@ const ProjectRectangleView = () => {
                                             <label
                                                 className="ks-silver ks_ml_5 ">{DateUtilsCopy.dateDDMMYYYY(item.regi_dtm)}</label>
                                         </div>
-
                                     </div>
                                 </div>
 
