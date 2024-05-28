@@ -1,5 +1,6 @@
 import {create} from "zustand"
 import {SettingNavEnum} from "@/utils/enums";
+import {User} from "@/app/lib/types/user";
 import {ProjectInfo} from "@/app/lib/types/project";
 export const useSettingStore = create<{
     isActive: string,
@@ -101,6 +102,26 @@ export const useProjectStore = create<{
     setIsOpen: (isOpen : boolean) => set((state): any => ({...state, isOpen})),
     setUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
     setUpdateData: (updateData: any) => set((state): any => ({...state, updateData })),
+}));
+
+export const useUserStore = create<{
+    data: User
+    openUpdate: () => void,
+    setData: (data: User | null) => void
+    updateData: any,
+    isUpdate: boolean,
+    setUpdate: (isUpdate: boolean) => void
+    setUpdateData: (updateData: any) => void
+    setIsUpdate: (isUpdate: boolean) => void
+}>(set => ({
+    data: {} as User,
+    updateData: {},
+    isUpdate: false,
+    setData: (data: User | null) => set((state): any => ({...state, data})),
+    openUpdate: () => set((state): any => ({...state, showUpdate: true})),
+    setUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
+    setIsUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
+    setUpdateData: (updateData: any) => set((state): any => ({...state, updateData})),
 }));
 
 // export const useUpdateProjectStore = create<{

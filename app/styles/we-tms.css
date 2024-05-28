@@ -3177,11 +3177,18 @@ input.ks-wt-text-hide {
   flex-direction: column !important;
   gap: var(--ks-wt-sz-15-rem) !important;
 }
-.ks-wt-modal-toolbar-action-container {
-  gap: var(--ks-wt-sz-10px) !important;
-  display: flex !important;
-  justify-content: flex-end !important;
-  align-items: center !important;
+.ks-wt-modal-toolbar-container {
+  padding: var(--ks-wt-sz-10px) var(--ks-wt-sz-20px) var(--ks-wt-sz-10px)
+  var(--ks-wt-sz-20px) !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
+  border-bottom: var(--ks-wt-sz-1px) solid #e0e0e0 !important;
+}
+.ks-wt-modal-toolbar-user-container {
+  padding: var(--ks-wt-sz-10px) var(--ks-wt-sz-20px) var(--ks-wt-sz-10px)
+  var(--ks-wt-sz-20px) !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
 }
 .ks-wt-modal-toolbar-action-container > svg {
   width: var(--ks-wt-sz-20px) !important;
