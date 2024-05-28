@@ -40,6 +40,7 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCance
         },
         onMutate: () => {
             toast.loading("Loading...");
+            toast.dismiss()
         },
         onError: (error) => {
             toast.error(error?.message || 'An error occurred');
@@ -49,9 +50,9 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCance
             reset(); // Reset the form after successful submission
             onAddLanguage({ name: data.name, abbreviations: data.lang_cd }); // updated property name
         },
-        onSettled: () => {
-            toast.dismiss();
-        }
+        // onSettled: () => {
+        //     toast.dismiss();
+        // }
 
     })
 

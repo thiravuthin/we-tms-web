@@ -1,19 +1,13 @@
 'use client'
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import DataTable from "@/app/components/shared/DataTable";
 import Pagination from "rc-pagination";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {defaultColumns} from "@/app/components/ui/settings/languages/columns_language";
 import AddLanguageForm from "@/app/components/ui/settings/languages/AddLanguageForm ";
-
-const dataMock = [
-    {
-        "name": "WeTax",
-        "abbreviations": "Korean", // corrected property name
-        "register_date": "07072024"
-    },
-    // ... other data
-]
+import useFetch_languages from "@/app/lib/hooks/useFetch_languages";
+import {useQuery} from "@tanstack/react-query";
+import {languagesService} from "@/service/language.service";
 
 interface Language {
     name: string;
@@ -23,9 +17,16 @@ interface Language {
 
 const LanguageList: React.FC = () => {
 
+    const data = useQuery({
+        queryKey: ["language"],
+        queryFn: languagesService.getLanguages
+    })
 
-    const [languages, setLanguages] = useState<Language[]>(dataMock);
-    console.log("languages::" , languages)
+    console.log("data :: ", data?.data)
+
+    const [languages, setLanguages] = useState<Language[]>(data?.data);
+
+    // console.log("languages::" , languages.map())
 
     const [isAddingLanguage, setIsAddingLanguage] = useState(false);
 
@@ -40,7 +41,7 @@ const LanguageList: React.FC = () => {
     const handleSaveLanguage = (newLanguage: Omit<Language, 'register_date'>) => {
         setIsAddingLanguage(false);
         console.log("newLanguage:: ", newLanguage.abbreviations)
-        setLanguages(prev => [...prev, { ...newLanguage, register_date: new Date().toISOString().split('T')[0] }]);
+        setLanguages(prev => [...prev, {...newLanguage, register_date: new Date().toISOString().split('T')[0]}]);
     };
 
     const table = useReactTable({
