@@ -23,7 +23,11 @@ export interface ProjectInfo{
         username: string;
         role: string;
     },
-    chng_by: string
+    chng_by: {
+        full_name: string;
+        username: string;
+        role: string;
+    }
 }
 export interface ProjectRequest{
     name: string;

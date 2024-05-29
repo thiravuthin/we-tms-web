@@ -1,30 +1,38 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {ProjectRequest} from "@/app/lib/types/project";
 import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createProjectSchema} from "@/app/validators/proejct.schema";
 import {useProjectStore} from "@/app/lib/store";
+import ErrorMessage from "@/app/components/shared/ErrorMessage";
 
 type Props = {
-    // isSuccess: boolean;
     isOpen: boolean;
     onSubmit: (data: ProjectRequest) => void;
     handleClose: () => void;
-    updateData?:{project_name: string};
+    updateData?: { project_name: string };
 }
 
 const ProjectForm: React.FC<Props> = ({onSubmit, handleClose, updateData}) => {
 
-    const {setIsOpen, id, setId, isUpdate, setIsUpdate,setUpdateData, isOpen,updateData: projectUpdate, setUpdate} = useProjectStore(state => state);
-    // const [checked, setChecked] = React.useState(false);
-
+    const {
+        setIsOpen,
+        id,
+        setId,
+        isUpdate,
+        setIsUpdate,
+        setUpdateData,
+        isOpen,
+        updateData: projectUpdate,
+        setUpdate
+    } = useProjectStore(state => state);
 
     const methods = useForm<any>({
         resolver: yupResolver(createProjectSchema),
-        defaultValues: {
+        values: {
             name: isUpdate ? projectUpdate?.project_name : '',
-            project_id: isUpdate ? projectUpdate?.project_id : undefined,
+            project_id: isUpdate ? id : undefined,
         }
     });
 
@@ -32,33 +40,25 @@ const ProjectForm: React.FC<Props> = ({onSubmit, handleClose, updateData}) => {
         register,
         handleSubmit,
         setValue,
-        formState: {errors}
+        formState: {errors, isValid}
     } = methods;
-    // const { register, handleSubmit, setValue, formState: { errors } } = useForm<ProjectRequest>({
-    //     resolver: yupResolver(createProjectSchema),
-    //     defaultValues: {
-    //         name: updateData?.project_name || ''
-    //     }
-    // });
 
-    // useEffect(() => {
-    //     if (isUpdate && updateData) {
-    //         setValue('name', updateData.project_name);
-    //     }
-    // }, [isUpdate, updateData, setValue]);
+
     const checkKeyDown = (e: any) => {
-        if (e.key === 'Enter') e.preventDefault();
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            // Add your logic here to submit the form or perform any other action
+            if (isValid) {
+                handleSubmit(onSubmit);
+            }
+        }
     };
-    // console.log("projectUpdate : ",projectUpdate)
-    // console.log("isUpdate : ",isUpdate)
+
     return (
         <React.Fragment>
             <Modal show={true} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
-                <form  onSubmit={handleSubmit(onSubmit)}
-                    // onSubmit={handleSubmit((data:ProjectRequest) =>{
-                    // onSubmit(data);
-                    // setIsOpen(false);})}
-                    onKeyDown={checkKeyDown}>
+                <form onSubmit={handleSubmit(onSubmit)}
+                      onKeyDown={checkKeyDown}>
                     <div className="ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm ks_pd_20 ks_pt_10 ks_pb_10">
                         <div>
                             <label className="fw-bold"> {isUpdate ? "Update Project" : "Create Project"}</label>
@@ -68,7 +68,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, handleClose, updateData}) => {
                                 type={"button"}
                                 onClick={() => {
                                     handleClose()
-                                    // setIsUpdate(false)
+                                    setIsUpdate(false)
                                 }}
                                 className="ks_btn ks_btn_tiary ks_mr_8">
                                 Cancel
@@ -99,10 +99,10 @@ const ProjectForm: React.FC<Props> = ({onSubmit, handleClose, updateData}) => {
                                 </svg>
                             </div>
                         </div>
+                        {errors?.name?.message && <ErrorMessage message={errors?.name?.message as string}/>}
+
                     </div>
                 </form>
-
-
             </Modal>
         </React.Fragment>
     );
