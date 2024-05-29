@@ -16,7 +16,6 @@ const ProjectSearch = () => {
         <form onSubmit={async (e) => {
             e.preventDefault();
             const params = new URLSearchParams(searchParams);
-            params.set('sid', searchParams.get('sid') ?? '');
             params.set('page_number', "0");
             params.set('search_value', String(searchValue));
 
@@ -55,7 +54,6 @@ const ProjectSearch = () => {
                  onClick={() => {
                      setSearchValue('');
                      const params = new URLSearchParams(searchParams);
-                     params.set('sid', searchParams.get('sid') ?? '');
                      params.set('page_number', "0");
                      params.delete('search_value');
                      router.push(`${pathname}?${params.toString()}`);

@@ -29,7 +29,8 @@ const ProjectRectangleView = () => {
             search_value: '',
         }
     );
-    const {data, pagination} = useFetchProject(params);
+    console.log("Params : ", params)
+    const {data, pagination} = useFetchProject();
     const [isStar, setIsStar] = useState(true);
     const queryClient = useQueryClient();
 
