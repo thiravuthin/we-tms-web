@@ -11,6 +11,13 @@ export enum SettingNavEnum {
     MyAccount = "My Account",
     User = 'Users',
     Language = 'Languages',
+    CreateUser = 'Create User',
+}
+
+export enum RoleType {
+    DEV = 'Developer',
+    ADMIN = 'System Admin',
+    PO = 'P.O',
 }
 
 export enum popUpConfirmType {
