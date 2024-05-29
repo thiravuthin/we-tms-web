@@ -109,9 +109,9 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                     <label>Edit</label>
                                 </button>
                             ) : (
-                                <>
+                                <div className={'width-btn-between d-flex justify-content-lg-between'}>
                                     <button
-                                        className="btn btn-primary"
+                                        className="btn border"
                                         type='button'
                                         onClick={() => setIsEditAccount(false)}
                                     >
@@ -124,7 +124,7 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                     >
                                         {updateProfileMutation.isPending ? "Updating..." : 'Update'}
                                     </button>
-                                </>
+                                </div>
                             )}
                     </div>
                 </div>

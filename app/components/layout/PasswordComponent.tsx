@@ -19,8 +19,18 @@ const PasswordComponent = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [isEditAccount, setIsEditAccount] = useState(false)
     type requestType = Yup.InferType<typeof changePasswordSchema>
+
     const {
-        setFocus, watch, trigger, getValues, setValue, setError, getFieldState, control, register, handleSubmit,
+        setFocus,
+        watch,
+        trigger,
+        getValues,
+        setValue,
+        setError,
+        getFieldState,
+        control,
+        register,
+        handleSubmit,
         formState: {errors, isValid, isDirty, isValidating}
     } = useForm<requestType>({
         resolver: yupResolver(changePasswordSchema),
@@ -51,7 +61,6 @@ const PasswordComponent = () => {
             curr_usr_pwd: PasswordUtils.encrypt(data.current_password),
             new_usr_pwd: PasswordUtils.encrypt(data.new_password),
         }
-
         changePasswordMutation.mutate(requestBody);
     }
 
@@ -78,9 +87,9 @@ const PasswordComponent = () => {
 
                             ):
                             (
-                                <>
+                                <div className={'width-btn-between d-flex justify-content-between'}>
                                     <button
-                                        className="btn btn-primary"
+                                        className="btn border"
                                         type='button'
                                         onClick={() => setIsEditAccount(false)}>
                                         <label>Cancel</label>
@@ -90,10 +99,9 @@ const PasswordComponent = () => {
                                         type='submit'>
                                         {changePasswordMutation.isPending ? "Updating..." : 'Update'}
                                     </button>
-                                </>
+                                </div>
                             )
                         }
-
                     </form>
                 </div>
             </div>
