@@ -1,20 +1,22 @@
-import Pagination from "@/app/components/shared/Pagination";
+import {Paginations} from "@/app/lib/types/common";
+
 export interface Users {
     users:  User[];
-    pagination: Pagination
+    pagination: Paginations;
 }
 
 export interface User {
-    id: number,
-    usr_nm: string,
-    usr_pwd: string,
-    full_nm: string,
-    role: string,
-    usr_prof_img: string,
-    status: string,
-    regi_dtm: string,
+    id: number;
+    usr_nm: string;
+    usr_pwd: string;
+    confirm_pwd: string;
+    full_nm: string;
+    role: string;
+    usr_prof_img: string;
+    status: string;
+    regi_dtm: string;
     numbering: string;
-    isUpdate: boolean;
+    isUpdate: boolean; // Add isUpdate here
 }
 
 export interface UserPaginationParams{

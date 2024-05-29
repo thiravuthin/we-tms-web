@@ -3,7 +3,6 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { DefaultColumns } from "@/app/components/ui/settings/users/DefaultColumns";
 import PlusIcon from "@/public/asset/icon/PlusIcon";
 import DataTable from "@/app/components/shared/DataTable";
-import Pagination from "@/app/components/shared/Pagination";
 import UserAction from "@/app/components/ui/settings/users/UserAction";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import DeleteDialog from "@/app/components/ui/settings/users/DeleteDialog";
@@ -37,9 +36,6 @@ const UserContainer = () => {
         data: data?.data?.users,
         columns: DefaultColumns,
         getCoreRowModel: getCoreRowModel(),
-        manualPagination: true,
-        enableMultiSort: true,
-        enableSortingRemoval: false,
     });
 
     const handleDeleteUserMutate = useMutation({

@@ -2,7 +2,6 @@
 import React, {useState} from 'react';
 import { RoleType } from "@/utils/enums";
 import CustomTooltip from "@/app/components/shared/CustomTooltip";
-import { createUserSchema } from "@/app/validators/user.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
@@ -13,6 +12,8 @@ import {PasswordUtils} from "@/utils/PasswordUtils";
 import UserContainer from "@/app/components/ui/settings/users/UserContainer";
 import {useUserStore} from "@/app/lib/store";
 import ErrorMessage from "@/app/components/shared/ErrorMessage";
+import {User} from "@/app/lib/types/user";
+import {createUserSchema} from "@/app/validators/user.schema";
 const AddNewUser = () => {
     const queryClient = useQueryClient();
     const { isUpdate, updateData, setIsUpdate, setUpdateData } = useUserStore(state => state);
@@ -21,6 +22,15 @@ const AddNewUser = () => {
     const [activeComponent, setActiveComponent] = useState<'userList' | 'addNewUser'>('addNewUser');
     const [isLoading, setIsLoading] = useState(false);
 
+    const defaultValues: Partial<User> = {
+        full_nm: updateData?.full_nm || '',
+        role: updateData?.role || '',
+        usr_nm: updateData?.usr_nm || '',
+        usr_pwd: '',
+        confirm_pwd: '',
+        isUpdate: isUpdate
+    };
+
     const {
         register,
         handleSubmit,
@@ -28,22 +38,17 @@ const AddNewUser = () => {
         formState: { errors },
     } = useForm<Yup.InferType<typeof createUserSchema>>({
         resolver: yupResolver(createUserSchema),
-        defaultValues: {
-            full_nm: updateData?.full_nm || '',
-            role: updateData?.role || '',
-            usr_nm: updateData?.usr_nm || '',
-            usr_pwd: '' ,
-            confirm_pwd: '',
-        }
+        defaultValues: defaultValues
     });
 
+
     async function onSubmit(data: Yup.InferType<typeof createUserSchema>) {
-        setIsLoading(true); // Set loading state to true during submission
+        setIsLoading(true);
         const requestBody = {
             usr_nm: data.usr_nm,
             full_nm: data.full_nm,
             role: data.role,
-            usr_pwd: PasswordUtils.encrypt(data.usr_pwd),
+            usr_pwd: data.usr_pwd ? PasswordUtils.encrypt(data.usr_pwd) : undefined,
         };
 
         try {
@@ -57,7 +62,7 @@ const AddNewUser = () => {
                 } else {
                     toast.error(response?.message);
                 }
-                setIsLoading(false); // Set loading state back to false after submission
+                setIsLoading(false);
                 return;
             }
 
@@ -70,10 +75,10 @@ const AddNewUser = () => {
             } else {
                 toast.error(response?.message);
             }
-            setIsLoading(false); // Set loading state back to false after submission
+            setIsLoading(false);
         } catch (error) {
             toast.error("Failed to create user");
-            setIsLoading(false); // Set loading state back to false after submission
+            setIsLoading(false);
         }
     }
 

@@ -22,7 +22,6 @@ function UserAction<TData>({ row, setSelectedUser, handleEditUserClick }: DataTa
     const showDelete = isNullOrWhiteSpace(data.numbering);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const { setIsUpdate, setUpdateData } = useUserStore(state => state);
-    const [activeComponent, setActiveComponent] = useState<'userList' | 'addNewUser'>('userList');
 
     const handleEditClick = () => {
         setIsUpdate(true);
@@ -61,12 +60,6 @@ function UserAction<TData>({ row, setSelectedUser, handleEditUserClick }: DataTa
                         <div className="ks-wt-line"></div>
                     </>
                 )}
-                {/*<div role="button" onClick={(e) => {*/}
-                {/*    e.stopPropagation();*/}
-                {/*    // setActiveComponent('addNewUser');*/}
-                {/*    setIsUpdate(true);*/}
-                {/*    setUpdateData(row.original);*/}
-                {/*}} className="ks-wt-tbl-data-act-itm">*/}
                 <div role="button" onClick={handleEditClick} className="ks-wt-tbl-data-act-itm">
                     <EditUserIcon/>
                 </div>
