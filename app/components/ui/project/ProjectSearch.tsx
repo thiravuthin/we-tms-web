@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import CustomTooltip from "@/app/components/shared/CustomTooltip";
+import {isNullOrWhiteSpace} from "typescript-string-operations";
 
 const ProjectSearch = () => {
     const router = useRouter();
@@ -19,9 +20,9 @@ const ProjectSearch = () => {
             params.set('page_number', "0");
             params.set('search_value', String(searchValue));
 
-            // if (isNullOrWhiteSpace(searchValue)) {
-            //     params.delete('search_value')
-            // }
+            if (isNullOrWhiteSpace(searchValue)) {
+                params.delete('search_value')
+            }
 
             router.push(`${pathname}?${params.toString()}`);
         }}

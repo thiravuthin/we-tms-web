@@ -13,7 +13,7 @@ import {useQueryClient} from "@tanstack/react-query";
 import ProjectForm from "@/app/components/ui/project/ProjectForm";
 
 const ProjectRectangleView = () => {
-    const {isOpen, setIsOpen, setUpdateData, setData} = useProjectStore(state => state);
+    const {isOpen, setIsOpen, setUpdateData,setIsUpdate, setData} = useProjectStore(state => state);
     const projectStore = useProjectStore(state => state);
     const [id, setId] = useState(0);
     // const [open , setOpen] = useState(false);
@@ -54,6 +54,23 @@ const ProjectRectangleView = () => {
         }
 
     };
+    const handleUpdateProject = async () => {
+        const askMessage = window.confirm('Are you sure you want to update this project?'), isConfirm = askMessage;
+        if (isConfirm) {
+            try {
+                const response = await projectService.updateProject(id, setUpdateData);
+
+                if (response.status === 200) {
+                    toast.success('Project updated successfully')
+                } else {
+                    toast.error('Error updating project:', response);
+                }
+            } catch (error) {
+                console.error('Error updating project:', error);
+            }
+        }
+    };
+
     return (
         <>
             <div className="ks_pd_30">
@@ -134,15 +151,18 @@ const ProjectRectangleView = () => {
                                         >
                                             {/* My Account*/}
                                             <DropdownItem key="edit"
-                                                          className={'dropdown-item border rounded'}>
+                                                          className={'dropdown-item border rounded'}
+                                                          // onClick={()=>setIsUpdate(true)}
+                                            >
+
                                                 <label className={'text- m-2'}>Edit</label>
                                                 {
-                                                    projectStore.isOpen &&
-                                                    <ProjectForm isSuccess={true} isOpen={projectStore.isOpen} onSubmit={() => data}
-                                                                 handleClose={() => {
-                                                                     projectStore.setIsOpen(false)
-                                                                 }}/>
-                                                }
+                                                // projectStore.isUpdate && <ProjectForm
+                                                //     isOpen={projectStore.isUpdate}
+                                                //     onSubmit= {handleUpdateProject}
+                                                //     handleClose= {() => setIsUpdate(false)}
+                                                // />
+                                                  }
                                             </DropdownItem>
 
                                             {/* Setting Icon */}

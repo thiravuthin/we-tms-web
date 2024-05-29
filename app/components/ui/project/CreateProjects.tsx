@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import {useProjectStore} from "@/app/lib/store";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {projectService} from "@/service/project.service";
-import {ProjectRequest} from "@/app/lib/types/project";
+import {ProjectInfo, ProjectRequest} from "@/app/lib/types/project";
 import toast from "react-hot-toast";
 import ProjectForm from "@/app/components/ui/project/ProjectForm";
 
@@ -14,18 +14,26 @@ type Props = {
 };
 
 function CreateProjects({handleClose}: Props) {
-    const {isUpdate, updateData, isOpen, setIsOpen} = useProjectStore();
+    const {isUpdate, id, setIsUpdate, setUpdateData,setData, setUpdate, updateData, isOpen, setIsOpen,data: project} = useProjectStore();
 
     const [projectName, setProjectName] = useState('');
 
     const [reset, setReset] = useState(false);
     const projectStore = useProjectStore();
     const queryClient = useQueryClient();
-
+    const handleUpdateProject = (project: ProjectInfo) => {
+        setUpdateData({
+            project_id: project.project_id,
+            project_name: project.project_name
+        });
+        setIsUpdate(true);
+        setIsOpen(true);
+    };
+    console.log("Project Is Update : ", project)
     const mutation = useMutation({
         mutationFn: (data: ProjectRequest) => {
             if (isUpdate) {
-                return projectService.updateProject(updateData?.project_id, data);
+                return projectService.updateProject(project.project_id , data);
             }
             return projectService.createProject(data)
         },
@@ -38,9 +46,9 @@ function CreateProjects({handleClose}: Props) {
         },
         onSuccess: () => {
             toast.dismiss()
-            toast.success('Success');
             queryClient.invalidateQueries( {queryKey: [`projects`]})
             setIsOpen(false)
+            toast.success( isUpdate ? 'Project has been updated' : 'Project has been saved');
         }
     })
 
@@ -49,33 +57,56 @@ function CreateProjects({handleClose}: Props) {
             name: data.name
         }
         mutation.mutate(reqBody, {
-            onSuccess: () => {
+            onSuccess: (updateData) => {
                 toast.success('Success');
                 queryClient.invalidateQueries({queryKey:["projects"]})
 
                 if(projectStore.isOpen){
                     projectStore.setIsOpen(false)
-                    setReset(true)
-                }else {
-                    projectStore.setIsOpen(false)
+                    // setReset(true)
                 }
-                !isUpdate ? toast.success("Project has been saved") : toast.success("Project has been updated")
+                console.log("updateData : ", updateData)
+                // else {
+                //     projectStore.setIsOpen(false)
+                // }
+                // !isUpdate ? toast.success("Project has been saved") : toast.success("Project has been updated")
             },
             onError: (error: any) => {
                 toast.error(error?.message || 'An error occurred');
             }
-
-
         })
     }
-
+    // const handleUpdateProject = async () => {
+    //     const askMessage = window.confirm('Are you sure you want to update this project?'), isConfirm = askMessage;
+    //     if (isConfirm) {
+    //         try {
+    //             const response = await projectService.updateProject(project.project_id, setUpdateData);
+    //
+    //             if (response.status === 200) {
+    //                 toast.success('Project updated successfully')
+    //             } else {
+    //                 toast.error('Error updating project:', response);
+    //             }
+    //         } catch (error) {
+    //             console.error('Error updating project:', error);
+    //         }
+    //     }
+    // };
     return (
         <>
             {
-                <ProjectForm  isSuccess={mutation.isSuccess}
+                <ProjectForm
                               isOpen={isOpen}
                               onSubmit={onSubmit}
-                              handleClose={handleClose} />
+                              handleClose={()=> {
+                                  handleClose();
+                                  // setIsUpdate(true);
+                                  setUpdateData({project_name: ''});
+                                  }
+                                        }
+                              updateData={updateData}
+
+                />
             }
         </>
     );

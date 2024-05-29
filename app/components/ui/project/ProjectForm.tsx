@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ProjectRequest} from "@/app/lib/types/project";
 import {Modal} from "react-bootstrap";
 import {useForm} from "react-hook-form";
@@ -7,22 +7,24 @@ import {createProjectSchema} from "@/app/validators/proejct.schema";
 import {useProjectStore} from "@/app/lib/store";
 
 type Props = {
-    isSuccess: boolean;
+    // isSuccess: boolean;
     isOpen: boolean;
-    onSubmit: (data: ProjectRequest) => void
-    // onSubmit: (data: ProjectRequest) => void
-    // isSubmit: boolean;
-    handleClose: () => void
+    onSubmit: (data: ProjectRequest) => void;
+    handleClose: () => void;
+    updateData?:{project_name: string};
 }
 
-const ProjectForm: React.FC<Props> = ({isSuccess, onSubmit, handleClose}) => {
+const ProjectForm: React.FC<Props> = ({onSubmit, handleClose, updateData}) => {
 
-    const { setIsOpen,isUpdate, setUpdate, updateData} = useProjectStore(state => state);
+    const {setIsOpen, id, setId, isUpdate, setIsUpdate,setUpdateData, isOpen,updateData: projectUpdate, setUpdate} = useProjectStore(state => state);
     // const [checked, setChecked] = React.useState(false);
+
+
     const methods = useForm<any>({
         resolver: yupResolver(createProjectSchema),
-        values: {
-            // name: isUpdate ? updateData.project_name : ''
+        defaultValues: {
+            name: isUpdate ? projectUpdate?.project_name : '',
+            project_id: isUpdate ? projectUpdate?.project_id : undefined,
         }
     });
 
@@ -32,28 +34,50 @@ const ProjectForm: React.FC<Props> = ({isSuccess, onSubmit, handleClose}) => {
         setValue,
         formState: {errors}
     } = methods;
+    // const { register, handleSubmit, setValue, formState: { errors } } = useForm<ProjectRequest>({
+    //     resolver: yupResolver(createProjectSchema),
+    //     defaultValues: {
+    //         name: updateData?.project_name || ''
+    //     }
+    // });
+
+    // useEffect(() => {
+    //     if (isUpdate && updateData) {
+    //         setValue('name', updateData.project_name);
+    //     }
+    // }, [isUpdate, updateData, setValue]);
+    const checkKeyDown = (e: any) => {
+        if (e.key === 'Enter') e.preventDefault();
+    };
+    // console.log("projectUpdate : ",projectUpdate)
+    // console.log("isUpdate : ",isUpdate)
     return (
         <React.Fragment>
             <Modal show={true} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form  onSubmit={handleSubmit(onSubmit)}
+                    // onSubmit={handleSubmit((data:ProjectRequest) =>{
+                    // onSubmit(data);
+                    // setIsOpen(false);})}
+                    onKeyDown={checkKeyDown}>
                     <div className="ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm ks_pd_20 ks_pt_10 ks_pb_10">
                         <div>
-                            <label className="fw-bold"> {!isUpdate ? "Update Project" : "Create Project"}</label>
+                            <label className="fw-bold"> {isUpdate ? "Update Project" : "Create Project"}</label>
                         </div>
                         <div className="ks_d_flex">
                             <button
                                 type={"button"}
                                 onClick={() => {
                                     handleClose()
-                                    // setUpdate(false)
+                                    // setIsUpdate(false)
                                 }}
                                 className="ks_btn ks_btn_tiary ks_mr_8">
                                 Cancel
                             </button>
 
                             <button type="submit"
-                                    className="ks_btn ks_btn_pm" >
-                                {isUpdate ? 'Save' : 'Update'}
+                                    className="ks_btn ks_btn_pm"
+                            >
+                                {isUpdate ? 'Update' : 'Save'}
                             </button>
                         </div>
                     </div>

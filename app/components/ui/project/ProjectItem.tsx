@@ -2,15 +2,29 @@ import React from 'react';
 import {useProjectStore} from "@/app/lib/store";
 import {Modal} from "react-bootstrap";
 import {DateUtilsCopy} from "@/utils/DateUtilsCopy";
+import ProjectForm from "@/app/components/ui/project/ProjectForm";
 
 type Props = {
     handleClose: () => void,
     // onSuccess: () => void,
 };
 const ProjectItem = ({handleClose}: Props) => {
-    // const {isOpen, setUpdate, setIsOpen} = useUpdateProjectStore();
-    const {isOpen, isOpenItem,data, setIsOpen, setData,setUpdateData,setUpdate, updateData} = useProjectStore((state)=> state);
-    console.log('data',data)
+    const {
+        id,
+        isOpen,
+        isUpdate,
+        isOpenItem,
+        data,
+        setIsOpen,
+        setData,
+        setUpdateData,
+        setUpdate,
+        updateData,
+        setIsOpenItem,
+        setId
+    } = useProjectStore((state) => state);
+    console.log("Project Item : ", data)
+
     return (
         <React.Fragment>
             <Modal show={isOpen} dialogClassName="modal-dialog modal-dialog-centered ks-wt-modal-sm-m-500-dialog">
@@ -30,9 +44,10 @@ const ProjectItem = ({handleClose}: Props) => {
                             type={"button"}
                             className="ks_btn ks_btn_pm ks_pd_10 ks_pr_20 ks_pl_20"
                             onClick={() => {
-                                setIsOpen(true);
+                                setIsOpenItem(true);
                                 // setIsOpen(false);
                                 setUpdate(true);
+                                setUpdateData(data);
                             }}
                         >
                             Edit
@@ -173,7 +188,12 @@ const ProjectItem = ({handleClose}: Props) => {
 
 
                 {
-                    isOpenItem && <ProjectItem handleClose={() => setIsOpen(false)}/>
+                    //How to update the project data in the form
+                    isUpdate && <ProjectForm handleClose={handleClose}
+                                             isOpen={isOpenItem}
+                                             onSubmit={() => {}}
+                    />
+
                 }
             </Modal>
         </React.Fragment>
