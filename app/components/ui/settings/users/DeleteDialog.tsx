@@ -3,12 +3,12 @@ import { Modal } from "react-bootstrap";
 import React from "react";
 
 interface Props {
-    isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
-    handleDeleteUser: () => void;
+    isOpen?: boolean;
+    setIsOpen?: (isOpen: boolean) => void;
+    handleDelete?: () => void;
 }
 
-const DeleteDialog: React.FC<Props> = ({ isOpen, setIsOpen, handleDeleteUser }) => {
+const DeleteDialog: React.FC<Props> = ({ isOpen, setIsOpen, handleDelete }:Props) => {
     return (
         <Modal show={isOpen} dialogClassName={"modal-dialog modal-dialog-centered ks-wt-modal-xs-dialog"}>
             <div className="modal-content ks-wt-modal-content">
@@ -22,10 +22,10 @@ const DeleteDialog: React.FC<Props> = ({ isOpen, setIsOpen, handleDeleteUser }) 
                 </div>
                 <div className="ks-wt-modal-footer ks_d_flex ks_jt_cont_end ks_alg_itm_ctr">
                     <div className="ks-wt-element-group-container ks_d_flex ks_alg_itm_ctr">
-                        <button onClick={() => setIsOpen(false)} className="ks_btn ks_btn_tiary">
+                        <button onClick={() => setIsOpen ? setIsOpen(false) : true} className="ks_btn ks_btn_tiary">
                             Cancel
                         </button>
-                        <button onClick={handleDeleteUser} data-bs-dismiss="modal" className="ks_btn ks_btn_pm">
+                        <button onClick={handleDelete} data-bs-dismiss="modal" className="ks_btn ks_btn_pm">
                             Continue
                         </button>
                     </div>

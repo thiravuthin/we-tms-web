@@ -9,17 +9,19 @@ import DeleteIcon from "@/app/components/icons/DeleteIcon";
 import EditUserIcon from "@/app/components/icons/EditUserIcon";
 import {languagesService} from "@/service/language.service";
 import DeleteDialog from "@/app/components/ui/settings/users/DeleteDialog";
+import {userService} from "@/service/user.service";
 
 interface DataTableRowActionsProps<TData> {
     row: Row<TData>;
     setSelectedData: (id: number | null) => void;
     handleEditLanguageClick: (lang_code: string) => void;
+    handleDeleteLanguageClick?: (lang_code: string) => void;
 }
 
 function LanguageAction<TData>({row, setSelectedData, handleEditLanguageClick}: DataTableRowActionsProps<TData>) {
     const queryClient = useQueryClient();
     const data = row.original as LanguageData;
-    const showDelete = isNullOrWhiteSpace(data.lang_cd);
+
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const {setIsUpdate, setUpdateData} = useLanguageStore(state => state);
 
@@ -29,42 +31,39 @@ function LanguageAction<TData>({row, setSelectedData, handleEditLanguageClick}: 
         handleEditLanguageClick(data.lang_cd); // This function will be passed from the parent component
     };
 
-    const handleDeleteUserMutate = useMutation({
+    const handleDeleteLanguage = useMutation({
         mutationFn: (lang_cd: string[]) => languagesService.deleteLanguage(lang_cd),
         onSuccess: async () => {
             toast.success("Language deleted successfully")
-            queryClient.invalidateQueries({queryKey: ['language']})
+            queryClient.invalidateQueries({queryKey: ['languages']})
             setShowDeleteDialog(false)
         }
     });
 
-    const handleDeleteLanguage = () => {
-        handleDeleteUserMutate.mutate([data.lang_cd], {
-            onSuccess: () => {
-                toast.success("Language deleted successfully");
-                queryClient.invalidateQueries({queryKey: ['language']});
-                setShowDeleteDialog(false);
-            },
-            onError: (error) => {
-            }
-        });
+    const handleDeleteLG = () => {
+        handleDeleteLanguage.mutate([data.lang_cd], {});
     };
+
     return (
         <div>
             <>
                 <DeleteDialog
                     isOpen={showDeleteDialog}
                     setIsOpen={setShowDeleteDialog}
-                    handleDeleteUser={handleDeleteLanguage}
+                    handleDelete={()=>handleDeleteLG()}
                 />
 
-                <div className="ks-wt-tbl-data-act-container ks_d_flex ks_alg_itm_ctr p-2">
-                    <div className={"me-2"} onClick={handleEditClick}>
-                        <EditUserIcon/>
-                    </div>
+                <div className="ks-wt-tbl-data-act-container ks_d_flex ks_alg_itm_ctr">
+                    <>
+                        <div role="button" onClick={() => setShowDeleteDialog(true)} data-bs-toggle="tooltip"
+                             data-bs-title="issue" className="ks-wt-tbl-data-act-itm">
+                            <DeleteIcon/>
+                        </div>
+                        <div className="ks-wt-line"></div>
+                    </>
 
-                    <div>
-                        <DeleteIcon/>
+                    <div role="button" onClick={handleEditClick} className="ks-wt-tbl-data-act-itm">
+                        <EditUserIcon/>
                     </div>
 
                 </div>
@@ -72,6 +71,6 @@ function LanguageAction<TData>({row, setSelectedData, handleEditLanguageClick}: 
             </>
         </div>
     );
-};
+}
 
 export default LanguageAction;

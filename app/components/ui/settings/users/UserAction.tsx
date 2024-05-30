@@ -39,6 +39,7 @@ function UserAction<TData>({ row, setSelectedUser, handleEditUserClick }: DataTa
     });
 
     const handleDeleteUser = async () => {
+        console.log("selectedUser", data.id);
         handleDeleteUserMutate.mutate([data.id]);
     };
 
@@ -47,7 +48,7 @@ function UserAction<TData>({ row, setSelectedUser, handleEditUserClick }: DataTa
             <DeleteDialog
                 isOpen={showDeleteDialog}
                 setIsOpen={setShowDeleteDialog}
-                handleDeleteUser={handleDeleteUser}
+                handleDelete={handleDeleteUser}
             />
 
             <div className="ks-wt-tbl-data-act-container ks_d_flex ks_alg_itm_ctr">

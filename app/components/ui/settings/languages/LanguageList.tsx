@@ -1,14 +1,16 @@
-import React, {useReducer, useState} from 'react';
+import React, {useState} from 'react';
 import DataTable from "@/app/components/shared/DataTable";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {defaultColumns} from "@/app/components/ui/settings/languages/columns_language";
 import AddLanguageForm from "@/app/components/ui/settings/languages/AddLanguageForm ";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {languagesService} from "@/service/language.service";
-import {useLanguageStore, useUserStore} from "@/app/lib/store";
+import {useLanguageStore} from "@/app/lib/store";
 import LanguageAction from "@/app/components/ui/settings/languages/LanguageAction";
 import PaginationLanguageComponent from "@/app/components/ui/settings/languages/PaginationLanguageComponent";
 import useFetch_languages from "@/app/lib/hooks/useFetch_languages";
+import DeleteDialog from "@/app/components/ui/settings/users/DeleteDialog";
+import toast from "react-hot-toast";
 
 
 interface Language {
@@ -18,13 +20,16 @@ interface Language {
 }
 
 const LanguageList: React.FC = () => {
+
     const queryClient = useQueryClient();
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [pageSize, setPageSize] = useState<number>(10);
     const [isAddingLanguage, setIsAddingLanguage] = useState(false);
     const [updateLanguage, setUpdateLanguage] = useState<Language | null>(null);
-    const { setIsUpdate, setUpdateData } = useLanguageStore(state => state);
+    const {setIsUpdate, setUpdateData} = useLanguageStore(state => state);
     const [, setSelectedData] = useState<number | null>(null);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
 
 
     const {
@@ -50,6 +55,20 @@ const LanguageList: React.FC = () => {
 
     };
 
+
+    const handleDeleteLanguageClick = useMutation({
+        mutationFn: (lang_cd: any[]) => languagesService.deleteLanguage(lang_cd),
+        onSuccess: async () => {
+            toast.success("Language has been removed.")
+            queryClient.invalidateQueries({queryKey: ['languages']})
+            setShowDeleteDialog(false)
+        },
+        onError: ()=>{
+            toast.error("Error deleting language")
+        }
+    });
+
+
     const handleCancel = () => {
         setIsAddingLanguage(false);
     };
@@ -63,13 +82,13 @@ const LanguageList: React.FC = () => {
                 return language;
             });
             setLanguages(updatedLanguages);
-            queryClient.invalidateQueries({queryKey: ["language"]});
+            queryClient.invalidateQueries({queryKey: ["languages"]});
             return;
 
-        }else {
+        } else {
             setIsAddingLanguage(false);
             setLanguages(prev => [...prev, {...newLanguage, register_date: new Date().toISOString().split('T')[0]}]);
-            queryClient.invalidateQueries({queryKey: ["language"]});
+            queryClient.invalidateQueries({queryKey: ["languages"]});
         }
     };
 
@@ -85,6 +104,14 @@ const LanguageList: React.FC = () => {
     if (isError) {
         return <span>Error</span>;
     }
+
+    const handleDeleteLange = async () => {
+        alert("hi")
+        if (selectedLanguage !== null) {
+            handleDeleteLanguageClick.mutate([selectedLanguage]);
+        }
+        console.log(selectedLanguage,"selectedLanguage");
+    };
 
     return (
         <>
@@ -109,11 +136,12 @@ const LanguageList: React.FC = () => {
                                         <LanguageAction
                                             row={data}
                                             setSelectedData={setSelectedData}
-                                                handleEditLanguageClick={() => handleUpdateLanguage({
+                                            handleEditLanguageClick={() => handleUpdateLanguage({
                                                 ...data.original,
                                                 abbreviations: data.original.lang_cd,
                                                 register_date: data.original.regi_dtm,
                                             })}
+                                            handleDeleteLanguageClick={() => handleDeleteLange}
                                         />
                                     )}
                                 />
@@ -132,6 +160,16 @@ const LanguageList: React.FC = () => {
                 (
                     <AddLanguageForm onAddLanguage={handleSaveLanguage} onCancel={handleCancel}/>
                 )}
+
+
+            {showDeleteDialog && (
+                <DeleteDialog
+                    isOpen={showDeleteDialog}
+                    setIsOpen={setShowDeleteDialog}
+                    handleDelete={handleDeleteLange}
+                />
+            )
+            }
         </>
     );
 }
