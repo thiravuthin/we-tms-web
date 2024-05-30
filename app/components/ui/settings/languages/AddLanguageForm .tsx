@@ -16,8 +16,8 @@ interface AddLanguageFormProps {
 }
 
 const AddLanguageForm: React.FC<AddLanguageFormProps> =  ({onAddLanguage, onCancel}) => {
+
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const queryClient = useQueryClient();
     const {isUpdate, updateData, setIsUpdate, setUpdateData} = useLanguageStore(state => state);
     const {
         reset,
@@ -44,7 +44,6 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> =  ({onAddLanguage, onCanc
             }
         },
         onMutate: () => {
-            toast.loading("Loading...");
             toast.dismiss()
         },
         onError: (error) => {
@@ -85,10 +84,9 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> =  ({onAddLanguage, onCanc
                             className="ks_btn ks_btn_tiary ks_mr_8">
                             Cancel
                         </button>
-
                         <button type="submit"
                                 className="ks_btn ks_btn_pm" disabled={isSubmitting}>
-                            {updateData ? 'Update' : 'Save'}
+                            {isSubmitting ? 'Saving..' : (updateData ? 'Update' : 'Save')}
                         </button>
                     </div>
                 </div>

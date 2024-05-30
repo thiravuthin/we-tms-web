@@ -4,14 +4,17 @@ import {languagesService} from "@/service/language.service";
 
 const useFetch_languages = (requestParams:LanguageParams) => {
 
-    const languageQuery = useQuery({
+    const {data, isLoading, isError,} = useQuery({
         queryKey: ['languages', requestParams],
-        queryFn: ()=> languagesService.getLanguages(requestParams)
+        queryFn: ()=> languagesService.getLanguages(requestParams.page_number, requestParams.page_size)
     })
 
     return {
-        language_list: languageQuery?.data?.languages ?? [],
-        pagination: languageQuery?.data?.pagination
+        data,
+        isLoading,
+        isError,
+        language_list: data?.data?.languages ?? [],
+        pagination: data?.data?.pagination
     };
 }
 

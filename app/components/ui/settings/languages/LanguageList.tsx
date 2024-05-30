@@ -8,6 +8,7 @@ import {languagesService} from "@/service/language.service";
 import {useLanguageStore, useUserStore} from "@/app/lib/store";
 import LanguageAction from "@/app/components/ui/settings/languages/LanguageAction";
 import PaginationLanguageComponent from "@/app/components/ui/settings/languages/PaginationLanguageComponent";
+import useFetch_languages from "@/app/lib/hooks/useFetch_languages";
 
 
 interface Language {
@@ -24,10 +25,17 @@ const LanguageList: React.FC = () => {
     const [updateLanguage, setUpdateLanguage] = useState<Language | null>(null);
     const { setIsUpdate, setUpdateData } = useLanguageStore(state => state);
     const [, setSelectedData] = useState<number | null>(null);
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["language", { pageNumber, pageSize } ],
-        queryFn: async () => languagesService.getLanguages(pageNumber, pageSize)
-    })
+
+
+    const {
+        data,
+        isError,
+        isLoading
+    } = useFetch_languages({
+        page_number: pageNumber,
+        page_size: pageSize
+    });
+
     const [languages, setLanguages] = useState<Language[]>(data?.data || []);
 
     const handleUpdateLanguage = (language: Language) => {
