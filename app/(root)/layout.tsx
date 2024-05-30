@@ -7,6 +7,7 @@ import "@/app/styles/we-tms.css"
 import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "@/app/components/layout/Sidebar";
 import Navbar from "@/app/components/layout/Navbar";
+import AddGroupSidebar from "@/app/components/layout/AddGroupSidebar";
 
 export const metadata = {
     title: 'WeTMS | Home',
@@ -15,21 +16,30 @@ export const metadata = {
 const Layout = async ({ children }: PropsWithChildren) => {
   return (
       <html lang="en">
-          <body>
-          <AuthLayout>
-              <div className="ks_d_flex ks_flex_col ks_flex_root">
-                  <div className="ks_d_flex ks_flex_col ks_flex_col_fluid">
-                      <Navbar/>
-                      <div className="ks_d_flex ks_flex_col ks_flex_row_fluid" id="ks_wt_app_wrapper">
+      <head>
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" />
+      </head>
+
+      <body>
+      <AuthLayout>
+          <div className="ks_d_flex ks_flex_col ks_flex_root">
+              <div className="ks_d_flex ks_flex_col ks_flex_col_fluid">
+                  <Navbar/>
+                  <div className="ks_d_flex ks_flex_col ks_flex_row_fluid" id="ks_wt_app_wrapper">
                           <Sidebar/>
+                          {/*<AddGroupSidebar/>*/}
                           {children}
                       </div>
                   </div>
               </div>
           </AuthLayout>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+                  crossOrigin="anonymous"></script>
           </body>
       </html>
-  )
+)
 }
 
 export default Layout
