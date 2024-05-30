@@ -1,25 +1,15 @@
 "use client"
 import React from 'react';
-import {useProjectStore} from "@/app/lib/store";
-import CreateProjects from "@/app/components/ui/project/CreateProjects";
-import ProjectHeadList from "@/app/components/ui/project/ProjectHeadList";
 
-const ProjectHead = () => {
-    const {isCreate,setIsCreate } = useProjectStore(state => state);
-
+const BookmarkHead = () => {
     return (
         <>
-            <div className="ks_w100 ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm ks_pd_30">
+            <div
+                className="ks_w100 ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_plr300 ks_brd_btm ks_pd_30">
                 <label className="ks_fs22 ks_fw_bd ks_cs_pointer">
-                    Projects
+                    Bookmarks
                 </label>
-                <button
-                    className="btn btn-primary"
-                    aria-expanded="false"
-                    onClick={() => {
-                        setIsCreate(true)
-                    }}
-                >
+                <button className="btn btn-primary" aria-expanded="false">
                     <svg
                         width={16}
                         height={16}
@@ -42,17 +32,11 @@ const ProjectHead = () => {
                             strokeLinejoin="round"
                         />
                     </svg>
-                    Add Project
+                    Add Bookmark
                 </button>
             </div>
-            <ProjectHeadList />
-
-            {
-                isCreate && <CreateProjects handleClose={() => setIsCreate(false)}/>
-            }
-
         </>
     );
 };
 
-export default ProjectHead;
+export default BookmarkHead;

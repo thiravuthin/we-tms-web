@@ -1,13 +1,15 @@
-'use client'
 import React, {useReducer, useState} from 'react';
 import DataTable from "@/app/components/shared/DataTable";
-import Pagination from "rc-pagination";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {defaultColumns} from "@/app/components/ui/settings/languages/columns_language";
 import AddLanguageForm from "@/app/components/ui/settings/languages/AddLanguageForm ";
-import useFetch_languages from "@/app/lib/hooks/useFetch_languages";
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {languagesService} from "@/service/language.service";
+import {useLanguageStore, useUserStore} from "@/app/lib/store";
+import LanguageAction from "@/app/components/ui/settings/languages/LanguageAction";
+import PaginationLanguageComponent from "@/app/components/ui/settings/languages/PaginationLanguageComponent";
+import useFetch_languages from "@/app/lib/hooks/useFetch_languages";
+
 
 interface Language {
     name: string;
@@ -16,22 +18,36 @@ interface Language {
 }
 
 const LanguageList: React.FC = () => {
-
-    const data = useQuery({
-        queryKey: ["language"],
-        queryFn: languagesService.getLanguages
-    })
-
-    console.log("data :: ", data?.data)
-
-    const [languages, setLanguages] = useState<Language[]>(data?.data);
-
-    // console.log("languages::" , languages.map())
-
+    const queryClient = useQueryClient();
+    const [pageNumber, setPageNumber] = useState<number>(0);
+    const [pageSize, setPageSize] = useState<number>(10);
     const [isAddingLanguage, setIsAddingLanguage] = useState(false);
+    const [updateLanguage, setUpdateLanguage] = useState<Language | null>(null);
+    const { setIsUpdate, setUpdateData } = useLanguageStore(state => state);
+    const [, setSelectedData] = useState<number | null>(null);
 
+
+    const {
+        data,
+        isError,
+        isLoading
+    } = useFetch_languages({
+        page_number: pageNumber,
+        page_size: pageSize
+    });
+
+    const [languages, setLanguages] = useState<Language[]>(data?.data || []);
+
+    const handleUpdateLanguage = (language: Language) => {
+        setUpdateLanguage(language);
+        setIsAddingLanguage(true);
+        setIsUpdate(true);
+    }
     const handleAddLanguageClick = () => {
         setIsAddingLanguage(true);
+        setIsUpdate(false);
+        setUpdateData(null);
+
     };
 
     const handleCancel = () => {
@@ -39,16 +55,36 @@ const LanguageList: React.FC = () => {
     };
 
     const handleSaveLanguage = (newLanguage: Omit<Language, 'register_date'>) => {
-        setIsAddingLanguage(false);
-        console.log("newLanguage:: ", newLanguage.abbreviations)
-        setLanguages(prev => [...prev, {...newLanguage, register_date: new Date().toISOString().split('T')[0]}]);
+        if (updateLanguage) {
+            const updatedLanguages = languages.map(language => {
+                if (language.abbreviations === updateLanguage.abbreviations) {
+                    return {...newLanguage, register_date: new Date().toISOString().split('T')[0]};
+                }
+                return language;
+            });
+            setLanguages(updatedLanguages);
+            queryClient.invalidateQueries({queryKey: ["language"]});
+            return;
+
+        }else {
+            setIsAddingLanguage(false);
+            setLanguages(prev => [...prev, {...newLanguage, register_date: new Date().toISOString().split('T')[0]}]);
+            queryClient.invalidateQueries({queryKey: ["language"]});
+        }
     };
 
     const table = useReactTable({
-        data: languages,
+        data: data?.data,
         columns: defaultColumns,
         getCoreRowModel: getCoreRowModel(),
     })
+
+    if (isLoading) {
+        return <span>Loading...</span>;
+    }
+    if (isError) {
+        return <span>Error</span>;
+    }
 
     return (
         <>
@@ -67,9 +103,28 @@ const LanguageList: React.FC = () => {
                         {/* Table */}
                         <div className="d-flex flex-column">
                             <div className="ks_table_wrapper">
-                                <DataTable table={table}/>
+                                <DataTable
+                                    table={table}
+                                    rowActions={(data) => (
+                                        <LanguageAction
+                                            row={data}
+                                            setSelectedData={setSelectedData}
+                                                handleEditLanguageClick={() => handleUpdateLanguage({
+                                                ...data.original,
+                                                abbreviations: data.original.lang_cd,
+                                                register_date: data.original.regi_dtm,
+                                            })}
+                                        />
+                                    )}
+                                />
                             </div>
-                            <Pagination/>
+                            <PaginationLanguageComponent
+                                data={data?.pagination}
+                                page={(number, size) => {
+                                    setPageNumber(number!);
+                                    setPageSize(size!);
+                                }}
+                            />
                         </div>
                     </div>
                 )

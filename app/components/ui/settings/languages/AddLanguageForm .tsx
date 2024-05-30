@@ -1,68 +1,71 @@
-'use client'
-import React from 'react';
+
+import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import IconNextStep from "@/app/components/icons/IconNextStep";
 import {languagesService} from "@/service/language.service";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {LanguageRequest} from "@/app/lib/types/LanguageRequest";
 import toast from "react-hot-toast";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createLanguageSchema} from "@/app/validators/language.schema";
+import {useLanguageStore} from "@/app/lib/store";
 
 interface AddLanguageFormProps {
     onAddLanguage: (newLanguage: { name: string; abbreviations: string }) => void;
     onCancel: () => void;
 }
 
-const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCancel}) => {
+const AddLanguageForm: React.FC<AddLanguageFormProps> =  ({onAddLanguage, onCancel}) => {
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const {isUpdate, updateData, setIsUpdate, setUpdateData} = useLanguageStore(state => state);
     const {
         reset,
         handleSubmit,
         register,
         formState: {
-            errors,
-            isValid,
-            isValidating
+            errors
         },
     } = useForm({
-        resolver: yupResolver(createLanguageSchema),
+        resolver: yupResolver(createLanguageSchema(isUpdate)),
         defaultValues: {
-            name: '',
-            lang_cd: ''
+            name: updateData?.name || '',
+            lang_cd: updateData?.abbreviations || ''
         }
     });
 
-    /* Call Service */
+    // Service for creating and updating languages
     const mutation = useMutation({
         mutationFn: (data: LanguageRequest) => {
-            return languagesService.createLanguages(data)
+            if (isUpdate) {
+                return languagesService.updateLanguages(updateData?.lang_cd, data);
+            } else {
+                return languagesService.createLanguages(data);
+            }
         },
         onMutate: () => {
-            toast.loading("Loading...");
             toast.dismiss()
         },
         onError: (error) => {
             toast.error(error?.message || 'An error occurred');
         },
         onSuccess: (data) => {
-            toast.success('Language created successfully!');
+            if (isUpdate) {
+                toast.success('Language updated successfully!');
+            } else {
+                toast.success('Language created successfully!');
+            }
             reset(); // Reset the form after successful submission
-            onAddLanguage({ name: data.name, abbreviations: data.lang_cd }); // updated property name
+            onAddLanguage({name: data.name, abbreviations: data.lang_cd});
+            onCancel();
         },
-        // onSettled: () => {
-        //     toast.dismiss();
-        // }
-
-    })
+    });
 
     const submit = (data: any) => {
         const reqBody: LanguageRequest = {
             name: data?.name,
             lang_cd: data?.lang_cd
         }
-        console.log('reqBody:: ', reqBody)
-
         mutation.mutate(reqBody);
     };
 
@@ -70,31 +73,24 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCance
         <form onSubmit={handleSubmit(submit)}
               className="add-language-form p-4"
         >
-            <div className={'d-flex flex-row justify-content-between  align-content-center align-items-center'}>
-                {/**/}
-                <div className={'d-flex'}>
-                    <h5 className={'text-secondary'}>Users</h5>
-                    <IconNextStep/>
-                    <h5>Create Language</h5>
-                </div>
-
-                {/**/}
-                <div>
-                    <button type="button"
+            <div className="ks-wt-modal-toolbar-user-container ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr">
+                <label><span className="text-secondary fw-bold">Languages</span>  <IconNextStep/> <span
+                    className="ks_fw_bd">{updateData ? "Edit Language" : "Create Language"}</span></label>
+                <div className="ks-wt-modal-toolbar-action-user-container">
+                    <div className="ks_d_flex">
+                        <button
+                            type={"button"}
                             onClick={onCancel}
-                            className={'btn btn-primary me-2'}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        className={'btn btn-primary'}
-                        type="submit"
-                    >
-                        Save
-                    </button>
+                            className="ks_btn ks_btn_tiary ks_mr_8">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                className="ks_btn ks_btn_pm" disabled={isSubmitting}>
+                            {isSubmitting ? 'Saving..' : (updateData ? 'Update' : 'Save')}
+                        </button>
+                    </div>
                 </div>
             </div>
-
             {/**/}
             <div className={'d-flex flex-row justify-content-evenly w-100'}>
                 <label className={'w-50 '}>Name</label>
@@ -114,20 +110,21 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCance
                                 required: 'Name must not be empty'
                             })}
                     />
-                    {errors.name && <span className={'text-danger mt-2'}>{errors.name.message}</span>}
+                    {errors.name && typeof errors.name.message === 'string' &&
+                        <span className={'text-danger mt-2'}>{errors.name.message}</span>}
                 </div>
 
                 <div className={'w-50 me-2'}>
                     <input
-                        aria-label={"EN | KM | ..."}
+                        aria-label="EN | KM | ..."
                         className={'form-control'}
                         type="text"
                         placeholder="EN | KM | ..."
-                        {
-                            ...register('lang_cd')
-                        }
+                        {...register('lang_cd', {required: 'Abbreviation must not be empty'})}
+                        disabled={isUpdate}
                     />
-                    {errors.lang_cd && <span className={'text-danger mt-2'}>{errors.lang_cd.message}</span>}
+                    {errors.lang_cd && typeof errors.lang_cd.message === 'string' &&
+                        <span className={'text-danger mt-2'}>{errors.lang_cd.message}</span>}
                 </div>
             </div>
         </form>

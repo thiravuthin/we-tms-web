@@ -14,8 +14,14 @@ import PasswordComponent from "@/app/components/layout/PasswordComponent";
 
 const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
 
+    let image = 'image';
+    let imageData = accountData?.usr_prof_img;
+    if (imageData=="") {
+        imageData = image;
+    }
+
     const queryClient = useQueryClient();
-    const [previewImage, setPreviewImage] = useState<string | null>(accountData?.usr_prof_img);
+    const [previewImage, setPreviewImage] = useState<string | null>(imageData);
     const [fileImage, setFileImage] = useState<File | null>(null);
     const [isEditAccount, setIsEditAccount] = useState(false);
     const hiddenFileInput = useRef<HTMLInputElement>(null);
@@ -282,7 +288,7 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                             : " text-dark mx-lg-4  w-50 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"
                         }`}
                         placeholder="johunsmith"
-                        value={accountData.usr_nm}
+                        value={accountData?.usr_nm}
                         readOnly
                     />
                     <input
@@ -291,7 +297,7 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                             : " text-dark mx-lg-4 w-50 form-control d-inline-flex focus-ring focus-ring-light text-decoration-none border rounded-2"
                         }`}
                         placeholder="System Admin"
-                        value={accountData.role}
+                        value={accountData?.role}
                         readOnly
                     />
                 </div>
