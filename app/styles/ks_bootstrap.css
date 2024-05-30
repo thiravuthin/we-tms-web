@@ -2213,6 +2213,9 @@ input[type="radio"]:checked {
 .ks_pl_30 {
   padding-left: var(--ks-wt-sz-30px) !important;
 }
+.ks_pl_35 {
+  padding-left: var(--ks-wt-sz-35px) !important;
+}
 /* end--padding-left */
 
 /* begin--gap as "REM" */
