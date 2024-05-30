@@ -37,7 +37,7 @@ export const DefaultColumns: ColumnDef<User>[] = [
         id: "profile",
         header: "Profile",
         cell: ({row}) => {
-            const addressUserImg = row?.original?.usr_prof_img;
+            const addressUserImg = "";
             const addressTextProfile = row?.original?.full_nm;
             const addressTextRole = row?.original?.usr_nm;
             return (
