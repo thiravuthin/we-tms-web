@@ -6,8 +6,6 @@ import NextPage from "@/app/components/icons/NextPage";
 import {UserPagination} from "@/app/components/ui/settings/users/UserPagination";
 const PaginationLanguageComponent = ({data: {total_pages, current_page, size, first, last, total_elements}, page}: { data: UserPagination, page: (pageNumber?: number, pageSize?: number) => void }) => {
 
-    console.log("total : ", total_elements)
-    console.log("size : ", size)
     return (
         <div className="w-100 ks_d_flex ks_jt_cont_betw p-3">
             <div className="ks_d_flex ks_alg_itm_ctr d-flex">

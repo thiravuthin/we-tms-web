@@ -1,4 +1,4 @@
-import Pagination from "@/app/components/shared/Pagination";
+import {Paginations} from "@/app/lib/types/common";
 
 export interface LanguageRequest {
     lang_cd: string
@@ -14,8 +14,7 @@ export interface LanguageParams{
 
 export interface Language {
     language: LanguageData[];
-    // @ts-ignore
-    data: Pagination
+    data: Paginations
 }
 
 export interface LanguageData {
