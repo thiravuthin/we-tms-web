@@ -1,6 +1,6 @@
-import Pagination from "@/app/components/shared/Pagination";
 export interface Users {
     users:  User[];
+    // @ts-ignore
     pagination: Pagination
 }
 

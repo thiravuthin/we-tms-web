@@ -360,7 +360,7 @@ input::-webkit-inner-spin-button {
 
 @media print {
   input[type=checkbox]{
-      opacity: 1 !important;
+    opacity: 1 !important;
   }
 }
 
@@ -377,9 +377,9 @@ input::-webkit-inner-spin-button {
 
 @media only screen and (min-width: 1024px) and (-webkit-device-pixel-ratio: 1.25) {
 
-    .ks_wth_387 {
-      width: 327px !important;
-    }
+  .ks_wth_387 {
+    width: 327px !important;
+  }
 
   .ks_wth_356 {
     width: 356px !important;

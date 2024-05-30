@@ -17,7 +17,7 @@ async function createUser (requestBody: any) {
 //     });
 //     return result.data?.data;
 // }
-const getUsers = async (pageNumber: number, pageSize: number)  => {
+const getUsers = async (pageNumber: number | undefined, pageSize: number | undefined)  => {
     try {
         const result = await http.get(ServiceId.USER, {
             params: {

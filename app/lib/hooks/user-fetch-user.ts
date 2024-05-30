@@ -8,7 +8,7 @@ const useFetchUsers = (requestParams:UserPaginationParams) => {
 
     const userQuery = useQuery({
         queryKey: ['users', requestParams],
-        queryFn: () => userService.getUsers(requestParams)
+        queryFn: () => userService.getUsers(requestParams.page_number, requestParams.page_size)
     })
 
     return {
