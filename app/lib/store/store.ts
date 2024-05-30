@@ -2,6 +2,7 @@ import {create} from "zustand"
 import {SettingNavEnum} from "@/utils/enums";
 import {User} from "@/app/lib/types/user";
 import {ProjectInfo} from "@/app/lib/types/project";
+import {Language} from "@/app/lib/types/LanguageRequest";
 export const useSettingStore = create<{
     isActive: string,
     setIsActive: (isActive: string) => void
@@ -127,6 +128,28 @@ export const useUserStore = create<{
     setIsUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
     setUpdateData: (updateData: any) => set((state): any => ({...state, updateData})),
 }));
+
+export const useLanguageStore = create<{
+    data: Language
+    openUpdate: () => void,
+    setData: (data: Language | null) => void
+    updateData: any,
+    isUpdate: boolean,
+    setUpdate: (isUpdate: boolean) => void
+    setUpdateData: (updateData: any) => void
+    setIsUpdate: (isUpdate: boolean) => void
+}>(set => ({
+    data: {} as Language,
+    updateData: {},
+    isUpdate: false,
+    setData: (data: Language | null) => set((state): any => ({...state, data})),
+    openUpdate: () => set((state): any => ({...state, showUpdate: true})),
+    setUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
+    setIsUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
+    setUpdateData: (updateData: any) => set((state): any => ({...state, updateData})),
+}));
+
+
 
 // export const useUpdateProjectStore = create<{
 //     id: string | undefined,

@@ -1,8 +1,10 @@
 import {ColumnDef} from "@tanstack/react-table";
-import {LanguageRequest} from "@/app/lib/types/LanguageRequest";
+import {LanguageData, LanguageRequest} from "@/app/lib/types/LanguageRequest";
 import IndeterminateCheckbox from "@/app/components/shared/IndeterminateCheckbox";
+import {formatDateHour} from "@/utils/DateUtils";
+import React from "react";
 
-export const defaultColumns: ColumnDef<any>[] = [
+export const defaultColumns: ColumnDef<LanguageData>[] = [
     {
         meta: {
             headerClass: "ks_wth_1",
@@ -20,31 +22,31 @@ export const defaultColumns: ColumnDef<any>[] = [
                 }}
             />
         ),
-        // cell: ({ row }) => (
-        //     <IndeterminateCheckbox
-        //         {...{
-        //             checked: row.getIsSelected(),
-        //             disabled: !row.getCanSelect(),
-        //             indeterminate: row.getIsSomeSelected(),
-        //             onChange: row.getToggleSelectedHandler(),
-        //         }}
-        //     />
-        // ),
+        cell: ({ row }) => (
+            <IndeterminateCheckbox
+                {...{
+                    checked: row.getIsSelected(),
+                    disabled: !row.getCanSelect(),
+                    indeterminate: row.getIsSomeSelected(),
+                    onChange: row.getToggleSelectedHandler(),
+                }}
+            />
+        ),
     },
     {
         meta: {
             headerClass: "ks_wth_120",
             textAlign: 'text-center'
         },
-        accessorKey: "profile",
-        id: "profile",
-        header: "Profile",
+        accessorKey: "name",
+        id: "langName",
+        header: "Name",
         // cell: (props) => getDateFormatted(props.getValue() as string),
     },
     {
-        accessorKey: "role",
-        id: "role",
-        header: "Role",
+        accessorKey: "lang_cd",
+        id: "langCd",
+        header: "Abbreviations",
         meta: {
             headerClass: "ks_wth_110",
             textAlign: 'text-center'
@@ -52,10 +54,19 @@ export const defaultColumns: ColumnDef<any>[] = [
         cell: (props) => props.getValue(),
     },
     {
-        accessorKey: "register data",
-        id: "register date",
-        header: "Register date.",
-        // cell: ({row}) => <div className="ks_wth_50">{row?.original?.numbering ?? "-"}</div>,
+        accessorKey: "regi_dtm",
+        id: "registerDateTime",
+        header: "Register date",
+        cell: ({row}) => {
+            const addressText = formatDateHour(row?.original?.regi_dtm);
+            return (
+                <>
+                    <div className="ks-text-ellipsis">
+                        {addressText}
+                    </div>
+                </>
+            );
+        },
         meta: {
             textAlign: 'text-start'
         }
