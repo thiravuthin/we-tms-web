@@ -3,10 +3,10 @@ import React from 'react';
 import {useProjectStore} from "@/app/lib/store";
 import CreateProjects from "@/app/components/ui/project/CreateProjects";
 import ProjectHeadList from "@/app/components/ui/project/ProjectHeadList";
+import ProjectItem from "@/app/components/ui/project/ProjectItem";
 
 const ProjectHead = () => {
-    const {isCreate,setIsCreate } = useProjectStore(state => state);
-
+    const {isCreate, isView, data, isOpen, setIsOpen, isUpdate, setIsCreate} = useProjectStore(state => state);
     return (
         <>
             <div className="ks_w100 ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm ks_pd_30">
@@ -49,6 +49,14 @@ const ProjectHead = () => {
 
             {
                 isCreate && <CreateProjects handleClose={() => setIsCreate(false)}/>
+            }
+
+            {
+                isUpdate && <CreateProjects handleClose={() => setIsCreate(false)}/>
+            }
+
+            {
+                isOpen && isView && <ProjectItem handleClose={() => setIsOpen(false)}/>
             }
 
         </>

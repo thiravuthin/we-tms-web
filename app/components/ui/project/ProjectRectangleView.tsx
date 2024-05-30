@@ -168,24 +168,35 @@ const ProjectRectangleView = () => {
                                                                   aria-label="Static Actions"
                                                     >
                                                         {/* My Account*/}
-                                                        <DropdownItem key="edit"
+                                                        <DropdownItem key="view"
                                                                       className={'dropdown-item border rounded'}
                                                                       onClick={() => {
-                                                                          setIsUpdate(true)
-                                                                          setUpdateData(item)
+                                                                          setIsView(true)
+                                                                          setData(item)
                                                                       }}
                                                         >
 
-                                                            <label className={'text- m-2'}>Edit</label>
-                                                            {
-                                                                isUpdate && < ProjectForm
-                                                                    isOpen={projectStore.isUpdate}
-                                                                    onSubmit={() => {
-                                                                    }}
-                                                                    handleClose={() => setIsUpdate(false)}
-                                                                />
-                                                            }
+                                                            <label className={'text- m-2'}>View</label>
+
                                                         </DropdownItem>
+                                                        {/*<DropdownItem key="edit"*/}
+                                                        {/*              className={'dropdown-item border rounded'}*/}
+                                                        {/*              onClick={() => {*/}
+                                                        {/*                  setIsUpdate(true)*/}
+                                                        {/*                  setUpdateData(item)*/}
+                                                        {/*              }}*/}
+                                                        {/*>*/}
+
+                                                        {/*    <label className={'text- m-2'}>Edit</label>*/}
+                                                        {/*    {*/}
+                                                        {/*        isUpdate && < ProjectForm*/}
+                                                        {/*            isOpen={projectStore.isUpdate}*/}
+                                                        {/*            onSubmit={() => {*/}
+                                                        {/*            }}*/}
+                                                        {/*            handleClose={() => setIsUpdate(false)}*/}
+                                                        {/*        />*/}
+                                                        {/*    }*/}
+                                                        {/*</DropdownItem>*/}
 
                                                         {/* Setting Icon */}
                                                         <DropdownItem
@@ -220,9 +231,9 @@ const ProjectRectangleView = () => {
                 </div>
             </div>
 
-            {
-                isOpen && <ProjectItem handleClose={() => setIsOpen(false)}/>
-            }
+            {/*{*/}
+            {/*    isOpen && <ProjectItem handleClose={() => setIsOpen(false)}/>*/}
+            {/*}*/}
 
         </>
     );
