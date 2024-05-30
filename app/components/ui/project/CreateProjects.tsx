@@ -20,7 +20,7 @@ function CreateProjects({handleClose}: Props) {
         setIsCreate,
         setIsUpdate,
         setUpdateData,
-        setUpdate,
+        setIsView,
         updateData,
         isOpen,
         setIsOpen,
@@ -50,6 +50,7 @@ function CreateProjects({handleClose}: Props) {
             setIsOpen(false)
             setIsUpdate(false)
             setIsCreate(false)
+            setIsView(false)
             // setId(id)
             toast.success(isUpdate ? 'Project has been updated' : 'Project has been saved');
         }

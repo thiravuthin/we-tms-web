@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import Calender from "@/app/components/icons/Calender";
 import useFetchProject from "@/app/lib/hooks/use-fetch-project";
 import {useProjectStore} from "@/app/lib/store";
@@ -23,7 +23,9 @@ const ProjectRectangleView = () => {
         setIsOpen,
         setUpdateData,
         setIsUpdate,
-        setData
+        setData,
+        isView,
+        setIsView
     } = useProjectStore(state => state);
     const projectStore = useProjectStore(state => state);
 
@@ -42,7 +44,6 @@ const ProjectRectangleView = () => {
     const {data, pagination} = useFetchProject();
     const [isStar, setIsStar] = useState(true);
     const queryClient = useQueryClient();
-
     const handleRemoveProject = async () => {
         const askMessage = window.confirm('This action cannot be undone. This will permanently remove this data from the system.'),
             isConfirm = askMessage;
@@ -55,6 +56,7 @@ const ProjectRectangleView = () => {
 
                     // Call queryClient.invalidateQueries( {queryKey: [`projects`]}); to invalidate the projects query
                     queryClient.invalidateQueries({queryKey: [`projects`]})
+                    setData({})
 
                 } else {
                     toast.error('Error deleting project:', response);
@@ -65,6 +67,13 @@ const ProjectRectangleView = () => {
         }
 
     };
+
+    useEffect(() => {
+        // if isView is true, open the ProjectItem component
+        if (isView) {
+            setIsOpen(true)
+        }
+    } , [isView])
 
     return (
         <>
@@ -78,6 +87,8 @@ const ProjectRectangleView = () => {
                                      setId(item.project_id as any)
                                      projectStore.setData(item);
                                      setIsOpen(true)
+                                     console.log("project id :", item.project_id)
+
                                  }}>
                                 <div className="ks_d_flex">
                                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
@@ -132,26 +143,42 @@ const ProjectRectangleView = () => {
                                         </DropdownTrigger>
                                         <DropdownMenu className="ks_wth_280 bg-white rounded "
                                                       aria-label="Static Actions"
+                                                      // onClick={()=>{
+                                                      //     setIsView(true)
+                                                      //     console.log('View 1:',isView)
+                                                      // }}
                                         >
-                                            {/* My Account*/}
-                                            <DropdownItem key="edit"
+                                            {/*View Project*/}
+                                            <DropdownItem key="view"
                                                           className={'dropdown-item border rounded'}
                                                           onClick={() => {
-                                                              setIsUpdate(true)
-                                                              setUpdateData(item)
+                                                              setIsView(true)
+                                                              setData(item)
                                                           }}
                                             >
 
-                                                <label className={'text- m-2'}>Edit</label>
-                                                {
-                                                    isUpdate && < ProjectForm
-                                                        isOpen={projectStore.isUpdate}
-                                                        onSubmit={() => {
-                                                        }}
-                                                        handleClose={() => setIsUpdate(false)}
-                                                    />
-                                                }
+                                                <label className={'text- m-2'}>View</label>
+
                                             </DropdownItem>
+                                            {/*Edit Button*/}
+                                            {/*<DropdownItem key="edit"*/}
+                                            {/*              className={'dropdown-item border rounded'}*/}
+                                            {/*              onClick={() => {*/}
+                                            {/*                  setIsUpdate(true)*/}
+                                            {/*                  setUpdateData(item)*/}
+                                            {/*              }}*/}
+                                            {/*>*/}
+
+                                            {/*    <label className={'text- m-2'}>Edit</label>*/}
+                                            {/*    {*/}
+                                            {/*        isUpdate && < ProjectForm*/}
+                                            {/*            isOpen={projectStore.isUpdate}*/}
+                                            {/*            onSubmit={() => {*/}
+                                            {/*            }}*/}
+                                            {/*            handleClose={() => setIsUpdate(false)}*/}
+                                            {/*        />*/}
+                                            {/*    }*/}
+                                            {/*</DropdownItem>*/}
 
                                             {/* Setting Icon */}
                                             <DropdownItem
@@ -182,10 +209,6 @@ const ProjectRectangleView = () => {
                     }
                 </div>
             </div>
-
-            {
-                isOpen && <ProjectItem handleClose={() => setIsOpen(false)}/>
-            }
 
         </>
     );

@@ -76,36 +76,40 @@ export const useLoginStore = create<{
 
 export const useProjectStore = create<{
     id: number | undefined,
-    setId: (id: string) => void,
     data: ProjectInfo,
     updateData: any,
     isOpen: boolean,
     isOpenItem: boolean,
     isCreate: boolean,
     isUpdate: boolean,
+    isView: boolean,
+    setId: (id: string) => void,
+    setData: (data: any) => void
+    setUpdateData: (updateData: any) => void
+    setIsOpen: (isOpen: boolean) => void
     setIsOpenItem: (isOpenItem: boolean) => void
     setIsUpdate: (isUpdate: boolean) => void
     setIsCreate: (isCreate: boolean) => void
-    setData: (data: any) => void
-    setIsOpen: (isOpen: boolean) => void
+    setIsView: (isView: boolean) => void
     setUpdate: (isUpdate: boolean) => void
-    setUpdateData: (updateData: any) => void
 }>(set => ({
     id: undefined,
-    setId: (id: string) => set((state): any => ({...state, id})),
     data: {} as ProjectInfo,
     updateData: {},
     isOpen: false,
     isOpenItem: false,
     isCreate: false,
     isUpdate: false,
+    isView: false,
+    setId: (id: string) => set((state): any => ({...state, id})),
+    setData: (data: any) => set((state): any => ({...state, data})),
+    setUpdateData: (updateData: any) => set((state): any => ({...state, updateData })),
+    setIsOpen: (isOpen : boolean) => set((state): any => ({...state, isOpen})),
     setIsOpenItem: (isOpenItem: boolean) => set((state): any => ({...state, isOpenItem})),
     setIsUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
     setIsCreate:(isCreate: boolean) => set((state): any => ({...state, isCreate})),
-    setData: (data: any) => set((state): any => ({...state, data})),
-    setIsOpen: (isOpen : boolean) => set((state): any => ({...state, isOpen})),
     setUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
-    setUpdateData: (updateData: any) => set((state): any => ({...state, updateData })),
+    setIsView: (isView: boolean) => set((state): any => ({...state, isView})),
 }));
 
 export const useUserStore = create<{
