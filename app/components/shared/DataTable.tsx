@@ -1,7 +1,6 @@
 "use client"
 import {flexRender, Row, Table,} from "@tanstack/react-table";
 import cn from "clsx";
-import React from "react";
 
 
 interface DataTableProps<TData, TValue> {
@@ -29,6 +28,8 @@ const DataTable = <TData, TValue>({
                 <tr className={"ks_table_header_row"}
                     key={headerGroup.id}>
                     {headerGroup.headers.map((header, index) => (
+                        // headerGroup.headers.length - 1 === index ?
+                        //     (
                         <th
                             className={cn("ks_table_header")}
                             key={header.id}

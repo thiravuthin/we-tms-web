@@ -30,6 +30,7 @@
     "react-hook-form": "^7.51.4",
     "react-hot-toast": "^2.4.1",
     "react-intersection-observer": "^9.10.2",
+    "typescript-string-operations": "^1.5.0",
     "yup": "^1.4.0",
     "zustand": "^4.5.2"
   },

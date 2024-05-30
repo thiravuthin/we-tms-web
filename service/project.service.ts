@@ -25,7 +25,7 @@ const createProject = async (params: ProjectRequest) => {
     return result.data;
 }
 async function updateProject(id: number, requestBody: any) {
-    return http.patch(ServiceId.PROJECT + `/${id}`,requestBody).catch(error => error);
+    return http.put(ServiceId.PROJECT + `/${id}`,requestBody).catch(error => error);
 }
 async function deleteProject(id: number) {
     return http.delete(ServiceId.PROJECT + `/${id}`).catch(error => error);

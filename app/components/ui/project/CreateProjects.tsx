@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useState} from 'react';
+import React from 'react';
 import {useProjectStore} from "@/app/lib/store";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {projectService} from "@/service/project.service";
@@ -10,72 +10,84 @@ import ProjectForm from "@/app/components/ui/project/ProjectForm";
 
 type Props = {
     handleClose: () => void,
-    // onSuccess: () => void,
 };
 
 function CreateProjects({handleClose}: Props) {
-    const {isUpdate, updateData, isOpen, setIsOpen} = useProjectStore();
+    const {
+        isUpdate,
+        id,
+        setId,
+        setIsCreate,
+        setIsUpdate,
+        setUpdateData,
+        setUpdate,
+        updateData,
+        isOpen,
+        setIsOpen,
+        // data: project
+    } = useProjectStore();
 
-    const [projectName, setProjectName] = useState('');
-
-    const [reset, setReset] = useState(false);
     const projectStore = useProjectStore();
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
         mutationFn: (data: ProjectRequest) => {
             if (isUpdate) {
-                return projectService.updateProject(updateData?.project_id, data);
+                return projectService.updateProject(id as number, data);
             }
             return projectService.createProject(data)
         },
-         onMutate: () => {
-        toast.loading("Loading...");
-    },
+        onMutate: () => {
+            toast.loading("Loading...");
+        },
         onError: () => {
-           toast.dismiss()
+            toast.dismiss()
             toast.error('Error');
         },
         onSuccess: () => {
             toast.dismiss()
-            toast.success('Success');
-            queryClient.invalidateQueries( {queryKey: [`projects`]})
+            queryClient.invalidateQueries({queryKey: [`projects`]})
             setIsOpen(false)
+            setIsUpdate(false)
+            setIsCreate(false)
+            // setId(id)
+            toast.success(isUpdate ? 'Project has been updated' : 'Project has been saved');
         }
     })
 
-    const onSubmit = (data: ProjectRequest)=>{
+    const onSubmit = (data: ProjectRequest) => {
         const reqBody: ProjectRequest = {
             name: data.name
         }
         mutation.mutate(reqBody, {
-            onSuccess: () => {
-                toast.success('Success');
-                queryClient.invalidateQueries({queryKey:["projects"]})
+            onSuccess: (updateData) => {
+                queryClient.invalidateQueries({queryKey: ["projects"]})
 
-                if(projectStore.isOpen){
-                    projectStore.setIsOpen(false)
-                    setReset(true)
-                }else {
+                if (projectStore.isOpen) {
                     projectStore.setIsOpen(false)
                 }
-                !isUpdate ? toast.success("Project has been saved") : toast.success("Project has been updated")
             },
             onError: (error: any) => {
                 toast.error(error?.message || 'An error occurred');
             }
-
-
         })
     }
 
     return (
         <>
             {
-                <ProjectForm  isSuccess={mutation.isSuccess}
-                              isOpen={isOpen}
-                              onSubmit={onSubmit}
-                              handleClose={handleClose} />
+                <ProjectForm
+                    isOpen={isOpen}
+                    onSubmit={onSubmit}
+                    handleClose={() => {
+                        handleClose();
+                        // setIsUpdate(true);
+                        setUpdateData({project_name: ''});
+                    }
+                    }
+                    updateData={updateData}
+
+                />
             }
         </>
     );

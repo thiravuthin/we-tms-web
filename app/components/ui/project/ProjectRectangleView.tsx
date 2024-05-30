@@ -3,7 +3,6 @@ import Calender from "@/app/components/icons/Calender";
 import useFetchProject from "@/app/lib/hooks/use-fetch-project";
 import {useProjectStore} from "@/app/lib/store";
 import ProjectItem from "@/app/components/ui/project/ProjectItem";
-import {DateUtilsCopy} from "@/utils/DateUtilsCopy";
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/dropdown";
 import SettingIcon from "@/app/components/icons/SettingIcon";
 import LogoutIcon from "@/app/components/icons/LogoutIcon";
@@ -11,12 +10,23 @@ import {projectService} from "@/service/project.service";
 import toast from "react-hot-toast";
 import {useQueryClient} from "@tanstack/react-query";
 import ProjectForm from "@/app/components/ui/project/ProjectForm";
+import {DateUtils} from "@/utils/DateUtils";
+import Star from "@/app/components/icons/Star";
+import SavedStar from "@/app/components/icons/SavedStar";
 
 const ProjectRectangleView = () => {
-    const {isOpen, setIsOpen, setUpdateData, setData} = useProjectStore(state => state);
+    const {
+        isOpen,
+        isUpdate,
+        id,
+        setId,
+        setIsOpen,
+        setUpdateData,
+        setIsUpdate,
+        setData
+    } = useProjectStore(state => state);
     const projectStore = useProjectStore(state => state);
-    const [id, setId] = useState(0);
-    // const [open , setOpen] = useState(false);
+
 
     const [params, dispatch] = useReducer(
         (state: any, action: any) => {
@@ -29,15 +39,16 @@ const ProjectRectangleView = () => {
             search_value: '',
         }
     );
-    const {data, pagination} = useFetchProject(params);
+    const {data, pagination} = useFetchProject();
     const [isStar, setIsStar] = useState(true);
     const queryClient = useQueryClient();
 
     const handleRemoveProject = async () => {
-        const askMessage = window.confirm('Are you sure you want to delete this project?'), isConfirm = askMessage;
+        const askMessage = window.confirm('This action cannot be undone. This will permanently remove this data from the system.'),
+            isConfirm = askMessage;
         if (isConfirm) {
             try {
-                const response = await projectService.deleteProject(id);
+                const response = await projectService.deleteProject(id as number);
 
                 if (response.status === 200) {
                     toast.success('Project deleted successfully')
@@ -54,29 +65,21 @@ const ProjectRectangleView = () => {
         }
 
     };
+
     return (
         <>
             <div className="ks_pd_30">
                 <div className="row gap-3" onClick={() => {
-                    console.log("TEsing")
-                    // console.log(item.project_id)
                 }}>
                     {
                         data?.map((item, index) => (
                             <div key={index} className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20 ks_hvr_pro"
                                  onClick={() => {
+                                     setId(item.project_id as any)
                                      projectStore.setData(item);
-                                     // projectStore.setIsOpen((prev: any) => projectStore.setIsOpen(!prev));
-                                     // setUpdateData(item)
-                                     // projectStore.setIsOpen(true)
                                      setIsOpen(true)
                                  }}>
-                                <div className="ks_d_flex" onClick={() => {
-
-                                    // setId(item.project_id)
-                                }
-
-                                }>
+                                <div className="ks_d_flex">
                                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="20" cy="20" r="20" fill="#F1F5F9"/>
@@ -89,7 +92,7 @@ const ProjectRectangleView = () => {
                                         <div className="ks_d_flex">
                                             <Calender/>
                                             <label
-                                                className="ks-silver ks_ml_5 ">{DateUtilsCopy.dateDDMMYYYY(item.regi_dtm)}</label>
+                                                className="ks-silver ks_ml_5 ">{DateUtils.formatDateHour(item.regi_dtm)}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -97,16 +100,15 @@ const ProjectRectangleView = () => {
                                 <div className="ks_d_flex ks_flex_col ks_jt_cont_betw">
                                     {/*<MoreVertical/>*/}
                                     {/*<DropdownProject show={isOpenItem} id={0}/>*/}
-                                    {/*<div onClick={() => setIsStar(!isStar)}>*/}
-                                    {/*    {*/}
-                                    {/*        isStar ? <Star/> : <SavedStar/>*/}
-                                    {/*    }*/}
-                                    {/*</div>*/}
+
 
                                     <Dropdown className={''}>
                                         <DropdownTrigger>
                                             <button type={"button"} className={'unstyled-button'}
-                                                    onClick={() => setId(item.project_id)}>
+                                                    onClick={() => {
+                                                        setId(item.project_id as any)
+                                                    }
+                                                    }>
                                                 <svg
                                                     className="ks_wth20 ks_hgt20"
                                                     width="20"
@@ -133,14 +135,21 @@ const ProjectRectangleView = () => {
                                         >
                                             {/* My Account*/}
                                             <DropdownItem key="edit"
-                                                          className={'dropdown-item border rounded'}>
+                                                          className={'dropdown-item border rounded'}
+                                                          onClick={() => {
+                                                              setIsUpdate(true)
+                                                              setUpdateData(item)
+                                                          }}
+                                            >
+
                                                 <label className={'text- m-2'}>Edit</label>
                                                 {
-                                                    projectStore.isOpen &&
-                                                    <ProjectForm isSuccess={true} isOpen={projectStore.isOpen} onSubmit={() => data}
-                                                                 handleClose={() => {
-                                                                     projectStore.setIsOpen(false)
-                                                                 }}/>
+                                                    isUpdate && < ProjectForm
+                                                        isOpen={projectStore.isUpdate}
+                                                        onSubmit={() => {
+                                                        }}
+                                                        handleClose={() => setIsUpdate(false)}
+                                                    />
                                                 }
                                             </DropdownItem>
 
@@ -161,6 +170,11 @@ const ProjectRectangleView = () => {
                                             </DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
+                                    <div onClick={() => setIsStar(!isStar)}>
+                                        {
+                                            isStar ? <Star/> : <SavedStar/>
+                                        }
+                                    </div>
                                 </div>
 
                             </div>

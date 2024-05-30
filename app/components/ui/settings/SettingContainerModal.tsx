@@ -149,7 +149,7 @@ const SettingContainer = ({accountData, show, handleClose}: {
 
                 {/* Body of sidebar render */}
                 {activeNav.isActive === SettingNavEnum.MyAccount && <AccountContainer accountData={accountData}/>}
-                {/*{activeNav.isActive === SettingNavEnum.User && <UserContainer/>}*/}
+                {activeNav.isActive === SettingNavEnum.User && <UserContainer/>}
                 {activeNav.isActive === SettingNavEnum.Language && <LanguagesContainer/>}
 
             </div>

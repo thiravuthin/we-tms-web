@@ -1,5 +1,9 @@
 /* AddLanguageForm.css */
 
+.width-btn-between{
+  width: 140px;
+}
+
 .input-wrapper {
   position: relative;
   width: 50%;
