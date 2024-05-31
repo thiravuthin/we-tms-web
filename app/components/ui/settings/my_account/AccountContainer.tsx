@@ -3,8 +3,6 @@ import {ProfileAccount} from '@/app/lib/types/profile';
 import React, {useRef, useState} from 'react';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useForm} from "react-hook-form";
-import ProfileEditIcon from "@/app/components/icons/ProfileEditIcon";
-import EditIcon from "@/app/components/icons/EditIcon";
 import {profileService} from "@/service/profile.service";
 import toast from "react-hot-toast";
 import {myAccountSchema} from "@/app/validators/profile.schema";
@@ -14,14 +12,8 @@ import PasswordComponent from "@/app/components/layout/PasswordComponent";
 
 const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
 
-    let image = 'image';
-    let imageData = accountData?.usr_prof_img;
-    if (imageData=="") {
-        imageData = image;
-    }
-
     const queryClient = useQueryClient();
-    const [previewImage, setPreviewImage] = useState<string | null>(imageData);
+    const [previewImage, setPreviewImage] = useState<string | null>(accountData?.usr_prof_img);
     const [fileImage, setFileImage] = useState<File | null>(null);
     const [isEditAccount, setIsEditAccount] = useState(false);
     const hiddenFileInput = useRef<HTMLInputElement>(null);
@@ -85,16 +77,17 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
     const handleClickUploadImage = () => {
         hiddenFileInput?.current?.click();
     };
+
     const handleUploadImageChange = (e: any) => {
         const file = e.target.files[0];
         setFileImage(file);
         setPreviewImage(URL.createObjectURL(e.target.files!![0]));
     };
+
     const handleDeleteImage = (event: React.MouseEvent) => {
         event.stopPropagation()
         setPreviewImage(null);
         setFileImage(null);
-
     };
 
     return (
@@ -140,62 +133,22 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
 
                 {/* Image */}
                 <div className="d-flex">
-                    <div className="p-4 d-flex flex-row align-items-center">
+                    <div className="p-4 d-flex flex-row align-items-center w-100">
                         <div
                             className="ks_d_flex ks_jt_cont_ctr ks_alg_itm_ctr cursor-pointer"
-                            onClick={isEditAccount ? handleClickUploadImage : undefined}
                             style={{position: 'relative'}}
                         >
-                            {isEditAccount
-                                ? null
-                                : (
-                                    <div className="">
-                                        {/**/}
-                                        {previewImage ? (
-                                            <img
-                                                src={previewImage}
-                                                alt="Profile Preview"
-                                                height={100}
-                                                width={100}
-                                                style={{borderRadius: '0.4rem'}}
-                                                onClick={handleClickUploadImage}
-                                            />
-                                        ) : (
-                                            <>
-                                                {
-                                                    isEditAccount ? (
-                                                            <div>
-                                                                <ProfileEditIcon/>
-                                                                <EditIcon/>
-                                                            </div>
-                                                        ) :
-                                                        <ProfileEditIcon/>
-                                                }
-
-                                                {isEditAccount &&
-                                                    <input
-                                                        type="file"
-                                                        ref={hiddenFileInput}
-                                                        accept=".png, .jpg, .jpeg"
-                                                        hidden
-                                                        onChange={handleUploadImageChange}
-                                                    />
-                                                }
-                                            </>
-                                        )}
-                                    </div>
-                                )
-                            }
-
-                            {isEditAccount && previewImage ? (
+                            {isEditAccount && previewImage ?
+                                (
+                                    /* Can upload image after click Edit button */
                                     <>
                                         <img
                                             src={previewImage}
                                             alt="Profile Preview"
                                             height={100}
                                             width={100}
-                                            style={{borderRadius: '0.4rem'}}
-                                            onChange={handleUploadImageChange}
+                                            style={{borderRadius: '50%'}}
+                                            onClick={handleClickUploadImage}
                                         />
                                         <input
                                             type="file"
@@ -205,35 +158,74 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                             onChange={handleUploadImageChange}
                                         />
                                     </>
-                                )
-                                :
-                                (
-                                    <>
-                                        {isEditAccount &&
-                                            <div>
-                                                <ProfileEditIcon/>
-                                                <EditIcon/>
-                                            </div>
-                                        }
-                                    </>
-                                )
-                            }
 
-                            {isEditAccount && previewImage && (
-                                <button
-                                    className="btn-delete-image m-lg-4"
-                                    type="button"
-                                    onClick={handleDeleteImage}>
-                                    Delete
-                                </button>
-                            )}
+                                ) : (
+
+                                    previewImage ?
+                                        /* Image keep after save */
+                                        <>
+                                            <img
+                                                src={previewImage}
+                                                alt="Profile "
+                                                height={100}
+                                                width={100}
+                                                style={{borderRadius: '50%'}}
+                                                onClick={handleClickUploadImage}
+                                            />
+                                        </>
+                                        :
+                                        <>
+                                            {/* Image keep after delete */}
+                                            <img
+                                                src={'/avataruser.svg'}
+                                                height={70}
+                                                width={70}
+                                                style={{borderRadius: '50%'}}
+                                                onClick={handleClickUploadImage}
+                                                alt="Upload image"
+                                            />
+                                            {
+                                                isEditAccount &&
+                                                <input
+                                                    type="file"
+                                                    ref={hiddenFileInput}
+                                                    accept=".png, .jpg, .jpeg"
+                                                    hidden
+                                                    onChange={handleUploadImageChange}
+                                                />
+                                            }
+                                        </>
+                                )}
+                        </div>
+
+                        {/* Button Delete */}
+                        <div>
+                            {isEditAccount ?
+                                <>
+                                    <button type="button"
+                                            className="btn btn-outline-dark m-lg-4 bg-white text-dark font-weight-bold border  "
+                                            onClick={handleDeleteImage}
+                                    >
+                                        Delete
+                                    </button>
+                                </>
+                                :
+                                <>
+                                    <button
+                                        type={'button'}
+                                        className="btn btn-secondary m-lg-4 bg-white text-secondary font-weight-bold border  "
+                                    >
+                                        Delete
+                                    </button>
+                                </>
+                            }
                         </div>
                     </div>
                 </div>
 
                 {/* Basic Information */}
-                <div className={`${!isEditAccount ? "text-secondary pt-4 p-lg-4" : "text-dark pt-4 p-lg-4"}`}> Basic
-                    Information
+                <div className={`${!isEditAccount ? "text-secondary pt-4 p-lg-4" : "text-dark pt-4 p-lg-4"}`}>
+                    Basic Information
                 </div>
 
                 {/* Full Name */}
