@@ -48,25 +48,19 @@ function Sidebar() {
 
     return (
         <>
-            <div id="ks_wt_app_sidebar" className="ks_d_flex ks_flex_col">
+            <div id="ks_wt_app_sidebar" className="ks_d_flex ks_flex_col ks-wt-app-sidebar-menu-lbl">
                 <div id="ks_wt_app_default_t" className="ks_d_flex ks_alg_itm_ctr ks_pt_25 ks_pl_20">
                     <div className="ks_d_flex">
                         <SidebarToggle/>
-                        <div>
-                            <Link href={"/projects"} className="ks_pl_8">
+                        <Link href={"/projects"} className="ks_pl_8">
                                 <LogoWetms/>
-                                {/*<label>WeTMS</label>*/}
-                            </Link>
-                        </div>
-
+                        </Link>
                     </div>
-
-
                 </div>
 
                 <div className="ks-wt-app-sidebar-menu-scroll ">
                     <div className="ks_d_flex ks_flex_col">
-                        <div className="ks-wt-app-sidebar-menu-lbl">
+                        <div className="">
                             <div className="ks-wt-app-sidebar-menu-item-contaier ks_d_flex ks_flex_col">
                                 {
                                     NAVIGATION_CONFIG.items.map((item) => (
@@ -76,7 +70,7 @@ function Sidebar() {
                                                     href={item.path + '?' + urlParam.toString()}
                                                     activeClassName={'ks-wt-active'}
                                                     icon={item.icon}>
-                                            <label className="cursor-pointer ks_lbl_bigger ks_fw_md ks-pl-10">{item?.name}</label>
+                                            <label className="cursor-pointer ks_lbl_bigger ks_fw_md ks-pl-10 ks_sb_itm">{item?.name}</label>
                                         </ActiveLink>
                                     ))
                                 }
@@ -86,7 +80,7 @@ function Sidebar() {
                                         data-bs-toggle="collapse"
                                         data-bs-target="#flush_collapse_1"
                                         aria-controls="flush_collapse_1"
-                                        className="ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr">
+                                        className="ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_sb_itm">
                                         <div
                                             onClick={() => setShowMore(!showMore)}
                                             className="ks_d_flex ks_alg_itm_ctr"
@@ -99,7 +93,7 @@ function Sidebar() {
 
                                     <div
                                         id="flush_collapse_1"
-                                        className="accordion-collapse collapse show"
+                                        className="accordion-collapse collapse show ks_sb_itm"
                                         aria-labelledby="flush_collapse_1"
                                     >
                                         <div className="ks_d_flex ks_flex_col ks_wth280">
@@ -143,22 +137,19 @@ function Sidebar() {
                                     </div>
                                 </>
                             </div>
-
                         </div>
                     </div>
                 </div>
 
                 <div className="ks_mtauto">
-                    <div className="ks_hide_x_scroll ks_p25 ks_ml_15">
+                    <div className="ks_hide_x_scroll ks_p25 ks_ml_15 ks_pb_5">
                         <VersionIcon />
-                        <label className="ks_fw_md ks_ml_5">
+                        <label className="ks_fw_md text-black ks-size-small ks_ml_5">
                             WeTMS v.1.0.0
                         </label>
                     </div>
                 </div>
             </div>
-
-
         </>
     );
 }

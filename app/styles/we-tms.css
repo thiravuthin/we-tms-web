@@ -300,7 +300,10 @@ body.ks-wt-collapse-sidebar #ks_wt_app_sidebar #ks_wt_app_sidebar_menu_wrapper {
   padding-left: var(--ks-wt-sz-16-rem) !important;
   padding-right: var(--ks-wt-sz-16-rem) !important;
 }
-body.ks-wt-collapse-sidebar .ks-wt-app-sidebar-menu-lbl {
+body.ks-wt-collapse-sidebar .ks-wt-app-sidebar-menu-lbl label {
+  display: none !important;
+}
+body.ks-wt-collapse-sidebar .ks_wb_logo_svg svg {
   display: none !important;
 }
 .ks-wt-app-sidebar-menu-item-contaier {

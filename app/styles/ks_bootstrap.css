@@ -2180,6 +2180,9 @@ input[type="radio"]:checked {
 /* end--padding-right */
 
 /* begin--padding-bottom */
+.ks_pb_5 {
+  padding-bottom: var(--ks-wt-sz-5px) !important;
+}
 .ks_pb_10 {
   padding-bottom: var(--ks-wt-sz-10px) !important;
 }
