@@ -93,7 +93,7 @@ const ProjectRectangleView = () => {
 
     return (
         <>
-            <div className="ks_pd_30">
+            <div className="ks_pd_30 ks_pl_35">
                 <div className="row gap-3" onClick={() => {}}>
                     {   isLoading ? (
                         <div>Loading...</div> // or any other loading indicator

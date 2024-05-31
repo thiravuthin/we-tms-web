@@ -37,15 +37,15 @@ export const DefaultColumns: ColumnDef<User>[] = [
         id: "profile",
         header: "Profile",
         cell: ({row}) => {
-            const addressUserImg = "";
+            const addressUserImg = row?.original?.usr_prof_img;
             const addressTextProfile = row?.original?.full_nm;
             const addressTextRole = row?.original?.usr_nm;
             return (
                 <>
                     <div className="ks_d_flex ks_alg_itm_ctr ks_d_inl_flex ks_pl_0 pt-1">
-                        <Image id="ks_wt_app_header_username_badge"
+                        <img id="ks_wt_app_header_username_badge"
                                src={addressUserImg} width={85}
-                               height={85} priority alt="" style={{ borderRadius: '50%', objectFit: 'cover' }}/>
+                               height={85} alt="" style={{ borderRadius: '100%', objectFit: 'cover' }}/>
                         <div className="ks_d_flex ks_flex_col px-2">
                             <label className="ks_pl10">{addressTextProfile}</label>
                             <label className="ks_pl10">{"@" + addressTextRole}</label>

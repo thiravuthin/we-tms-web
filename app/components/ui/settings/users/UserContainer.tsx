@@ -1,16 +1,16 @@
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { DefaultColumns } from "@/app/components/ui/settings/users/DefaultColumns";
 import PlusIcon from "@/public/asset/icon/PlusIcon";
 import DataTable from "@/app/components/shared/DataTable";
 import UserAction from "@/app/components/ui/settings/users/UserAction";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import DeleteDialog from "@/app/components/ui/settings/users/DeleteDialog";
 import { userService } from "@/service/user.service";
 import toast from "react-hot-toast";
 import AddNewUser from "@/app/components/ui/settings/users/AddNewUser";
 import { useUserStore } from "@/app/lib/store";
 import PaginationUserComponent from "@/app/components/ui/settings/users/PaginationUserComponent";
+import DeleteDialog from "@/app/components/ui/settings/users/DeleteDialog";
 
 const UserContainer = () => {
     const [pageNumber, setPageNumber] = useState<number>(0);
@@ -41,9 +41,9 @@ const UserContainer = () => {
     const handleDeleteUserMutate = useMutation({
         mutationFn: (user_ids: number[]) => userService.deleteUser(user_ids),
         onSuccess: async () => {
-            toast.success("User has been removed.")
-            queryClient.invalidateQueries({ queryKey: ['users'] })
-            setShowDeleteDialog(false)
+            toast.success("User has been removed.");
+            queryClient.invalidateQueries({ queryKey: ['users'] });
+            setShowDeleteDialog(false);
         }
     });
 
@@ -63,7 +63,6 @@ const UserContainer = () => {
         return <span>Error</span>;
     }
 
-
     return (
         <>
             {activeComponent === 'userList' ? (
@@ -82,8 +81,11 @@ const UserContainer = () => {
                             rowActions={(data) => (
                                 <UserAction
                                     row={data}
-                                    setSelectedUser={setSelectedUser}
                                     handleEditUserClick={() => setActiveComponent('addNewUser')}
+                                    triggerDeleteDialog={() => {
+                                        setSelectedUser(data.original.id);
+                                        setShowDeleteDialog(true);
+                                    }}
                                 />
                             )}
                         />
@@ -107,7 +109,6 @@ const UserContainer = () => {
                     handleDelete={handleDeleteUser}
                 />
             )}
-
         </>
     );
 };
