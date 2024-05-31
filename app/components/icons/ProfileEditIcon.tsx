@@ -1,9 +1,11 @@
-import React, {ChangeEventHandler} from 'react';
+import React from 'react';
 
 
-const ProfileEditIcon = () => {
+const ProfileEditIcon = ({onclick}: { onclick?: () => void }) => {
     return (
-        <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+            onClick={onclick}
+            width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="35" cy="35" r="35" fill="#F1F5F9"/>
             <path
                 d="M46.6663 50V46.6667C46.6663 44.8986 45.964 43.2029 44.7137 41.9526C43.4635 40.7024 41.7678 40 39.9997 40H29.9997C28.2316 40 26.5359 40.7024 25.2856 41.9526C24.0354 43.2029 23.333 44.8986 23.333 46.6667V50"
