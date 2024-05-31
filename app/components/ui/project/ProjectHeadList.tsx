@@ -1,12 +1,11 @@
 "use client"
-import React, {useEffect, useReducer} from 'react';
+import React from 'react';
 import LayoutGrid from "@/app/components/icons/LayoutGrid";
 import Line from "@/app/components/icons/Line";
 import List from "@/app/components/icons/List";
 import ProjectSearch from "@/app/components/ui/project/ProjectSearch";
 import ProjectRectangleView from "@/app/components/ui/project/ProjectRectangleView";
 import {useProjectStore} from "@/app/lib/store";
-import CreateProjects from "@/app/components/ui/project/CreateProjects";
 
 const ProjectHeadList = () => {
     const {isCreate, isUpdate,setIsCreate } = useProjectStore(state => state);
@@ -63,13 +62,13 @@ const ProjectHeadList = () => {
             </div>
             <ProjectRectangleView/>
 
-            {
-                isCreate && <CreateProjects handleClose={() => setIsCreate(false)}/>
-            }
+            {/*{*/}
+            {/*    isCreate && <CreateProjects handleClose={() => setIsCreate(false)}/>*/}
+            {/*}*/}
 
-            {
-                isUpdate && <CreateProjects handleClose={() => setIsCreate(false)}/>
-            }
+            {/*{*/}
+            {/*    isUpdate && <CreateProjects handleClose={() => setIsCreate(false)}/>*/}
+            {/*}*/}
         </>
     );
 };
