@@ -48,7 +48,9 @@ const UserContainer = () => {
     });
 
     const handleDeleteUser = async () => {
+        console.log("--------------------------------")
         if (selectedUser !== null) {
+            console.log("selectedUser", selectedUser);
             handleDeleteUserMutate.mutate([selectedUser]);
         }
     };
@@ -104,7 +106,7 @@ const UserContainer = () => {
                 <DeleteDialog
                     isOpen={showDeleteDialog}
                     setIsOpen={setShowDeleteDialog}
-                    handleDeleteUser={handleDeleteUser}
+                    handleDelete={handleDeleteUser}
                 />
             )}
         </>

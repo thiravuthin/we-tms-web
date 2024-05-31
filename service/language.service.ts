@@ -28,9 +28,8 @@ const updateLanguages = async (id: number, payload: LanguageRequest) => {
 }
 
 const deleteLanguage = async (lang_cd: string[]) => {
-    const result = await http.delete(ServiceId.LANGUAGE + `/${lang_cd}`);
+    const result = await http.patch(ServiceId.LANGUAGE + `/${[lang_cd]}` + '/disable', {data: {lang_cd: lang_cd}});
     return result?.data;
-
 }
 
 export const languagesService = {

@@ -17,15 +17,10 @@ type Props = {
 const ProjectForm: React.FC<Props> = ({onSubmit, handleClose, updateData}) => {
 
     const {
-        setIsOpen,
         id,
-        setId,
         isUpdate,
         setIsUpdate,
-        setUpdateData,
-        isOpen,
         updateData: projectUpdate,
-        setUpdate
     } = useProjectStore(state => state);
 
     const methods = useForm<any>({
