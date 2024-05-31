@@ -3,30 +3,22 @@ import React, {useEffect, useReducer, useState} from 'react';
 import Calender from "@/app/components/icons/Calender";
 import useFetchProjects from "@/app/lib/hooks/use-fetch-project";
 import {useProjectStore} from "@/app/lib/store";
-import ProjectItem from "@/app/components/ui/project/ProjectItem";
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/dropdown";
 import SettingIcon from "@/app/components/icons/SettingIcon";
 import LogoutIcon from "@/app/components/icons/LogoutIcon";
 import {projectService} from "@/service/project.service";
 import toast from "react-hot-toast";
 import {useQueryClient} from "@tanstack/react-query";
-import ProjectForm from "@/app/components/ui/project/ProjectForm";
 import {DateUtils} from "@/utils/DateUtils";
-import Star from "@/app/components/icons/Star";
-import SavedStar from "@/app/components/icons/SavedStar";
 import {useInView} from "react-intersection-observer";
 import NoDataSave from "@/app/components/layout/NoDataSave";
 
 const ProjectRectangleView = () => {
     const {ref, inView, entry} = useInView();
     const {
-        isOpen,
-        isUpdate,
         id,
         setId,
         setIsOpen,
-        setUpdateData,
-        setIsUpdate,
         setData,
         isView,
         setIsView
@@ -94,7 +86,6 @@ const ProjectRectangleView = () => {
         }
     }, [isView])
 
-    console.log("projects", projects)
     return (
         <>
             <div className="ks_pd_30 ks_pl_35">
@@ -107,7 +98,8 @@ const ProjectRectangleView = () => {
                             <>
                                 {
                                     projects?.map((item, index) => (
-                                        <div key={index} ref={ref} className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20 ks_hvr_pro"
+                                        <div key={index} ref={ref}
+                                             className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20 ks_hvr_pro"
                                              onClick={() => {
                                                  setId(item.project_id as any)
                                                  projectStore.setData(item);
@@ -167,7 +159,7 @@ const ProjectRectangleView = () => {
                                                     <DropdownMenu className="ks_wth_280 bg-white rounded "
                                                                   aria-label="Static Actions"
                                                     >
-                                                        {/* My Account*/}
+                                                        {/*View*/}
                                                         <DropdownItem key="view"
                                                                       className={'dropdown-item border rounded'}
                                                                       onClick={() => {
@@ -215,11 +207,11 @@ const ProjectRectangleView = () => {
                                                         </DropdownItem>
                                                     </DropdownMenu>
                                                 </Dropdown>
-                                                <div onClick={() => setIsStar(!isStar)}>
-                                                    {
-                                                        isStar ? <Star/> : <SavedStar/>
-                                                    }
-                                                </div>
+                                                {/*<div onClick={() => setIsStar(!isStar)}>*/}
+                                                {/*    {*/}
+                                                {/*        isStar ? <Star/> : <SavedStar/>*/}
+                                                {/*    }*/}
+                                                {/*</div>*/}
                                             </div>
 
                                         </div>
