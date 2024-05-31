@@ -22,7 +22,8 @@ const useFetchProjects = () => {
         hasNextPage,
         hasPreviousPage,
         isError,
-        error
+        error,
+        isLoading
     } = useInfiniteQuery<ProjectManagements, Error>({
         queryKey: ['projects', requestParams],
         queryFn: ({ pageParam = 0 }) => projectService.getProjects({ ...requestParams, page_number: pageParam }),
@@ -40,7 +41,8 @@ const useFetchProjects = () => {
         hasNextPage,
         hasPreviousPage,
         isError,
-        error
+        error,
+        isLoading
     };
 };
 

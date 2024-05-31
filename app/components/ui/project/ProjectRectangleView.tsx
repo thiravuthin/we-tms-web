@@ -12,6 +12,7 @@ import {useQueryClient} from "@tanstack/react-query";
 import {DateUtils} from "@/utils/DateUtils";
 import {useInView} from "react-intersection-observer";
 import NoDataSave from "@/app/components/layout/NoDataSave";
+import {useRouter} from "next/navigation";
 
 const ProjectRectangleView = () => {
     const {ref, inView, entry} = useInView();
@@ -24,7 +25,10 @@ const ProjectRectangleView = () => {
         setIsView
     } = useProjectStore(state => state);
     const projectStore = useProjectStore(state => state);
-
+    const router = useRouter();
+    const handleProjectClick = (project_id:number) => {
+        router.push(`/projects/${project_id}/translations`);
+    }
 
     const [params, dispatch] = useReducer(
         (state: any, action: any) => {
@@ -42,6 +46,7 @@ const ProjectRectangleView = () => {
         data,
         fetchNextPage,
         hasNextPage,
+        isLoading
     } = useFetchProjects();
 
     const [isStar, setIsStar] = useState(true);
@@ -89,12 +94,12 @@ const ProjectRectangleView = () => {
     return (
         <>
             <div className="ks_pd_30">
-                <div className="row gap-3" onClick={() => {
-                }}>
-                    {
-                        projects.length === 0 ?
-                            <NoDataSave />
-                            :
+                <div className="row gap-3" onClick={() => {}}>
+                    {   isLoading ? (
+                        <div>Loading...</div> // or any other loading indicator
+                    ) : projects.length === 0 ? (
+                            <NoDataSave/>
+                        ) :
                             <>
                                 {
                                     projects?.map((item, index) => (
@@ -103,7 +108,8 @@ const ProjectRectangleView = () => {
                                              onClick={() => {
                                                  setId(item.project_id as any)
                                                  projectStore.setData(item);
-                                                 setIsOpen(true)
+                                                 setIsOpen(true);
+                                                 handleProjectClick(item?.project_id)
                                              }}>
                                             <div className="ks_d_flex">
                                                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none"

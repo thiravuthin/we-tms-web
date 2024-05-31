@@ -3022,4 +3022,16 @@ input[type="radio"]:checked {
     font-family: 'Inter', sans-serif;/* Set text color */
   }
 
+  .ks_mr10 {
+    margin-right: 0.625rem !important;
+  }
+  .ks_ml15 {
+    margin-left: 0.938rem !important;
+  }
+  .ks_hgt16 {
+    height: 0.875rem !important;
+  }.ks_w100 {
+     width: 100% !important;
+   }
+
 }

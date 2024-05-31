@@ -8,8 +8,7 @@ import ProjectRectangleView from "@/app/components/ui/project/ProjectRectangleVi
 import {useProjectStore} from "@/app/lib/store";
 
 const ProjectHeadList = () => {
-    const {isCreate, isUpdate,setIsCreate } = useProjectStore(state => state);
-
+    const {isCreate, isUpdate,data,setIsCreate } = useProjectStore(state => state);
     const PROJECT_NAVIGATION = {
         items: [
             {
