@@ -5268,7 +5268,7 @@ input[type="checkbox"].ks-wt-page-input-check:checked {
     margin-bottom: var(--ks-wt-sz-8px) !important;
   }
   .ks-wt-app-sidebar-menu-item-contaier {
-    gap: var(--ks-wt-sz-2-rem) !important;
+    gap: var(--ks-wt-sz-4-rem) !important;
   }
   .ks-wt-app-sidebar-menu-item {
     border-radius: var(--ks-wt-sz-5px) !important;

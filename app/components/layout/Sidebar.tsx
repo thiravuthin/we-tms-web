@@ -15,6 +15,7 @@ import VersionIcon from "@/app/components/icons/VersonIcon";
 import MoreIcon from "@/app/components/icons/MoreIcon";
 import StarredIcon from "@/app/components/icons/StarredIcon";
 import HiddenIcon from "@/app/components/icons/HiddenIcon";
+import {ArrowDown} from "@/app/components/icons";
 
 function Sidebar() {
     const pathname = usePathname();
@@ -49,7 +50,7 @@ function Sidebar() {
     return (
         <>
             <div id="ks_wt_app_sidebar" className="ks_d_flex ks_flex_col ks-wt-app-sidebar-menu-lbl">
-                <div id="ks_wt_app_default_t" className="ks_d_flex ks_alg_itm_ctr ks_pt_25 ks_pl_20">
+                <div id="ks_wt_app_default_t" className="ks_d_flex ks_pt_20">
                     <div className="ks_d_flex">
                         <SidebarToggle/>
                         <Link href={"/projects"} className="ks_pl_8">
@@ -59,7 +60,7 @@ function Sidebar() {
                 </div>
 
                 <div className="ks-wt-app-sidebar-menu-scroll ">
-                    <div className="ks_d_flex ks_flex_col">
+                    <div className="ks_d_flex ks_flex_col ks_pt_15">
                         <div className="">
                             <div className="ks-wt-app-sidebar-menu-item-contaier ks_d_flex ks_flex_col">
                                 {
@@ -80,15 +81,16 @@ function Sidebar() {
                                         data-bs-toggle="collapse"
                                         data-bs-target="#flush_collapse_1"
                                         aria-controls="flush_collapse_1"
-                                        className="ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_sb_itm">
+                                        className="ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_betw ks_sb_itm ks_alg_itm_ctr">
                                         <div
-                                            onClick={() => setShowMore(!showMore)}
                                             className="ks_d_flex ks_alg_itm_ctr"
+                                            onClick={() => setShowMore(!showMore)}
                                         >
                                             <MoreIcon />
                                             <label
                                                 className="cursor-pointer text-black ks_lbl_bigger ks_fw_md ks-pl-10">More</label>
                                         </div>
+                                        <ArrowDown />
                                     </div>
 
                                     <div
@@ -104,7 +106,7 @@ function Sidebar() {
                                                             'ks-wt-active': pathname === NavbarPathEnum.STARRED
                                                         })}
                                                     >
-                                                        <div
+                                                    <div
                                                             className="ks_d_flex ks_alg_itm_ctr"
                                                         >
                                                            <StarredIcon />
