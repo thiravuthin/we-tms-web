@@ -49,7 +49,7 @@ const ActiveLink = ({ children, activeClassName, className, icon, isActive, ...p
     return (
         <Link href={props.href}>
             <div className={computedClassName}>
-                <div className="ks-wt-app-sidebar-item ks_d_flex ks_alg_itm_ctr">
+                <div className="ks_d_flex ks_alg_itm_ctr">
                     {icon}
                     {children}
                 </div>
