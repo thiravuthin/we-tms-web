@@ -632,6 +632,27 @@ input::-webkit-inner-spin-button {
   width: 100%;
 }
 
+/*hover on add group to show icon delete and edit*/
+.category-item {
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.category-item .icons {
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.category-item:hover .icons {
+  opacity: 1;
+}
+
+
+
+
+
+
+
 .edit-icon {
   position: absolute;
   bottom: 0;

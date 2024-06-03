@@ -1458,6 +1458,10 @@ input[type="radio"]:checked {
 .ks_brd_left {
   border-left: var(--ks-wt-sz-1px) solid var(--ks-wt-gray-200) !important;
 }
+.ks_brd_left_832 {
+  border-left: var(--ks-wt-sz-1px) solid var(--ks-wt-gray-200) !important;
+  height: 830px;
+}
 /* end--border */
 
 /* begin--border-radius */
@@ -3008,6 +3012,28 @@ input[type="radio"]:checked {
     border: 2px solid #E5E7EB !important; /* Set border color and width */
     border-radius: 6px !important;
     width: 320px !important; /* Set fixed width */
+    height: auto !important; /* Set fixed height */
+  }
+  .ks_btn_pm_cld {
+    opacity: var(--ks-wt-opacity-100) !important;
+    background: #FFFFFF !important; /* Set background color */
+    border: 1px solid #E5E7EB !important; /* Set border color and width */
+    border-radius: 6px !important;
+    width: 220px !important; /* Set fixed width */
+    height: 40px !important; /* Set fixed height */
+  }
+  .ks_btn_pm_ser {
+    opacity: var(--ks-wt-opacity-100) !important;
+    background: #FFFFFF !important; /* Set background color */
+    border: 1px solid #E5E7EB !important; /* Set border color and width */
+    border-radius: 6px !important;
+    width: 200px !important; /* Set fixed width */
+    height: 40px !important; /* Set fixed height */
+  }
+  .ks_btn_pm_usr {
+    opacity: var(--ks-wt-opacity-100) !important;
+    background: #FFFFFF !important; /* Set background color */
+    width: 350px !important; /* Set fixed width */
     height: auto !important; /* Set fixed height */
   }
   .ks_btn_pm_m:hover {
