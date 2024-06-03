@@ -300,7 +300,10 @@ body.ks-wt-collapse-sidebar #ks_wt_app_sidebar #ks_wt_app_sidebar_menu_wrapper {
   padding-left: var(--ks-wt-sz-16-rem) !important;
   padding-right: var(--ks-wt-sz-16-rem) !important;
 }
-body.ks-wt-collapse-sidebar .ks-wt-app-sidebar-menu-lbl {
+body.ks-wt-collapse-sidebar .ks-wt-app-sidebar-menu-lbl label {
+  display: none !important;
+}
+body.ks-wt-collapse-sidebar .ks_wb_logo_svg svg {
   display: none !important;
 }
 .ks-wt-app-sidebar-menu-item-contaier {
@@ -344,8 +347,8 @@ body.ks-wt-collapse-sidebar .ks-wt-app-sidebar-item {
   justify-content: center !important;
 }
 .ks-wt-app-sidebar-item > svg {
-  width: var(--ks-wt-sz-16px) !important;
-  height: var(--ks-wt-sz-16px) !important;
+  width: var(--ks-wt-sz-18px) !important;
+  height: var(--ks-wt-sz-18px) !important;
   fill: var(--ks-wt-black) !important;
 }
 body.ks-wt-collapse-sidebar .ks-wt-app-sidebar-item + svg {
@@ -4669,6 +4672,12 @@ input[type="checkbox"].ks-wt-page-input-check:checked {
 .ks-pl-15 {
   padding-left: var(--ks-wt-sz-15-rem) !important;
 }
+.ks-pl-5 {
+  padding-left: var(--ks-wt-sz-5-rem) !important;
+}
+.ks-pl-8 {
+  padding-left: var(--ks-wt-sz-8-rem) !important;
+}
 .ks-pr-10 {
   padding-right: var(--ks-wt-sz-10-rem) !important;
 }
@@ -5259,7 +5268,7 @@ input[type="checkbox"].ks-wt-page-input-check:checked {
     margin-bottom: var(--ks-wt-sz-8px) !important;
   }
   .ks-wt-app-sidebar-menu-item-contaier {
-    gap: var(--ks-wt-sz-2-rem) !important;
+    gap: var(--ks-wt-sz-4-rem) !important;
   }
   .ks-wt-app-sidebar-menu-item {
     border-radius: var(--ks-wt-sz-5px) !important;

@@ -2150,6 +2150,9 @@ input[type="radio"]:checked {
 .ks_pt_12 {
   padding-top: var(--ks-wt-sz-12px) !important;
 }
+.ks_pt_15 {
+  padding-top: var(--ks-wt-sz-15px) !important;
+}
 .ks_pt_20 {
   padding-top: var(--ks-wt-sz-20px) !important;
 }
@@ -2180,6 +2183,9 @@ input[type="radio"]:checked {
 /* end--padding-right */
 
 /* begin--padding-bottom */
+.ks_pb_5 {
+  padding-bottom: var(--ks-wt-sz-5px) !important;
+}
 .ks_pb_10 {
   padding-bottom: var(--ks-wt-sz-10px) !important;
 }
@@ -3021,5 +3027,17 @@ input[type="radio"]:checked {
     color: #64748B;
     font-family: 'Inter', sans-serif;/* Set text color */
   }
+
+  .ks_mr10 {
+    margin-right: 0.625rem !important;
+  }
+  .ks_ml15 {
+    margin-left: 0.938rem !important;
+  }
+  .ks_hgt16 {
+    height: 0.875rem !important;
+  }.ks_w100 {
+     width: 100% !important;
+   }
 
 }
