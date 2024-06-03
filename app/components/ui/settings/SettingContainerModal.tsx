@@ -11,6 +11,7 @@ import LanguagesContainer from "@/app/components/ui/settings/languages/Languages
 import AccountContainer from "@/app/components/ui/settings/my_account/AccountContainer";
 import IconScreenZoomIn from "@/app/components/icons/IconScreenZoomIn";
 import IconScreenZoomOut from "@/app/components/icons/IconScreenZoomOut";
+import ProfileIcon from "@/app/components/icons/ProfileIcon";
 
 const SettingNav = [
     {
@@ -67,13 +68,14 @@ const SettingContainer = ({accountData, show, handleClose}: {
                         {/* Header Sidebar */}
                         <div className="ks-wt-modal-sidebar-toggle-block">
                             <div className="ks_d_flex">
-                                <img
-                                    src={accountData?.usr_prof_img}
-                                    alt="Profile"
-                                    height={50}
-                                    width={50}
-                                    style={{borderRadius: '50%'}}
-                                />
+                                {/*<img*/}
+                                {/*    src={accountData?.usr_prof_img}*/}
+                                {/*    alt="Profile"*/}
+                                {/*    height={50}*/}
+                                {/*    width={50}*/}
+                                {/*    style={{borderRadius: '50%'}}*/}
+                                {/*/>*/}
+                                <ProfileIcon imageUrl={accountData?.usr_prof_img} />
                                 <div className="ks_flex_row ks-pl-15">
                                     <div>
                                         <label className={'font-monospace fw-bold ks-size-medium'}>

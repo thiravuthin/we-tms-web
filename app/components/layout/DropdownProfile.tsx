@@ -14,7 +14,7 @@ import {popUpConfirmType} from "@/utils/enums";
 function DropdownProfile({show,}: { show?: boolean }) {
 
     const {profileQuery, isError, isLoading} = useFetchProfile();
-
+    const profileImageUrl = profileQuery.data?.usr_prof_img;
     const [showSetting, setShowSetting] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
 
@@ -30,7 +30,7 @@ function DropdownProfile({show,}: { show?: boolean }) {
             <Dropdown className={''}>
                 <DropdownTrigger>
                     <button type={"button"} className={'unstyled-button'}>
-                        <ProfileIcon/>
+                        <ProfileIcon imageUrl={profileImageUrl} />
                     </button>
                 </DropdownTrigger>
                 <DropdownMenu className="ks_wth_280 bg-white rounded "
