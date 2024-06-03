@@ -87,12 +87,12 @@ const PasswordComponent = () => {
 
                             ):
                             (
-                                <div className={'width-btn-between d-flex justify-content-between'}>
+                                <div className={'ks-wt-modal-toolbar-action-user-container ks_d_flex'}>
                                     <button
-                                        className="btn border"
+                                        className="ks_btn ks_btn_tiary ks_mr_8"
                                         type='button'
                                         onClick={() => setIsEditAccount(false)}>
-                                        <label>Cancel</label>
+                                        Cancel
                                     </button>
                                     <button
                                         className="btn btn-primary"

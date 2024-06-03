@@ -108,13 +108,13 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                     <label>Edit</label>
                                 </button>
                             ) : (
-                                <div className={'width-btn-between d-flex justify-content-lg-between'}>
+                                <div className={'ks-wt-modal-toolbar-action-user-container ks_d_flex'}>
                                     <button
-                                        className="btn border"
+                                        className="ks_btn ks_btn_tiary ks_mr_8"
                                         type='button'
                                         onClick={() => setIsEditAccount(false)}
                                     >
-                                        <label>Cancel</label>
+                                        Cancel
                                     </button>
 
                                     <button
@@ -176,14 +176,26 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                         :
                                         <>
                                             {/* Image keep after delete */}
+
                                             <img
-                                                src={'/avataruser.svg'}
+                                                src={'/asset/icon/ico_avatar.png'}
                                                 height={70}
                                                 width={70}
                                                 style={{borderRadius: '50%'}}
                                                 onClick={handleClickUploadImage}
                                                 alt="Upload image"
                                             />
+                                            { isEditAccount &&
+                                                <div className="edit-icon" onClick={handleClickUploadImage}>
+                                                    <img
+                                                        src={'/asset/icon/ico_edit.png'}
+                                                        alt="Edit"
+                                                        height={40}
+                                                        width={40}
+                                                    />
+                                                </div>
+                                            }
+
                                             {
                                                 isEditAccount &&
                                                 <input
@@ -203,21 +215,22 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                             {isEditAccount ?
                                 <>
                                     <button type="button"
-                                            className="btn btn-outline-dark m-lg-4 bg-white text-dark font-weight-bold border  "
+                                            className={`btn btn-outline-dark ks_ml_15 bg-white text-dark font-weight-bold border ${previewImage ? 'fw-bold' : ''}`}
                                             onClick={handleDeleteImage}
                                     >
                                         Delete
                                     </button>
                                 </>
                                 :
-                                <>
-                                    <button
-                                        type={'button'}
-                                        className="btn btn-secondary m-lg-4 bg-white text-secondary font-weight-bold border  "
-                                    >
-                                        Delete
-                                    </button>
-                                </>
+                                null
+                                // <>
+                                //     <button
+                                //         type={'button'}
+                                //         className="btn btn-secondary m-lg-4 bg-white text-secondary font-weight-bold border  "
+                                //     >
+                                //         Delete
+                                //     </button>
+                                // </>
                             }
                         </div>
                     </div>
