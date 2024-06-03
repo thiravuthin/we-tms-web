@@ -112,7 +112,10 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                     <button
                                         className="ks_btn ks_btn_tiary ks_mr_8"
                                         type='button'
-                                        onClick={() => setIsEditAccount(false)}
+                                        onClick={() => {
+                                            setIsEditAccount(false)
+                                            resetField("fullname")
+                                        }}
                                     >
                                         Cancel
                                     </button>
@@ -185,7 +188,7 @@ const AccountContainer = ({accountData}: { accountData: ProfileAccount }) => {
                                                 onClick={handleClickUploadImage}
                                                 alt="Upload image"
                                             />
-                                            { isEditAccount &&
+                                            {isEditAccount &&
                                                 <div className="edit-icon" onClick={handleClickUploadImage}>
                                                     <img
                                                         src={'/asset/icon/ico_edit.png'}

@@ -21,5 +21,6 @@ export interface LanguageData {
     lang_cd: string
     name: string
     regi_dtm: string
-    sts: string
+    sts: string,
+    numbering: string;
 }

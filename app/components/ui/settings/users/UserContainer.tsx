@@ -13,6 +13,7 @@ import PaginationUserComponent from "@/app/components/ui/settings/users/Paginati
 import DeleteDialog from "@/app/components/ui/settings/users/DeleteDialog";
 
 const UserContainer = () => {
+
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [pageSize, setPageSize] = useState<number>(10);
     const [activeComponent, setActiveComponent] = useState<'userList' | 'addNewUser'>('userList');
@@ -64,16 +65,21 @@ const UserContainer = () => {
     return (
         <>
             {activeComponent === 'userList' ? (
-                <div className="ks-wt-modal-wrapper ks_d_flex ks_flex_col ks_flex_row_fluid ks_h100vh">
-                    <div className="ks-wt-modal-toolbar-container ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr">
-                        <label className={"ks_fw_bd"}>User</label>
+                <div className="ks-wt-modal-wrapper ks_d_flex ks_flex_col ks_flex_row_fluid ks_h100vh p-4">
+                    <div className="ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr mb-3">
+                        <h5 >User</h5>
+
                         <div className="ks-wt-modal-toolbar-action-user-container">
-                            <button className="ks_btn ks_btn_icon_pm" type="button" onClick={handleAddUserClick}>
-                                <PlusIcon/> Add User
+                            <button className="btn btn-primary text-nowrap d-flex flex-row"
+                                    type="button"
+                                    onClick={handleAddUserClick}>
+                                    <PlusIcon/>
+                                   <label className={'mx-1'}> Add User</label>
                             </button>
                         </div>
                     </div>
-                    <div className="ks_scrollable ks_h100">
+
+                    <div className="ks_scrollable ks_h100 border rounded">
                         <DataTable
                             table={table}
                             rowActions={(data) => (

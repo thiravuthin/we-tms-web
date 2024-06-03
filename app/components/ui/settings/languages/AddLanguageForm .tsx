@@ -1,4 +1,3 @@
-
 import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import IconNextStep from "@/app/components/icons/IconNextStep";
@@ -15,7 +14,7 @@ interface AddLanguageFormProps {
     onCancel: () => void;
 }
 
-const AddLanguageForm: React.FC<AddLanguageFormProps> =  ({onAddLanguage, onCancel}) => {
+const AddLanguageForm: React.FC<AddLanguageFormProps> = ({onAddLanguage, onCancel}) => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const {isUpdate, updateData, setIsUpdate, setUpdateData} = useLanguageStore(state => state);
@@ -71,11 +70,17 @@ const AddLanguageForm: React.FC<AddLanguageFormProps> =  ({onAddLanguage, onCanc
 
     return (
         <form onSubmit={handleSubmit(submit)}
-              className="add-language-form p-4"
+              className="ks-wt-modal-wrapper ks_d_flex ks_flex_col ks_flex_row_fluid ks_h100vh p-4"
         >
-            <div className="ks-wt-modal-toolbar-user-container ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr">
-                <label><span className="text-secondary fw-bold">Languages</span>  <IconNextStep/> <span
-                    className="ks_fw_bd">{updateData ? "Edit Language" : "Create Language"}</span></label>
+            <div className=" ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr mb-3">
+                <label>
+                    <span className="text-secondary fw-bold">Languages</span>
+                    <IconNextStep/>
+                    <span
+                    className="ks_fw_bd">{updateData ? "Edit Language" : "Create Language"}
+                    </span>
+                </label>
+
                 <div className="ks-wt-modal-toolbar-action-user-container">
                     <div className="ks_d_flex">
                         <button
