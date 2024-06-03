@@ -52,29 +52,6 @@ export const useLoginStore = create<{
     setUsername: (username: any) => set((state): any => ({ ...state, username })),
 }));
 
-
-// export const useCreateProjectStore = create<{
-//     id: string | undefined,
-//     setId: (id: string) => void,
-//
-//     updateData: any,
-//     isOpen: boolean,
-//     isUpdate: boolean,
-//     setIsOpen: (isOpen: boolean) => void
-//     setUpdate: (isUpdate: boolean) => void
-//     setUpdateData: (updateData: any) => void
-// }>(set => ({
-//     id: undefined,
-//     setId: (id: string) => set((state): any => ({...state, id})),
-//
-//     updateData: {},
-//     isOpen: false,
-//     isUpdate: false,
-//     setIsOpen: (isOpen: boolean) => set((state): any => ({...state, isOpen})),
-//     setUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
-//     setUpdateData: (updateData: any) => set((state): any => ({...state, updateData})),
-// }));
-
 export const useProjectStore = create<{
     id: number | undefined,
     data: ProjectInfo,
@@ -153,27 +130,38 @@ export const useLanguageStore = create<{
     setUpdateData: (updateData: any) => set((state): any => ({...state, updateData})),
 }));
 
+export const useTranslateStore = create<{
+    id: number | undefined,
+
+    updateData: any,
+    isOpen: boolean,
+    isCreate: boolean,
+    isUpdate: boolean,
+    setId: (id: string) => void,
+    setData: (data: any) => void
+    setUpdateData: (updateData: any) => void
+    setIsOpen: (isOpen: boolean) => void
+    setIsUpdate: (isUpdate: boolean) => void
+    setIsCreate: (isCreate: boolean) => void
+    setIsView: (isView: boolean) => void
+    setUpdate: (isUpdate: boolean) => void
+}>(set => ({
+    id: undefined,
+
+    updateData: {},
+    isOpen: false,
+    isCreate: false,
+    isUpdate: false,
+    setId: (id: string) => set((state): any => ({...state, id})),
+    setData: (data: any) => set((state): any => ({...state, data})),
+    setUpdateData: (updateData: any) => set((state): any => ({...state, updateData })),
+    setIsOpen: (isOpen : boolean) => set((state): any => ({...state, isOpen})),
+    setIsUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
+    setIsCreate:(isCreate: boolean) => set((state): any => ({...state, isCreate})),
+    setUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
+    setIsView: (isView: boolean) => set((state): any => ({...state, isView})),
+}));
 
 
-// export const useUpdateProjectStore = create<{
-//     id: string | undefined,
-//     setId: (id: string) => void,
-//
-//     updateData: any,
-//     isOpen: boolean,
-//     isUpdate: boolean,
-//     setIsOpen: (isOpen: boolean) => void
-//     setUpdate: (isUpdate: boolean) => void
-//     setUpdateData: (updateData: any) => void
-// }>(set => ({
-//     id: undefined,
-//     setId: (id: string) => set((state): any => ({...state, id})),
-//
-//     updateData: {},
-//     isOpen: false,
-//     isUpdate: false,
-//     setIsOpen: (isOpen: boolean) => set((state): any => ({...state, isOpen})),
-//     setUpdate: (isUpdate: boolean) => set((state): any => ({...state, isUpdate})),
-//     setUpdateData: (updateData: any) => set((state): any => ({...state, updateData})),
-// }));
+
 

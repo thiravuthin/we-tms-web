@@ -4,10 +4,7 @@ import {useRouter} from "next/navigation";
 import {useProjectStore} from "@/app/lib/store";
 import RightArrow from "@/app/components/icons/RightArrow";
 import Members from "@/app/components/ui/project/ProjectDetail/Members";
-import {Input} from "postcss";
-import InviteUserIcon from "@/app/components/icons/InviteUserIcon";
-import ProjectSearch from "@/app/components/ui/project/ProjectSearch";
-import DataTable from "@/app/components/shared/DataTable";
+import DropdownTranslateKey from "@/app/components/ui/project/ProjectDetail/DropdownTranslateKey";
 
 const ProjectTranslate = () => {
     const  router = useRouter();
@@ -56,17 +53,7 @@ const ProjectTranslate = () => {
                         </div>
 
                         <div className="">
-                            <button className="btn btn-primary ks_d_flex ks_alg_itm_ctr ks_pd_10"
-                                    aria-expanded="false">
-                                <label className="ks_fs14">Translation Key</label>
-                                <div className="ks-pl-10">
-                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4.5 6.75L9 11.25L13.5 6.75" stroke="white" stroke-width="1.5"
-                                              stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </div>
-                            </button>
+                            <DropdownTranslateKey />
                         </div>
                     </div>
 
