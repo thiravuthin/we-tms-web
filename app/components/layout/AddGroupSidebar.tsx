@@ -6,9 +6,11 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { projectService } from "@/service/project.service";
-import DeleteRedIcon from "@/app/components/icons/DeleteRedIcon";
-import EditUserIcon from "@/app/components/icons/EditUserIcon";
 import DeleteDialog from "@/app/components/ui/settings/users/DeleteDialog";
+import cn from "clsx";
+import {ArrowDown} from "@/app/components/icons";
+import EditUserIcon from "@/app/components/icons/EditUserIcon";
+import DeleteRedIcon from "@/app/components/icons/DeleteRedIcon";
 
 function AddGroupSidebar() {
     const queryClient = useQueryClient();
@@ -20,6 +22,7 @@ function AddGroupSidebar() {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [selectedUser, setSelectedUser] = useState<number | null>(null);
     const [isEditId, setIsEditId] = useState<string | number>("");
+    const [showMore, setShowMore] = useState(false)
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["groups", { pageNumber, pageSize }],
@@ -102,14 +105,12 @@ function AddGroupSidebar() {
     return (
         <>
             <div id="ks_wt_app_sidebar" className="ks_d_flex ks_flex_col">
-                <div id="ks_wt_app_default_t" className="ks_d_flex ks_alg_itm_ctr ks_pt_25 ks_pl_20">
+                <div id="ks_wt_app_default_t" className="ks_d_flex ks_pt_20">
                     <div className="ks_d_flex">
-                        <SidebarToggle />
-                        <div>
-                            <Link href={"/projects"} className="ks_pl_8">
-                                <LogoWetms />
-                            </Link>
-                        </div>
+                        <SidebarToggle/>
+                        <Link href={"/projects"} className="ks_pl_8">
+                            <LogoWetms/>
+                        </Link>
                     </div>
                 </div>
 
@@ -117,26 +118,41 @@ function AddGroupSidebar() {
                     <div className="ks_d_flex ks_flex_col">
                         <div className="ks-wt-app-sidebar-menu-lbl">
                             <div className="ks-wt-app-sidebar-menu-item-contaier ks_d_flex ks_flex_col">
-                                <div className="accordion accordion-flush" id="accordionFlushExample">
-                                    <div className="accordion-item">
-                                        <h2 className="accordion-header">
-                                            <button className="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-                                                    aria-expanded="false" aria-controls="flush-collapseOne">
-                                                All
-                                            </button>
-                                        </h2>
-                                        <div id="flush-collapseOne" className="accordion-collapse collapse"
-                                             data-bs-parent="#accordionFlushExample">
-                                            <div className="accordion-body">
-                                                {/*fetch add group to show here*/}
-                                                <div className={"ks_d_flex ks_flex_col"}>
-                                                    {
-                                                        data?.categories?.map((cate: any) => {
-                                                            return (
-                                                                <div key={cate.id}
-                                                                     className="w-100 py-2 ks_fs12 ks_d_flex ks_jt_cont_betw category-item">
-                                                                    <div>{cate.name}</div>
+                                <>
+                                <div className={"ks_fw_bd ks_fs14 py-4 text-secondary"}>GROUP</div>
+                                    <div
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#flush_collapse_1"
+                                        aria-controls="flush_collapse_1"
+                                        className="ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_betw ks_sb_itm ks_alg_itm_ctr">
+                                        <div
+                                            className="ks_d_flex ks_alg_itm_ctr"
+                                            onClick={() => setShowMore(!showMore)}
+                                        >
+                                            <label
+                                                className="cursor-pointer text-black ks_lbl_bigger ks_fw_md">All</label>
+                                        </div>
+                                        <ArrowDown/>
+                                    </div>
+                                    <div
+                                        id="flush_collapse_1"
+                                        className="accordion-collapse collapse show ks_sb_itm"
+                                        aria-labelledby="flush_collapse_1"
+                                    >
+                                        <div className="ks_d_flex ks_flex_col ks_wth280">
+                                            <div>
+                                                {
+                                                    data?.categories?.map((cate: any, index: any) => {
+                                                        return (
+                                                            <div
+                                                                key={index}
+                                                                className={cn("ks-wt-app-sidebar-menu-item ks_d_flex ks_jt_cont_st ks_alg_itm_ctr")}
+                                                            >
+                                                                <div className="ks_d_flex ks_alg_itm_ctr w-100 ks_fs12 ks_jt_cont_betw category-item">
+                                                                    <label
+                                                                        className="cursor-pointer ks_lbl_bigger ks_fw_md ks-wt-active text-dark">
+                                                                        {cate.name}
+                                                                    </label>
                                                                     <div className={"d-flex icons"}>
                                                                         <div
                                                                             onClick={(e) => {
@@ -145,7 +161,7 @@ function AddGroupSidebar() {
                                                                                 handleClickEditGroup(cate?.cate_id, cate?.name);
                                                                             }}
                                                                             className={"me-2 ks_cs_pointer"}>
-                                                                            <EditUserIcon />
+                                                                            <EditUserIcon/>
                                                                         </div>
                                                                         <div
                                                                             onClick={(e) => {
@@ -154,14 +170,15 @@ function AddGroupSidebar() {
                                                                                 setShowDeleteDialog(true);
                                                                             }}
                                                                             className={"ks_cs_pointer"}>
-                                                                            <DeleteRedIcon />
+                                                                            <DeleteRedIcon/>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            )
-                                                        })
-                                                    }
-                                                </div>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+
                                                 {showAddGroup && (
                                                     <div
                                                         className="text-decoration-none text-black"
@@ -169,11 +186,9 @@ function AddGroupSidebar() {
                                                     >
                                                         <div className="">
                                                             <div className="ks_d_flex ks_alg_itm_ctr">
-                                                                <div
-                                                                    className="ks_w100 ks_cs_pointer ks_d_flex ks_jt_cont_betw ks_fs12 py-2 text-info">
-                                                                    Add group
-                                                                    <div>+</div>
-                                                                </div>
+                                                                <label
+                                                                    className="cursor-pointer ks_lbl_bigger ks_fw_md ks-wt-active text-info">Add
+                                                                    Group</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -184,7 +199,7 @@ function AddGroupSidebar() {
                                                         <input
                                                             type="text"
                                                             onKeyDown={pressEnterToCreateGroup}
-                                                            className="ks_group_inp"
+                                                            className="ks_group_inp py-1 ks_fs14"
                                                             value={groupInput}
                                                             placeholder={"Enter group name"}
                                                             onChange={(e) => setGroupInput(e?.target?.value)}
@@ -209,7 +224,8 @@ function AddGroupSidebar() {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </>
+
                             </div>
                         </div>
                     </div>

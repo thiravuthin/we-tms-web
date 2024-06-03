@@ -636,16 +636,11 @@ input::-webkit-inner-spin-button {
 .category-item {
   position: relative;
   transition: background-color 0.3s ease;
-  padding: 2px;
-}
-
-.category-item:hover {
-  background-color: #f0f0f0; /* Change this to your desired background color */
 }
 
 .category-item .icons {
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.1s ease;
 }
 
 .category-item:hover .icons {
