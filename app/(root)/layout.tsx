@@ -27,8 +27,8 @@ const Layout = async ({ children }: PropsWithChildren) => {
               <div className="ks_d_flex ks_flex_col ks_flex_col_fluid">
                   <Navbar/>
                   <div className="ks_d_flex ks_flex_col ks_flex_row_fluid" id="ks_wt_app_wrapper">
-                          {/*<Sidebar/>*/}
-                          <AddGroupSidebar/>
+                          <Sidebar/>
+                          {/*<AddGroupSidebar/>*/}
                           {children}
                       </div>
                   </div>
