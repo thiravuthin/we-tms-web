@@ -5,6 +5,24 @@ export interface ProjectManagements {
     pagination: Paginations
 }
 
+export interface TranslationData {
+    data: Translate[],
+    pagination: Paginations
+}
+
+export interface Translate {
+    categories: Category[];
+}
+
+export interface Category {
+    cate_id: string;
+    name: string;
+}
+
+export interface addGroupRequestBody {
+    nm: string;
+}
+
 export interface ProjectParams{
     search_value?: string;
     sort_columns?: string;

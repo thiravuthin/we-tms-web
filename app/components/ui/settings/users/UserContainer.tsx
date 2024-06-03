@@ -48,9 +48,7 @@ const UserContainer = () => {
     });
 
     const handleDeleteUser = async () => {
-        console.log("--------------------------------")
         if (selectedUser !== null) {
-            console.log("selectedUser", selectedUser);
             handleDeleteUserMutate.mutate([selectedUser]);
         }
     };
