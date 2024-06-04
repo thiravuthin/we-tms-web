@@ -1,6 +1,5 @@
 import React from 'react';
-import ProjectRectangleView from "@/app/components/ui/project/ProjectRectangleView";
-import ProjectHead from "@/app/components/ui/project/ProjectHead";
+import {ProjectContainer} from "@/app/components/ui/project/ProjectContainer";
 
 export const metadata = {
     title: 'WeTMS | Projects',
@@ -10,7 +9,7 @@ const ProjectPage = () => {
 
     return (
         <>
-            <ProjectHead />
+            <ProjectContainer />
         </>
     );
 };

@@ -5,8 +5,11 @@ import CreateProjects from "@/app/components/ui/project/CreateProjects";
 import ProjectHeadList from "@/app/components/ui/project/ProjectHeadList";
 import ProjectItem from "@/app/components/ui/project/ProjectItem";
 
-const ProjectHead = () => {
+export const ProjectContainer = () => {
+
     const {isCreate, isView, data, isOpen, setIsOpen, isUpdate, setIsCreate} = useProjectStore(state => state);
+
+
     return (
         <>
             <div className="ks_w100 ks_d_flex ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm ks_pd_30">
@@ -62,5 +65,3 @@ const ProjectHead = () => {
         </>
     );
 };
-
-export default ProjectHead;
