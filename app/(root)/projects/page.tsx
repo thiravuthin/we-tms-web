@@ -8,9 +8,7 @@ export const metadata = {
 const ProjectPage = () => {
 
     return (
-        <>
-            <ProjectContainer />
-        </>
+        <ProjectContainer/>
     );
 };
 
