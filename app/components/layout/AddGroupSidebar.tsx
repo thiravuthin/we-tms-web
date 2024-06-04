@@ -12,7 +12,7 @@ import {ArrowDown} from "@/app/components/icons";
 import EditUserIcon from "@/app/components/icons/EditUserIcon";
 import DeleteRedIcon from "@/app/components/icons/DeleteRedIcon";
 
-function AddGroupSidebar() {
+function AddGroupSidebar({isVisible}: {isVisible: any }){
     const queryClient = useQueryClient();
     const [showGroupInput, setShowGroupInput] = useState(false);
     const [showAddGroup, setShowAddGroup] = useState(true);
@@ -26,7 +26,7 @@ function AddGroupSidebar() {
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["groups", { pageNumber, pageSize }],
-        queryFn: async () => await projectService.getTranslation(1, { page_number: pageNumber, page_size: pageSize })
+        queryFn: async () => await projectService.getTranslation(856, { page_number: pageNumber, page_size: pageSize })
     });
 
     //hanlde click to show group input
@@ -102,7 +102,7 @@ function AddGroupSidebar() {
         }
     };
 
-    return (
+    return isVisible ? (
         <>
             <div id="ks_wt_app_sidebar" className="ks_d_flex ks_flex_col">
                 <div id="ks_wt_app_default_t" className="ks_d_flex ks_pt_20">
@@ -241,7 +241,7 @@ function AddGroupSidebar() {
             )}
 
         </>
-    );
+    ): null;
 }
 
 export default AddGroupSidebar;

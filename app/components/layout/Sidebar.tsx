@@ -16,12 +16,13 @@ import MoreIcon from "@/app/components/icons/MoreIcon";
 import StarredIcon from "@/app/components/icons/StarredIcon";
 import HiddenIcon from "@/app/components/icons/HiddenIcon";
 import {ArrowDown} from "@/app/components/icons";
+import AddGroupSidebar from "@/app/components/layout/AddGroupSidebar";
 
 function Sidebar() {
     const pathname = usePathname();
     const urlParam = new URLSearchParams();
     const [showMore, setShowMore] = useState(false)
-
+    const isTranslationsPage = pathname.match(/\/projects\/[^/]+\/translations/)?.length;
 
     const NAVIGATION_CONFIG = {
         items: [
@@ -50,6 +51,7 @@ function Sidebar() {
     return (
         <>
             <div id="ks_wt_app_sidebar" className="ks_d_flex ks_flex_col ks-wt-app-sidebar-menu-lbl">
+                <AddGroupSidebar isVisible={isTranslationsPage} />
                 <div id="ks_wt_app_default_t" className="ks_d_flex ks_pt_20">
                     <div className="ks_d_flex">
                         <SidebarToggle/>
