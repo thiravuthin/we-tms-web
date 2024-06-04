@@ -13,8 +13,10 @@ import {DateUtils} from "@/utils/DateUtils";
 import {useInView} from "react-intersection-observer";
 import NoDataSave from "@/app/components/layout/NoDataSave";
 import {useRouter} from "next/navigation";
+import IconDropdownProject from "@/app/components/icons/IconDropdownProject";
 
 const ProjectRectangleView = () => {
+
     const {ref, inView, entry} = useInView();
     const {
         id,
@@ -26,7 +28,7 @@ const ProjectRectangleView = () => {
     } = useProjectStore(state => state);
     const projectStore = useProjectStore(state => state);
     const router = useRouter();
-    const handleProjectClick = (project_id:number) => {
+    const handleProjectClick = (project_id: number) => {
         router.push(`/projects/${project_id}/translations`);
     }
 
@@ -92,27 +94,36 @@ const ProjectRectangleView = () => {
     }, [isView])
 
     return (
-        <>
-            <div className="ks_pd_30 ks_pl_35">
-                <div className="row gap-3" onClick={() => {}}>
-                    {   isLoading ? (
+        <div className="w-100">
+
+            <div className="row">
+                {isLoading ?
+                    (
                         <div>Loading...</div> // or any other loading indicator
-                    ) : projects.length === 0 ? (
+                    ) : projects.length === 0 ?
+                        (
                             <NoDataSave/>
                         ) :
-                            <>
-                                {
-                                    projects?.map((item, index) => (
-                                        <div key={index} ref={ref}
-                                             className="ks_btn_pm_m ks_d_flex ks_jt_cont_betw ks_pd_20 ks_hvr_pro"
-                                             onClick={() => {
-                                                 setId(item.project_id as any)
-                                                 projectStore.setData(item);
-                                                 setIsOpen(true);
-                                                 handleProjectClick(item?.project_id)
-                                             }}>
-                                            <div className="ks_d_flex">
-                                                <svg width="40" height="40" viewBox="0 0 40 40" fill="none"
+                        <>
+                            {
+                                projects?.map((item, index) => (
+                                    <div key={index}
+                                         ref={ref}
+                                         className="col-lg-4 col-sm-4 py-2"
+                                         onClick={() => {
+                                             setId(item.project_id as any)
+                                             projectStore.setData(item);
+                                             setIsOpen(true);
+                                             handleProjectClick(item?.project_id)
+                                         }}>
+
+                                        <div className={'d-flex flex-row justify-content-between align-items-center ks_pd_20 border rounded'}>
+                                            {/* Profile and title and date*/}
+                                            <div className="ks_d_flex ">
+                                                <svg width="40"
+                                                     height="40"
+                                                     viewBox="0 0 40 40"
+                                                     fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <circle cx="20" cy="20" r="20" fill="#F1F5F9"/>
                                                     <path
@@ -120,20 +131,21 @@ const ProjectRectangleView = () => {
                                                         fill="black"/>
                                                 </svg>
                                                 <div className="ks_ml_15 ks_d_flex ks_flex_col ks_jt_cont_betw">
-                                                    <label className="fw-bold ks-size-big">{item.project_name}</label>
+                                                    <label className="fw-bold ks-size-big">
+                                                        {item.project_name}
+                                                    </label>
                                                     <div className="ks_d_flex">
                                                         <Calender/>
                                                         <label
-                                                            className="ks-silver ks_ml_5 ">{DateUtils.formatDateHour(item.regi_dtm)}</label>
+                                                            className="ks-silver ks_ml_5 ">
+                                                            {DateUtils.formatDateHour(item.regi_dtm)}
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div className="ks_d_flex ks_flex_col ks_jt_cont_betw">
-                                                {/*<MoreVertical/>*/}
-                                                {/*<DropdownProject show={isOpenItem} id={0}/>*/}
-
-
+                                            {/* Dropdown in project card */}
+                                            <div className="ks_d_flex ks_flex_col ks_jt_cont_betw ">
                                                 <Dropdown className={''}>
                                                     <DropdownTrigger>
                                                         <button type={"button"} className={'unstyled-button'}
@@ -141,27 +153,10 @@ const ProjectRectangleView = () => {
                                                                     setId(item.project_id as any)
                                                                 }
                                                                 }>
-                                                            <svg
-                                                                className="ks_wth20 ks_hgt20"
-                                                                width="20"
-                                                                height="20"
-                                                                viewBox="0 0 20 20"
-                                                            >
-                                                                <path
-                                                                    d="M10 3C10.8284 3 11.5 3.67157 11.5 4.5C11.5 5.32843 10.8284 6 10 6C9.17157 6 8.5 5.32843 8.5 4.5C8.5 3.67157 9.17157 3 10 3Z"
-                                                                    fill="#333333"
-                                                                />
-                                                                <path
-                                                                    d="M10 8.5C10.8284 8.5 11.5 9.17157 11.5 10C11.5 10.8284 10.8284 11.5 10 11.5C9.17157 11.5 8.5 10.8284 8.5 10C8.5 9.17157 9.17157 8.5 10 8.5Z"
-                                                                    fill="#333333"
-                                                                />
-                                                                <path
-                                                                    d="M11.5 15.5C11.5 14.6716 10.8284 14 10 14C9.17157 14 8.5 14.6716 8.5 15.5C8.5 16.3284 9.17157 17 10 17C10.8284 17 11.5 16.3284 11.5 15.5Z"
-                                                                    fill="#333333"
-                                                                />
-                                                            </svg>
+                                                            <IconDropdownProject/>
                                                         </button>
                                                     </DropdownTrigger>
+
                                                     <DropdownMenu className="ks_wth_280 bg-white rounded "
                                                                   aria-label="Static Actions"
                                                     >
@@ -175,28 +170,8 @@ const ProjectRectangleView = () => {
                                                         >
 
                                                             <label className={'text- m-2'}>View</label>
-
                                                         </DropdownItem>
-                                                        {/*<DropdownItem key="edit"*/}
-                                                        {/*              className={'dropdown-item border rounded'}*/}
-                                                        {/*              onClick={() => {*/}
-                                                        {/*                  setIsUpdate(true)*/}
-                                                        {/*                  setUpdateData(item)*/}
-                                                        {/*              }}*/}
-                                                        {/*>*/}
 
-                                                        {/*    <label className={'text- m-2'}>Edit</label>*/}
-                                                        {/*    {*/}
-                                                        {/*        isUpdate && < ProjectForm*/}
-                                                        {/*            isOpen={projectStore.isUpdate}*/}
-                                                        {/*            onSubmit={() => {*/}
-                                                        {/*            }}*/}
-                                                        {/*            handleClose={() => setIsUpdate(false)}*/}
-                                                        {/*        />*/}
-                                                        {/*    }*/}
-                                                        {/*</DropdownItem>*/}
-
-                                                        {/* Setting Icon */}
                                                         <DropdownItem
                                                             key="hide"
                                                             className={'dropdown-item border rounded'}
@@ -205,7 +180,6 @@ const ProjectRectangleView = () => {
                                                             <label className="ks_lbl ks_fw_md m-2">Hide</label>
                                                         </DropdownItem>
 
-
                                                         <DropdownItem onClick={handleRemoveProject}
                                                                       className={'dropdown-item border rounded'}>
                                                             <LogoutIcon/>
@@ -213,27 +187,16 @@ const ProjectRectangleView = () => {
                                                         </DropdownItem>
                                                     </DropdownMenu>
                                                 </Dropdown>
-                                                {/*<div onClick={() => setIsStar(!isStar)}>*/}
-                                                {/*    {*/}
-                                                {/*        isStar ? <Star/> : <SavedStar/>*/}
-                                                {/*    }*/}
-                                                {/*</div>*/}
                                             </div>
-
                                         </div>
-                                    ))
-                                }
-                            </>
-                    }
 
-                </div>
+                                    </div>
+                                ))
+                            }
+                        </>
+                }
             </div>
-
-            {/*{*/}
-            {/*    isOpen && <ProjectItem handleClose={() => setIsOpen(false)}/>*/}
-            {/*}*/}
-
-        </>
+        </div>
     );
 };
 

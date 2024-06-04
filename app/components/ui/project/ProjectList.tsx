@@ -5,10 +5,9 @@ import Line from "@/app/components/icons/Line";
 import List from "@/app/components/icons/List";
 import ProjectSearch from "@/app/components/ui/project/ProjectSearch";
 import ProjectRectangleView from "@/app/components/ui/project/ProjectRectangleView";
-import {useProjectStore} from "@/app/lib/store";
 
-const ProjectHeadList = () => {
-    const {isCreate, isUpdate,data,setIsCreate } = useProjectStore(state => state);
+const ProjectList = () => {
+
     const PROJECT_NAVIGATION = {
         items: [
             {
@@ -28,9 +27,10 @@ const ProjectHeadList = () => {
 
 
     return (
-        <>
-            <div className="ks_d_flex ks_pd_30 ks_jt_cont_betw">
-                <div className="ks_d_flex">
+        <div className={""}>
+            <div className="d-flex justify-content-between py-4">
+                {/* */}
+                <div className="ks_d_flex ">
                     {
                         PROJECT_NAVIGATION.items.map((item) => (
                             <div key={item.id}>
@@ -38,9 +38,11 @@ const ProjectHeadList = () => {
                             </div>
                         ))
                     }
+
                     <div className="ks_pr_20 ks_pl_20">
                         <Line/>
                     </div>
+
                     {
                         PROJECT_NAVIGATE.items.map((item) => (
                             <div key={item.id}>
@@ -54,22 +56,18 @@ const ProjectHeadList = () => {
                     <ProjectSearch/>
                 </div>
             </div>
-            <div className="ks_w100 ks_jt_cont_betw ks_alg_itm_ctr ks_brd_btm">
-                <label className="ks_fs20 ks_fw_bd ks_cs_pointer ks_pl_30">
+
+            <div className="ks_jt_cont_betw ks_alg_itm_ctr py-4">
+                <label className="ks_fs20 ks_fw_bd ks_cs_pointer ">
                     My Projects
                 </label>
             </div>
+
+            {/* Card Project */}
             <ProjectRectangleView/>
 
-            {/*{*/}
-            {/*    isCreate && <CreateProjects handleClose={() => setIsCreate(false)}/>*/}
-            {/*}*/}
-
-            {/*{*/}
-            {/*    isUpdate && <CreateProjects handleClose={() => setIsCreate(false)}/>*/}
-            {/*}*/}
-        </>
+        </div>
     );
 };
 
-export default ProjectHeadList;
+export default ProjectList;

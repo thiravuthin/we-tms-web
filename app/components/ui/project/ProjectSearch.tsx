@@ -5,26 +5,32 @@ import CustomTooltip from "@/app/components/shared/CustomTooltip";
 import {isNullOrWhiteSpace} from "typescript-string-operations";
 
 const ProjectSearch = () => {
+
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const [searchValue, setSearchValue] = useState(searchParams.get('search_value') ?? '')
+
+    const submit = async (e) => {
+        e.preventDefault();
+        const params = new URLSearchParams(searchParams);
+        params.set('page_number', "0");
+        params.set('search_value', String(searchValue));
+
+        if (isNullOrWhiteSpace(searchValue)) {
+            params.delete('search_value')
+        }
+
+        router.push(`${pathname}?${params.toString()}`);
+    }
+
     const clearInput = () => {
         setSearchValue('');
     };
+
+
     return (
-        <form onSubmit={async (e) => {
-            e.preventDefault();
-            const params = new URLSearchParams(searchParams);
-            params.set('page_number', "0");
-            params.set('search_value', String(searchValue));
-
-            if (isNullOrWhiteSpace(searchValue)) {
-                params.delete('search_value')
-            }
-
-            router.push(`${pathname}?${params.toString()}`);
-        }}
+        <form onSubmit={submit}
               className="ks-wt-form-input-container">
             <div
                 className="ks-wt-element-group-container ks_d_flex ks_jt_cont_end ks_alg_itm_ctr"
