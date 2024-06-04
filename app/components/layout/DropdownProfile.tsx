@@ -38,7 +38,7 @@ function DropdownProfile({show,}: { show?: boolean }) {
                 >
                     {/* My Account*/}
                     <DropdownItem className={'dropdown-item border rounded'}>
-                        <label className={'text- m-2'}> My account</label>
+                        <label className="m-2 text-secondary"> My account</label>
                     </DropdownItem>
 
                     {/* Setting Icon */}
