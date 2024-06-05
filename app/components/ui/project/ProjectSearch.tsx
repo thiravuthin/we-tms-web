@@ -11,7 +11,7 @@ const ProjectSearch = () => {
     const pathname = usePathname();
     const [searchValue, setSearchValue] = useState(searchParams.get('search_value') ?? '')
 
-    const submit = async (e) => {
+    const submit = async (e:any) => {
         e.preventDefault();
         const params = new URLSearchParams(searchParams);
         params.set('page_number', "0");

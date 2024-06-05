@@ -6,8 +6,6 @@ import DropdownProfile from "@/app/components/layout/DropdownProfile";
 
 const Navbar = () => {
 
-    const [showDropdownProfile, setShowDropdownProfile] = useState(false);
-
     return (
         <>
             <div id="ks_wt_app_default"

@@ -3,6 +3,7 @@ import React from 'react';
 const IconClosePopup = ({handleClose}:{handleClose: ()=> void}) => {
     return (
         <svg
+            className={'color_black'}
             onClick={handleClose}
             width="24"
              height="24"
